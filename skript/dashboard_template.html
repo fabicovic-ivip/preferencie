@@ -61,6 +61,11 @@ label.opt input[type=checkbox]{width:17px;height:17px;accent-color:var(--acc);fl
 input[type=range]{width:100%;accent-color:var(--acc);height:22px}
 #chartbox{position:relative}
 #chart{touch-action:pan-y}
+.chart-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:6px}
+#bloclegend{font-size:13.5px;color:var(--mut);text-align:right}
+/* ---- zbaliteľné filtre (na mobile zbalené, na desktope vždy otvorené) ---- */
+.filters>summary{display:none}
+.filters[open]>.fbody{display:block}
 svg text{font-family:inherit}
 #tip{position:absolute;pointer-events:none;background:#1e1030;color:#fff;border:1px solid rgba(255,255,255,.28);border-radius:7px;padding:7px 10px;font-size:13.5px;opacity:0;transition:opacity .1s;max-width:280px;z-index:5;box-shadow:0 4px 16px rgba(0,0,0,.4)}
 #tip b{font-size:14px}
@@ -124,6 +129,22 @@ footer .foot-main{margin-top:12px}
   /* --- graf ako prvý, filtre až pod ním --- */
   .wrap>div:first-child{order:2}
   .wrap>div:last-child{order:1}
+  /* --- filtre zbalené do jedného tlačidla; stav vidno v podnadpise --- */
+  .filters>summary{display:flex;align-items:center;gap:8px;flex-wrap:wrap;cursor:pointer;list-style:none;
+    background:var(--card);border:1px solid var(--line);border-radius:10px;padding:13px 16px;
+    font-weight:600;font-size:16px;min-height:48px;user-select:none}
+  .filters>summary::-webkit-details-marker{display:none}
+  .filters>summary::after{content:"\25be";margin-left:auto;opacity:.8;transition:transform .15s}
+  .filters[open]>summary::after{transform:rotate(180deg)}
+  .filters[open]>summary{margin-bottom:12px}
+  .filters .fsum{font-weight:400;font-size:14px;color:var(--mut);flex-basis:100%;line-height:1.3}
+  .filters[open] .fsum{display:none}
+  /* --- legenda blokov pod tlačidlá, na celú šírku --- */
+  .chart-head{flex-direction:column;align-items:stretch;gap:8px}
+  #bloclegend{text-align:left;font-size:13px;line-height:1.5}
+  #bloclegend span{margin-left:0!important;margin-right:12px;display:inline-block}
+  /* v režime pásov sú názvy priamo v grafe + v tooltipe, legenda by zabrala pol obrazovky */
+  #bloclegend.leg-dem{display:none!important}
   footer{padding:0 16px 26px}
   /* --- pohodlne klikatelne ovladacie prvky --- */
   .chip{font-size:15px;padding:8px 14px;border-radius:20px;min-height:38px}
@@ -155,6 +176,9 @@ footer .foot-main{margin-top:12px}
 </header>
 <div class="wrap">
   <div>
+   <details class="filters" id="filters" open>
+    <summary>Filtre a nastavenia<span class="fsum" id="fsum"></span></summary>
+    <div class="fbody">
     <div class="card row">
       <h3>Obdobie</h3>
       <div class="presets" id="presets"></div>
@@ -178,12 +202,14 @@ footer .foot-main{margin-top:12px}
         <input type="range" id="smooth" min="15" max="120" step="5" value="45">
       </div>
     </div>
+    </div>
+   </details>
   </div>
   <div>
     <div class="card" id="chartbox">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+      <div class="chart-head">
         <div class="presets" id="modebtns"></div>
-        <div id="bloclegend" style="display:none;font-size:13.5px;color:var(--mut)"></div>
+        <div id="bloclegend" style="display:none"></div>
       </div>
       <svg id="chart" width="100%" height="480"></svg>
       <div id="tip"></div>
@@ -302,6 +328,7 @@ const mb=document.getElementById("modebtns");
   b.onclick=()=>{mode=m;[...mb.children].forEach(c=>c.classList.remove("on"));b.classList.add("on");
     const lg=document.getElementById("bloclegend");
     lg.style.display=(m==="strany")?"none":"block";
+    lg.className=(m==="demstack")?"leg-dem":"";
     document.getElementById("turnoutopt").style.display=(m==="bloky")?"flex":"none";
     lg.innerHTML=(m==="bloky")?legBloky():(m==="demstack")?LEG_DEM:"";
     draw();};
@@ -376,7 +403,9 @@ const svg=document.getElementById("chart"),tip=document.getElementById("tip");
 function draw(){
   const box=svg.parentNode.getBoundingClientRect();
   const W=box.width-28,SM=W<520; // SM = úzke (mobilné) zobrazenie
-  const H=SM?400:480,ml=SM?36:42,mr=34,mt=14,mb=36;
+  // pravý okraj musí pojať popisky na konci kriviek; v režime pásov sú aj s názvom strany
+  const mr=SM?40:(mode==="demstack"?152:46);
+  const H=SM?400:480,ml=SM?36:42,mt=14,mb=36;
   svg.setAttribute("viewBox",`0 0 ${W} ${H}`);svg.setAttribute("height",H);
   const pset=activePolls().filter(p=>p.t>=from-90*DAY);
   const shown=pset.filter(p=>p.t>=from);
@@ -415,8 +444,9 @@ function draw(){
   if(document.getElementById("elmarks").checked){
     ELEC.forEach(e=>{if(e.t<from)return;
       s+=`<line x1="${X(e.t)}" x2="${X(e.t)}" y1="${mt}" y2="${H-mb}" stroke="${C.elec}" stroke-dasharray="4 4"/>`;
-      if(!SM) // na mobile sa texty volieb prekrývali — čiary stačia, detail dá tooltip
-        s+=`<text x="${X(e.t)-4}" y="${mt+11}" font-size="11.5" fill="${C.axis}" text-anchor="end">${e.agency}</text>`;});
+      if(!SM){ // na mobile sa texty volieb prekrývali — čiary stačia, detail dá tooltip
+        const room=X(e.t)-ml>e.agency.length*6.4; // ak sa naľavo od čiary nezmestí, popisok ide napravo
+        s+=`<text x="${X(e.t)+(room?-4:4)}" y="${mt+11}" font-size="11.5" fill="${C.axis}" text-anchor="${room?"end":"start"}">${e.agency}</text>`;}});
   }
   // dots
   const dotEls=[];
@@ -444,7 +474,10 @@ function draw(){
       // right-edge band label
       const lr=runs[runs.length-1];
       if(lr){const i=lr[lr.length-1];const band=cum[j+1][i]-cum[j][i];
-        if(band>=2.2)s+=`<text x="${X(ts[i])+4}" y="${(Y(cum[j][i])+Y(cum[j+1][i]))/2+4}" font-size="11.5" font-weight="600" fill="${col}">${P[DEMSTACK_ORDER[j]].name} ${band.toFixed(1)}</text>`;}
+        const ly=(Y(cum[j][i])+Y(cum[j+1][i]))/2+4;
+        // na mobile sa názov strany za graf nezmestí — popisok ide dovnútra pásu a len pri dosť širokých pásoch
+        if(SM){if(band>=4)s+=`<text x="${X(ts[i])-5}" y="${ly}" font-size="11.5" font-weight="700" fill="#fff" text-anchor="end">${P[DEMSTACK_ORDER[j]].name.split(" ")[0]} ${band.toFixed(1)}</text>`;}
+        else if(band>=2.2)s+=`<text x="${X(ts[i])+4}" y="${ly}" font-size="11.5" font-weight="600" fill="${col}">${P[DEMSTACK_ORDER[j]].name} ${band.toFixed(1)}</text>`;}
     }
     // bloc total line + label
     {
@@ -453,7 +486,9 @@ function draw(){
       ts.forEach((t,i)=>{if(!hasData[i]){pen=false;return;}
         d+=(pen?"L":"M")+X(t).toFixed(1)+" "+Y(cum[N][i]).toFixed(1)+" ";pen=true;last={t,v:cum[N][i]};});
       s+=`<path d="${d}" fill="none" stroke="${BLOCKS.dem.color}" stroke-width="2.6" stroke-linejoin="round"/>`;
-      if(last)s+=`<text x="${X(last.t)+4}" y="${Y(last.v)+4}" font-size="13" font-weight="700" fill="${BLOCKS.dem.color}">Σ ${last.v.toFixed(1)}</text>`;
+      if(last)s+=SM
+        ? `<text x="${X(last.t)-5}" y="${Y(last.v)-7}" font-size="13" font-weight="700" fill="${BLOCKS.dem.color}" text-anchor="end">Σ ${last.v.toFixed(1)}</text>`
+        : `<text x="${X(last.t)+4}" y="${Y(last.v)+4}" font-size="13" font-weight="700" fill="${BLOCKS.dem.color}">Σ ${last.v.toFixed(1)}</text>`;
     }
     if(document.getElementById("dots").checked){
       for(const p of shown){const v=blocSumPoll(p,BLOCKS.dem);if(v==null)continue;
@@ -504,6 +539,7 @@ function draw(){
   svg.innerHTML=s;
   svg._dots=dotEls;
   drawSeats();
+  updFsum();
 }
 function tipShow(e,touch){
   const r=svg.getBoundingClientRect(),x=e.clientX-r.left,y=e.clientY-r.top;
@@ -564,7 +600,18 @@ function drawKoal(){
   res.innerHTML=`Spolu: <b>${n}</b> / 150 kresiel — `+(n>=90?`<span class="ok">ústavná väčšina</span>`:n>=76?`<span class="ok">väčšina ✓</span>`:`<span class="nok">bez väčšiny (chýba ${76-n})</span>`);
   document.getElementById("kfill").style.width=Math.min(100,n/150*100)+"%";
 }
-window.addEventListener("resize",draw);
+/* ---- zbalené filtre na mobile + zhrnutie stavu v hlavičke ---- */
+const fil=document.getElementById("filters"),fsum=document.getElementById("fsum");
+function isMobile(){return window.matchMedia("(max-width:700px)").matches;}
+function syncFilters(){fil.open=!isMobile();}
+function updFsum(){
+  const per=[...document.getElementById("presets").children].find(b=>b.classList.contains("on"));
+  const ags=selAg.size===AGS.length?"všetky agentúry":`${selAg.size} z ${AGS.length} agentúr`;
+  fsum.textContent=`${per?per.textContent:""} · ${sel.size} ${sel.size===1?"strana":(sel.size>=2&&sel.size<=4?"strany":"strán")} · ${ags}`;
+}
+syncFilters();updFsum();
+let wasMobile=isMobile();
+window.addEventListener("resize",()=>{const m=isMobile();if(m!==wasMobile){wasMobile=m;syncFilters();}draw();});
 draw();
 </script>
 </body>
