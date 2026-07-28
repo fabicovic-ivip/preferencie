@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Preferencie politických strán SR — agregátor prieskumov | IVIP</title>
+<meta name="description" content="Interaktívny agregátor prieskumov volebných preferencií na Slovensku (2016–2026): dlhodobé trendy, filter agentúr vrátane Infostatu, prepočet na mandáty NR SR, koaličná kalkulačka a blokové pohľady.">
+<meta property="og:title" content="Preferencie politických strán SR — agregátor prieskumov">
+<meta property="og:description" content="Dlhodobé trendy preferencií, prepočet mandátov a koaličná kalkulačka. 330+ prieskumov od roku 2016.">
+<meta property="og:type" content="website">
+<meta name="dashboard-version" content="/*__VERZIA__*/">
+<meta property="og:locale" content="sk_SK">
+<meta name="robots" content="index, follow">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%235a3787'/%3E%3Cpath d='M6 22l5-7 4 4 6-9 5 6' stroke='%23ffffff' stroke-width='2.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<!-- Fonty podľa Design Manuálu: Barlow (web. alternatíva k DIN Next) + Rasa.
+     Pozn.: načítanie z Google Fonts. Ak preferuješ, dá sa font self-hostovať a tieto 2 riadky vymazať. -->
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&family=Rasa:wght@500;600&display=swap">
+<style>
+:root{
+/* ---- IVIP branding podľa Design Manuálu 2021 (AUTENTIK) ---- */
+--ivip:#5a3787;        /* fialová · Pantone 268 · RGB 90,55,135 */
+--ivip-2:#00aad7;      /* azúrová · Pantone 638 · RGB 0,170,215 */
+--ivip-3:#e64187;      /* ružová  · Pantone 1915 · RGB 230,65,135 */
+/* ---- tmavá fialová téma ---- */
+--bg:#3b2359;          /* pozadie stránky (tmavší odtieň primárnej fialovej) */
+--card:#5a3787;        /* karty = primárna značková fialová */
+--card-2:#6a4499;      /* zvýraznené plochy */
+--ink:#ffffff;         /* hlavný text (kontrast 9:1 na kartách) */
+--mut:#cbbde0;         /* sekundárny text (kontrast 7,7:1) */
+--line:rgba(255,255,255,.18);
+--acc:#00aad7;         /* akcent = značková azúrová */
+--acc-ink:#12233a;     /* text na azúrovom podklade */
+--grid:rgba(255,255,255,.10);
+}
+*{box-sizing:border-box}
+/* Barlow = webová alternatíva k DIN Next (DM, s. 10), Rasa = pätkový doplnok */
+body{margin:0;font:16px/1.5 "Barlow",-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--ink)}
+header{padding:18px 24px 6px;display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+/* inverzný (negatívny) variant loga priamo na tmavej fialovej – DM s. 7 */
+.hdr-logo{height:46px;width:auto;display:block;flex:none}
+h1{font-family:"Rasa","Barlow",Georgia,serif;font-weight:600;font-size:30px;margin:0 0 3px;letter-spacing:.2px;line-height:1.2}
+.sub{color:var(--mut);font-size:14.5px;line-height:1.4}
+.wrap{padding:12px 24px 30px;display:grid;grid-template-columns:250px 1fr;gap:14px;align-items:start}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px}
+.card h3{margin:0 0 9px;font-size:13px;text-transform:uppercase;letter-spacing:.05em;color:var(--mut)}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{border:1px solid var(--line);border-radius:16px;padding:4px 11px;cursor:pointer;user-select:none;font-size:14px;background:rgba(255,255,255,.07);color:var(--ink);display:inline-flex;align-items:center;gap:5px;transition:.12s}
+.chip:hover{background:rgba(255,255,255,.16)}
+.chip .dot{width:9px;height:9px;border-radius:50%;background:#999}
+.chip.off{opacity:.4;filter:grayscale(.65)}
+.chip.more{border-style:dashed;color:var(--mut);background:transparent}
+.chip.more:hover{color:var(--ink)}
+.row{margin-bottom:14px}
+.presets{display:flex;gap:6px;flex-wrap:wrap}
+.pbtn{border:1px solid var(--line);background:rgba(255,255,255,.07);color:var(--ink);border-radius:7px;padding:5px 11px;cursor:pointer;font-size:14px;font-family:inherit}
+.pbtn:hover{background:rgba(255,255,255,.16)}
+.pbtn.on{background:var(--acc);border-color:var(--acc);color:var(--acc-ink);font-weight:600}
+label.opt{display:flex;align-items:center;gap:9px;margin:6px 0;cursor:pointer;font-size:14.5px}
+label.opt input[type=checkbox]{width:17px;height:17px;accent-color:var(--acc);flex:none;margin:0}
+input[type=range]{width:100%;accent-color:var(--acc);height:22px}
+#chartbox{position:relative}
+#chart{touch-action:pan-y}
+svg text{font-family:inherit}
+#tip{position:absolute;pointer-events:none;background:#1e1030;color:#fff;border:1px solid rgba(255,255,255,.28);border-radius:7px;padding:7px 10px;font-size:13.5px;opacity:0;transition:opacity .1s;max-width:280px;z-index:5;box-shadow:0 4px 16px rgba(0,0,0,.4)}
+#tip b{font-size:14px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px}
+.seatrow{display:flex;align-items:center;gap:8px;margin:3px 0}
+.seatrow .nm{width:150px;font-size:14.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.seatrow .bar{height:17px;border-radius:3px;min-width:2px}
+.seatrow .n{font-weight:600;width:32px;text-align:right;font-size:15px}
+.seatrow .pct{color:var(--mut);width:56px;font-size:13px}
+.koal .chip{margin:2px}
+.kres{font-size:16.5px;margin-top:12px}
+.kbar{height:14px;background:rgba(255,255,255,.15);border-radius:7px;overflow:hidden;position:relative;margin-top:6px}
+.kbar>div{height:100%;background:var(--acc)}
+.kbar .m76{position:absolute;top:-3px;bottom:-3px;width:2px;background:#ff6b7a;left:50.67%}
+.ok{color:#6ee7a0;font-weight:600}.nok{color:#ff8f9a;font-weight:600}
+.note{color:var(--mut);font-size:13.5px;line-height:1.45;margin-top:8px}
+footer{color:var(--mut);font-size:14px;line-height:1.55;padding:0 24px 26px;max-width:1200px}
+footer .errnote{margin-top:10px;font-size:12px;opacity:.85}
+footer .errnote a{color:var(--acc)}
+footer summary{cursor:pointer;display:inline-flex;align-items:center;gap:6px;font-weight:600;font-size:13.5px;
+  color:var(--ink);border:1px solid var(--line);border-radius:7px;padding:6px 13px;
+  background:rgba(255,255,255,.07);list-style:none;user-select:none;transition:.12s}
+footer summary::-webkit-details-marker{display:none}
+footer summary::after{content:"\25be";font-size:11px;opacity:.75;transition:transform .15s}
+footer details[open] summary::after{transform:rotate(180deg)}
+footer summary:hover{background:rgba(255,255,255,.16)}
+footer .srcbody{margin-top:10px;max-width:1000px}
+footer .srcbody p{margin:0 0 7px}
+footer .foot-main{margin-top:12px}
+/* ---- fundraising CTA ---- */
+/* na tmavom podklade odlíšené svetlejšou fialovou + azúrovým rámom */
+.cta{margin:22px 24px 20px;background:var(--card-2);border:1.5px solid rgba(0,170,215,.55);
+  color:#fff;border-radius:14px;padding:26px 30px;display:flex;gap:26px;align-items:center;
+  justify-content:space-between;flex-wrap:wrap;box-shadow:0 3px 20px rgba(0,0,0,.28);
+  position:relative;overflow:hidden}
+/* doplnkový prvok DM (výseky z písmen V/P) v azúrovej a ružovej */
+.cta::before{content:"";position:absolute;right:118px;bottom:-96px;width:250px;height:250px;
+  background:var(--ivip-2);opacity:.30;transform:rotate(45deg);border-radius:38px;pointer-events:none}
+.cta::after{content:"";position:absolute;right:-54px;top:-92px;width:230px;height:230px;
+  background:var(--ivip-3);opacity:.26;transform:rotate(45deg);border-radius:34px;pointer-events:none}
+.cta-txt{max-width:640px;position:relative;z-index:1}
+.cta h2{font-family:"Rasa","Barlow",Georgia,serif;font-weight:600;margin:0 0 8px;font-size:22.5px;line-height:1.25}
+.cta p{margin:0;font-size:15.5px;line-height:1.55;opacity:.94}
+.cta-act{position:relative;z-index:1;flex:none}
+.cta-btn{display:block;text-align:center;background:#fff;color:var(--ivip);
+  text-decoration:none;font-weight:600;font-size:16.5px;padding:15px 36px;border-radius:9px;min-height:52px;line-height:22px;
+  letter-spacing:.2px;white-space:nowrap;transition:transform .12s,box-shadow .12s}
+.cta-btn:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,.18)}
+@media(max-width:900px){.wrap{grid-template-columns:1fr}.grid2{grid-template-columns:1fr}}
+@media(max-width:700px){
+  .cta{padding:22px;margin:18px 16px}.cta-act{width:100%}
+  .cta-btn{width:100%;padding:16px 24px;font-size:17px}
+  /* --- hlavicka: logo + Podporiť v jednom riadku, nadpis pod tým --- */
+  header{padding:14px 16px 6px;gap:12px;row-gap:8px}
+  .hdr-logo{height:40px;order:1}
+  .hdr-support{order:2;margin-left:auto;flex:none}
+  header>div{order:3;width:100%;flex-basis:100%}
+  h1{font-size:23px}
+  .sub{font-size:14px}
+  .wrap{padding:10px 16px 24px}
+  /* --- graf ako prvý, filtre až pod ním --- */
+  .wrap>div:first-child{order:2}
+  .wrap>div:last-child{order:1}
+  footer{padding:0 16px 26px}
+  /* --- pohodlne klikatelne ovladacie prvky --- */
+  .chip{font-size:15px;padding:8px 14px;border-radius:20px;min-height:38px}
+  .chip .dot{width:11px;height:11px}
+  .pbtn{font-size:15px;padding:9px 15px;min-height:38px}
+  .chips{gap:8px}.presets{gap:8px}
+  label.opt{margin:0;padding:9px 0;font-size:15.5px}
+  label.opt input[type=checkbox]{width:21px;height:21px}
+  input[type=range]{height:34px}
+  footer summary{font-size:15px;padding:9px 15px}
+  .note{font-size:13px}
+  .seatrow .nm{font-size:15px;width:auto;flex:1;min-width:0}
+  .seatrow .bar{height:18px}
+  .seatrow .n{font-size:15.5px}
+  .note span[id="selall"],.note span[id="selnone"]{display:inline-block;padding:6px 4px;font-size:14.5px}
+}
+</style>
+</head>
+<body>
+<header>
+  <a href="https://ivip.sk" target="_blank" rel="noopener" style="flex:none">
+    <img class="hdr-logo" src="https://ivip.sk/wp-content/uploads/2026/02/ivip-logo-01.png"
+         alt="IVIP — Inštitút vzdelávania a inovácií v politike" onerror="this.style.display='none'">
+  </a>
+  <div>
+    <h1>Preferencie politických strán</h1>
+    <div class="sub">Agregátor zverejnených prieskumov verejnej mienky · <span id="npolls"></span> prieskumov · marec 2016 – <span id="lastdate"></span></div>
+  </div>
+</header>
+<div class="wrap">
+  <div>
+    <div class="card row">
+      <h3>Obdobie</h3>
+      <div class="presets" id="presets"></div>
+    </div>
+    <div class="card row">
+      <h3>Strany</h3>
+      <div class="chips" id="parties"></div>
+      <div class="note"><span id="selall" style="cursor:pointer;color:var(--acc)">hlavné</span> · <span id="selnone" style="cursor:pointer;color:var(--acc)">žiadne</span></div>
+    </div>
+    <div class="card row">
+      <h3>Agentúry</h3>
+      <div class="chips" id="agencies"></div>
+    </div>
+    <div class="card row">
+      <h3>Zobrazenie</h3>
+      <label class="opt"><input type="checkbox" id="dots" checked> body (jednotlivé prieskumy)</label>
+      <label class="opt"><input type="checkbox" id="elmarks" checked> voľby (zvislé čiary)</label>
+      <label class="opt"><input type="checkbox" id="thr" checked> 5 % kvórum</label>
+      <label class="opt" id="turnoutopt" style="display:none"><input type="checkbox" id="turnout"> prepočet na oprávnených voličov</label>
+      <div style="margin-top:8px">Vyhladenie trendu: <b id="smoothv">45</b> dní
+        <input type="range" id="smooth" min="15" max="120" step="5" value="45">
+      </div>
+    </div>
+  </div>
+  <div>
+    <div class="card" id="chartbox">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+        <div class="presets" id="modebtns"></div>
+        <div id="bloclegend" style="display:none;font-size:13.5px;color:var(--mut)"></div>
+      </div>
+      <svg id="chart" width="100%" height="480"></svg>
+      <div id="tip"></div>
+    </div>
+    <div class="grid2">
+      <div class="card">
+        <h3>Prepočet na mandáty (NR SR, 150 kresiel)</h3>
+        <div class="note" style="margin:0 0 8px">K dátumu: <b id="mdate"></b> (kĺzavý priemer zvolených agentúr ±60 dní)
+          <input type="range" id="mslider" min="0" max="100" value="100"></div>
+        <div id="seats"></div>
+        <div class="note">Kvórum 5 % (koalície 7 %/10 %). Metóda: Hagenbach-Bischoff s najväčšími zvyškami.</div>
+      </div>
+      <div class="card koal">
+        <h3>Koaličná kalkulačka</h3>
+        <div class="note" style="margin:0 0 6px">Vyber strany (podľa mandátov vyššie):</div>
+        <div class="chips" id="koal"></div>
+        <div class="kres" id="kres"></div>
+        <div class="kbar"><div id="kfill" style="width:0"></div><div class="m76"></div></div>
+        <div class="note">Červená čiara = 76 kresiel (väčšina) · ústavná väčšina = 90</div>
+      </div>
+    </div>
+  </div>
+</div>
+<section class="cta">
+  <div class="cta-txt">
+    <h2>Tento prehľad pre vás pripravuje IVIP</h2>
+    <p>Každý prieskum ručne overujeme proti zdroju a prehľad zverejňujeme bez reklám a zadarmo — vaša podpora
+       ho udrží aktuálny. Zároveň nám pomáha pripravovať novú generáciu zodpovedných lídrov pre Slovensko.</p>
+  </div>
+  <div class="cta-act">
+    <a class="cta-btn" href="https://ivip.sk/#podpora" target="_blank" rel="noopener">Podporím prehľad</a>
+  </div>
+</section>
+<footer>
+  <details>
+    <summary>Zdroje a metodika</summary>
+    <div class="srcbody">
+      <p><b>Zdroj dát:</b> zverejnené prieskumy agentúr AKO, Focus, Ipsos, NMS, Median, Polis, SANEP, MVK a štátneho Infostatu (ÚVVM/CSV pri ŠÚ SR),
+      agregované cez Wikipédiu (<i>Opinion polling for the 2020 / 2023 / next Slovak parliamentary election</i>) a tlačové správy
+      (SITA, TASR/teraz.sk, ta3, STVR, SME) a priamo od agentúr (NMS). Volebné výsledky: Štatistický úrad SR. Stav k 28.&nbsp;7.&nbsp;2026.</p>
+
+      <p><b>Ako čítať graf:</b> body = jednotlivé prieskumy, čiary = vážený kĺzavý priemer (gaussovské jadro).
+      Trojuholníky a zvislé čiary = skutočné volebné výsledky (parlamentné aj eurovoľby 2024). Do trendových kriviek nevstupujú — krivky sa počítajú výhradne z prieskumov. Eurovoľby majú navyše inú účasť aj volebný systém, preto s parlamentnými nie sú porovnateľné. Prepočet mandátov je ilustračný — vychádza z celoštátnych preferencií.</p>
+
+      <p><b>Poznámky k dátam:</b> Infostat publikuje od januára 2025 (metóda PAPI/CAPI, nie je členom SAVA — čísla sa môžu systematicky líšiť
+      od komerčných agentúr); pri prieskume Infostat máj 2025 neboli presné hodnoty PS a Smeru verejne dostupné, preto chýbajú.
+      V rokoch 2016–2020 sú PS a SPOLU vykazované spolu (koalícia PS–SPOLU v stĺpci PS). SMK a Maďarská aliancia sú vedené ako jedna súvislá séria.
+      Priradenie hodnôt k stranám bolo pri prieskumoch z rokov 2016–2023 overené proti hlavičkám zdrojových tabuliek. Modrí, Európske Slovensko majú od roku 2023 vlastnú sériu; tam, kde ich zdroj uvádza v jednej bunke s Most-Hídom (jún 2023), zostávajú v sérii Most-Híd.
+      Prieskumy zverejnené v deň volieb (exit polly) do trendu nevstupujú.</p>
+
+      <p><b>Blokový pohľad:</b> demokratický blok = PS, SaS, OĽaNO/Slovensko, KDH, Demokrati, SPOLU, Modrí, Za ľudí, KÚ, SIEŤ;
+      národno-sociálny blok = Smer, Hlas, SNS, Republika, ĽSNS, Vlasť, Právo na pravdu; nezaradené = Sme rodina, maďarské strany (SMK/Aliancia, Most-Híd, MF), Dobrá voľba.
+      V blokových režimoch čiara „kvóra“ zobrazuje hranicu 50 %. Režim „Demokratický blok“ skladá strany demokratického bloku ako farebné pásy
+      pod súčtovou krivkou (Σ). Zaradenie strán do blokov je interpretačná voľba, nie oficiálna kategorizácia.</p>
+
+      <p><b>Účasť a nevoliči:</b> voľba „prepočet na oprávnených voličov“ v režime Bloky prepočíta krivky z percent rozhodnutých voličov
+      na percentá všetkých oprávnených a doplní krivku „Nerozhodnutí a nevoliči“ — vtedy sa zobrazujú len prieskumy, pri ktorých agentúra
+      účasť zverejnila (AKO a NMS). AKO uvádza podiel rozhodnutých voličov, NMS deklarovanú volebnú účasť; ide o dve podobné, ale nie totožné
+      veličiny, preto medzi agentúrami nie sú priamo porovnateľné.</p>
+    </div>
+  </details>
+  <div class="foot-main">Verzia dát <b>/*__VERZIA__*/</b> · Pripravuje <a href="https://ivip.sk" target="_blank" rel="noopener" style="color:var(--acc);font-weight:600">IVIP — Inštitút vzdelávania a inovácií v politike</a>.</div>
+  <div class="errnote">Našli ste chybu v dátach alebo vám tu nejaký prieskum chýba? Napíšte nám na <a href="mailto:ahoj@ivip.sk">ahoj@ivip.sk</a> — ideálne s odkazom na zdroj. Každý podnet preveríme.</div>
+</footer>
+<script>
+/* farby kresliace do SVG – ladené pre tmavý fialový podklad */
+const C={grid:"rgba(255,255,255,.10)", gridY:"rgba(255,255,255,.13)", axis:"#cbbde0",
+         thr:"#ff6b7a", elec:"rgba(255,255,255,.38)", stroke:"#3b2359"};
+const DATA = /*__DATA__*/;
+const P = DATA.meta, polls = DATA.polls;
+polls.forEach(p=>{p.t = new Date(p.mid).getTime();});
+const DAY=86400000;
+const tmin = Math.min(...polls.map(p=>p.t)), tmax = Math.max(...polls.map(p=>p.t));
+const MAIN=["smer","ps","hlas","olano","kdh","sas","sns","rep","ali","dem","sr","lsns"];
+const ALLP=Object.keys(P).filter(k=>k!=="oth");
+const AGS=[...new Set(polls.filter(p=>p.type==="poll").map(p=>p.agency))];
+// Voľby sa v grafe vyznačujú ako body a zvislé čiary, ale do žiadnej krivky nevstupujú
+// (kernelAvg počíta len z activePolls(), tam ide výhradne type==="poll").
+// Eurovoľby majú vlastný typ, lebo ich účasť ani volebný systém nie sú porovnateľné.
+const ELEC=polls.filter(p=>p.type==="election"||p.type==="ep_election");
+let sel=new Set(MAIN), selAg=new Set(AGS), from=tmin, sigma=45, mfrac=1, mode="strany";
+const BLOCKS={
+  dem:{name:"Demokratický blok", color:"#6aa6ff",
+       members:["ps","sas","olano","kdh","dem","spolu","modri","zl","ku","siet"]},
+  nat:{name:"Národno-sociálny blok", color:"#ff6b73",
+       members:["smer","hlas","sns","rep","lsns","vlast","pravda"]},
+  nez:{name:"Nezaradené", color:"#c3cbd4",
+       members:["sr","ali","mh","mf","dv"]}
+};
+document.getElementById("npolls").textContent=polls.filter(p=>p.type==="poll").length;
+document.getElementById("lastdate").textContent=fmtD(tmax);
+function fmtD(t){const d=new Date(t);return d.toLocaleDateString("sk-SK",{month:"short",year:"numeric"});}
+function fmtDF(t){const d=new Date(t);return d.toLocaleDateString("sk-SK");}
+
+/* ---------- controls ---------- */
+const presets=[["Všetko (2016+)",tmin],["Od volieb 2020",new Date("2020-03-01").getTime()],["Od volieb 2023",new Date("2023-10-01").getTime()],["2 roky",tmax-730*DAY],["1 rok",tmax-365*DAY]];
+const pbox=document.getElementById("presets");
+presets.forEach(([lab,t],i)=>{
+  const b=document.createElement("button");b.className="pbtn"+(i===0?" on":"");b.textContent=lab;
+  b.onclick=()=>{from=t;[...pbox.children].forEach(c=>c.classList.remove("on"));b.classList.add("on");draw();};
+  pbox.appendChild(b);
+});
+function chip(box,key,label,color,set,on,cb){
+  const c=document.createElement("span");c.className="chip"+(on?"":" off");
+  c.innerHTML=(color?`<span class="dot" style="background:${color}"></span>`:"")+label;
+  c.onclick=()=>{set.has(key)?set.delete(key):set.add(key);c.classList.toggle("off");cb();};
+  box.appendChild(c);return c;
+}
+const NEVOL={name:"Nerozhodnutí a nevoliči", color:"#9aa0ab", members:[]};
+function tOn(){const e=document.getElementById("turnout");return mode==="bloky"&&!!e&&e.checked;}
+function blocList(){return tOn()?Object.values(BLOCKS).concat([NEVOL]):Object.values(BLOCKS);}
+const DEMSTACK_ORDER=["ps","olano","sas","kdh","dem","spolu","modri","zl","ku","siet"];
+const mb=document.getElementById("modebtns");
+[["strany","Strany"],["bloky","Bloky"],["demstack","Demokratický blok"]].forEach(([m,lab],i)=>{
+  const b=document.createElement("button");b.className="pbtn"+(i===0?" on":"");b.textContent=lab;
+  b.onclick=()=>{mode=m;[...mb.children].forEach(c=>c.classList.remove("on"));b.classList.add("on");
+    const lg=document.getElementById("bloclegend");
+    lg.style.display=(m==="strany")?"none":"block";
+    document.getElementById("turnoutopt").style.display=(m==="bloky")?"flex":"none";
+    lg.innerHTML=(m==="bloky")?legBloky():(m==="demstack")?LEG_DEM:"";
+    draw();};
+  mb.appendChild(b);
+});
+function legBloky(){return blocList().map(b=>
+  `<span style="margin-left:12px"><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:${b.color};margin-right:4px"></span>${b.name}</span>`).join("");}
+const LEG_DEM=DEMSTACK_ORDER.map(k=>
+  `<span style="margin-left:9px"><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:${P[k].color};margin-right:3px"></span>${P[k].name}</span>`).join("");
+function blocSumPoll(p, bl){
+  if(bl===NEVOL) return p.ucast!=null?+(100-p.ucast).toFixed(2):null;
+  let s=0,n=0;
+  for(const k of bl.members){const v=p[k];if(v!=null){s+=v;n++;}}
+  if(!n) return null;
+  if(tOn()){ if(p.ucast==null) return null; s=s*p.ucast/100; }
+  return +s.toFixed(2);
+}
+function blocAvg(bl, t, pset){
+  if(tOn()){                       // vyhladzujeme priamo prepočítané súčty za prieskum
+    let w=0,s=0,n=0;
+    for(const p of pset){
+      const v=blocSumPoll(p,bl); if(v==null) continue;
+      const d=Math.abs(p.t-t)/(sigma*DAY); if(d>2.5) continue;
+      const wi=Math.exp(-d*d/2); w+=wi; s+=wi*v; n++;
+    }
+    return n>=2?s/w:null;
+  }
+  let s=0,n=0;
+  for(const k of bl.members){const v=kernelAvg(k,t,pset,sigma);if(v!=null){s+=v;n++;}}
+  return n?s:null;
+}
+const pbox2=document.getElementById("parties");
+let moreOpen=false; // menej používané strany zbalené — kratší zoznam, menej scrollovania (hlavne na mobile)
+function buildParties(){
+  pbox2.innerHTML="";
+  const rest=ALLP.filter(k=>!MAIN.includes(k));
+  if(rest.some(k=>sel.has(k)))moreOpen=true;
+  ALLP.filter(k=>MAIN.includes(k)).forEach(k=>chip(pbox2,k,P[k].name,P[k].color,sel,sel.has(k),draw));
+  if(moreOpen)rest.forEach(k=>chip(pbox2,k,P[k].name,P[k].color,sel,sel.has(k),draw));
+  const t=document.createElement("span");t.className="chip more";
+  t.textContent=moreOpen?"menej ▴":`ďalšie strany (${rest.length}) ▾`;
+  t.onclick=()=>{moreOpen=!moreOpen;if(!moreOpen&&ALLP.some(k=>!MAIN.includes(k)&&sel.has(k))){moreOpen=true;return;}buildParties();};
+  pbox2.appendChild(t);
+}
+buildParties();
+document.getElementById("selall").onclick=()=>{sel=new Set(MAIN);rebuildP();draw();};
+document.getElementById("selnone").onclick=()=>{sel=new Set();moreOpen=false;rebuildP();draw();};
+function rebuildP(){buildParties();}
+const abox=document.getElementById("agencies");
+AGS.forEach(a=>chip(abox,a,a,null,selAg,true,()=>{draw();}));
+["dots","elmarks","thr"].forEach(id=>document.getElementById(id).onchange=draw);
+document.getElementById("smooth").oninput=e=>{sigma=+e.target.value;document.getElementById("smoothv").textContent=sigma;draw();};
+document.getElementById("mslider").oninput=e=>{mfrac=e.target.value/100;drawSeats();};
+
+/* ---------- smoothing ---------- */
+function kernelAvg(party,t,pset,sig){
+  let w=0,s=0,n=0;
+  for(const p of pset){
+    const v=p[party];if(v==null)continue;
+    const d=Math.abs(p.t-t)/(sig*DAY);if(d>2.5)continue;
+    const wi=Math.exp(-d*d/2);w+=wi;s+=wi*v;n++;
+  }
+  return n>=2?s/w:null;
+}
+function activePolls(){let a=polls.filter(p=>p.type==="poll"&&selAg.has(p.agency));
+  return tOn()?a.filter(p=>p.ucast!=null):a;}
+
+/* ---------- chart ---------- */
+document.getElementById("turnout").onchange=()=>{
+  document.getElementById("bloclegend").innerHTML=legBloky(); draw();};
+const svg=document.getElementById("chart"),tip=document.getElementById("tip");
+function draw(){
+  const box=svg.parentNode.getBoundingClientRect();
+  const W=box.width-28,SM=W<520; // SM = úzke (mobilné) zobrazenie
+  const H=SM?400:480,ml=SM?36:42,mr=34,mt=14,mb=36;
+  svg.setAttribute("viewBox",`0 0 ${W} ${H}`);svg.setAttribute("height",H);
+  const pset=activePolls().filter(p=>p.t>=from-90*DAY);
+  const shown=pset.filter(p=>p.t>=from);
+  let ymax=6;
+  if(mode==="bloky"||mode==="demstack"){
+    const bls=(mode==="demstack")?[BLOCKS.dem]:blocList();
+    shown.concat(ELEC.filter(e=>e.t>=from)).forEach(p=>{
+      for(const bl of bls){const v=blocSumPoll(p,bl);if(v!=null&&v>ymax)ymax=v;}});
+  } else {
+    shown.forEach(p=>{for(const k of sel){if(p[k]!=null&&p[k]>ymax)ymax=p[k];}});
+    ELEC.filter(e=>e.t>=from).forEach(p=>{for(const k of sel){if(p[k]!=null&&p[k]>ymax)ymax=p[k];}});
+  }
+  ymax=Math.ceil((ymax+1.5)/5)*5;
+  const X=t=>ml+(t-from)/(tmax-from)*(W-ml-mr);
+  const Y=v=>mt+(1-v/ymax)*(H-mt-mb);
+  let s="";
+  // gridlines + y labels
+  for(let v=0;v<=ymax;v+=5){
+    s+=`<line x1="${ml}" x2="${W-mr}" y1="${Y(v)}" y2="${Y(v)}" stroke="${C.gridY}"/>`;
+    s+=`<text x="${ml-6}" y="${Y(v)+4}" text-anchor="end" font-size="12.5" fill="${C.axis}">${v}</text>`;
+  }
+  if(document.getElementById("thr").checked){
+    const yv=(mode==="strany")?5:50;
+    if(yv<ymax) s+=`<line x1="${ml}" x2="${W-mr}" y1="${Y(yv)}" y2="${Y(yv)}" stroke="${C.thr}" stroke-dasharray="2 4" stroke-width="1.2" opacity=".55"/>`;
+  }
+  // x ticks: years
+  const y0=new Date(from).getFullYear(),y1=new Date(tmax).getFullYear();
+  const yspan=y1-y0;
+  for(let y=y0;y<=y1+1;y++){
+    const t=new Date(y+"-01-01").getTime();if(t<from||t>tmax)continue;
+    s+=`<line x1="${X(t)}" x2="${X(t)}" y1="${mt}" y2="${H-mb}" stroke="${C.grid}"/>`;
+    if(!SM||yspan<=5||y%2===0) // na mobile pri dlhom období len párne roky, aby sa popisky neprekrývali
+      s+=`<text x="${X(t)+4}" y="${H-mb+17}" font-size="12.5" fill="${C.axis}">${y}</text>`;
+  }
+  // elections
+  if(document.getElementById("elmarks").checked){
+    ELEC.forEach(e=>{if(e.t<from)return;
+      s+=`<line x1="${X(e.t)}" x2="${X(e.t)}" y1="${mt}" y2="${H-mb}" stroke="${C.elec}" stroke-dasharray="4 4"/>`;
+      if(!SM) // na mobile sa texty volieb prekrývali — čiary stačia, detail dá tooltip
+        s+=`<text x="${X(e.t)-4}" y="${mt+11}" font-size="11.5" fill="${C.axis}" text-anchor="end">${e.agency}</text>`;});
+  }
+  // dots
+  const dotEls=[];
+  const step=Math.max(4,Math.round((tmax-from)/DAY/260))*DAY;
+  if(mode==="demstack"){
+    // stacked bands of democratic-bloc parties
+    const ts=[];for(let t=from;t<=tmax;t+=step)ts.push(t);
+    const series=DEMSTACK_ORDER.map(k=>ts.map(t=>kernelAvg(k,t,pset,sigma)));
+    const hasData=ts.map((_,i)=>series.some(sv=>sv[i]!=null));
+    const cum=[ts.map(()=>0)];
+    for(let j=0;j<series.length;j++)
+      cum.push(ts.map((_,i)=>cum[j][i]+(series[j][i]||0)));
+    // runs of consecutive data points
+    const runs=[];let run=null;
+    hasData.forEach((h,i)=>{if(h){(run=run||[]).push(i);}else{if(run)runs.push(run);run=null;}});
+    if(run)runs.push(run);
+    for(let j=0;j<series.length;j++){
+      const col=P[DEMSTACK_ORDER[j]].color;
+      for(const r of runs){
+        let d="M";
+        for(const i of r)d+=X(ts[i]).toFixed(1)+" "+Y(cum[j+1][i]).toFixed(1)+" L";
+        for(let q=r.length-1;q>=0;q--){const i=r[q];d+=X(ts[i]).toFixed(1)+" "+Y(cum[j][i]).toFixed(1)+(q?" L":"");}
+        s+=`<path d="${d} Z" fill="${col}" fill-opacity=".62" stroke="${col}" stroke-opacity=".9" stroke-width=".5"/>`;
+      }
+      // right-edge band label
+      const lr=runs[runs.length-1];
+      if(lr){const i=lr[lr.length-1];const band=cum[j+1][i]-cum[j][i];
+        if(band>=2.2)s+=`<text x="${X(ts[i])+4}" y="${(Y(cum[j][i])+Y(cum[j+1][i]))/2+4}" font-size="11.5" font-weight="600" fill="${col}">${P[DEMSTACK_ORDER[j]].name} ${band.toFixed(1)}</text>`;}
+    }
+    // bloc total line + label
+    {
+      let d="",pen=false,last=null;
+      const N=series.length;
+      ts.forEach((t,i)=>{if(!hasData[i]){pen=false;return;}
+        d+=(pen?"L":"M")+X(t).toFixed(1)+" "+Y(cum[N][i]).toFixed(1)+" ";pen=true;last={t,v:cum[N][i]};});
+      s+=`<path d="${d}" fill="none" stroke="${BLOCKS.dem.color}" stroke-width="2.6" stroke-linejoin="round"/>`;
+      if(last)s+=`<text x="${X(last.t)+4}" y="${Y(last.v)+4}" font-size="13" font-weight="700" fill="${BLOCKS.dem.color}">Σ ${last.v.toFixed(1)}</text>`;
+    }
+    if(document.getElementById("dots").checked){
+      for(const p of shown){const v=blocSumPoll(p,BLOCKS.dem);if(v==null)continue;
+        dotEls.push({x:X(p.t),y:Y(v),p,k:"dem",v,bloc:true});
+        s+=`<circle cx="${X(p.t)}" cy="${Y(v)}" r="2.6" fill="${BLOCKS.dem.color}" fill-opacity=".42"/>`;}
+    }
+    ELEC.forEach(e=>{if(e.t<from)return;const v=blocSumPoll(e,BLOCKS.dem);if(v==null)return;
+      s+=`<path d="M ${X(e.t)} ${Y(v)-5} L ${X(e.t)+4.4} ${Y(v)+3} L ${X(e.t)-4.4} ${Y(v)+3} Z" fill="${BLOCKS.dem.color}" stroke="${C.stroke}" stroke-width="1.2"/>`;});
+  } else if(mode==="bloky"){
+    if(document.getElementById("dots").checked){
+      for(const p of shown){for(const bl of blocList()){ const bk=bl.name;
+        const v=blocSumPoll(p,bl);if(v==null)continue;
+        dotEls.push({x:X(p.t),y:Y(v),p,k:bk,v,bloc:true});
+        s+=`<circle cx="${X(p.t)}" cy="${Y(v)}" r="2.6" fill="${bl.color}" fill-opacity=".42"/>`;}}
+    }
+    ELEC.forEach(e=>{if(e.t<from)return;for(const bl of blocList()){
+      const v=blocSumPoll(e,bl);if(v==null)continue;
+      s+=`<path d="M ${X(e.t)} ${Y(v)-5} L ${X(e.t)+4.4} ${Y(v)+3} L ${X(e.t)-4.4} ${Y(v)+3} Z" fill="${bl.color}" stroke="${C.stroke}" stroke-width="1.2"/>`;}});
+    for(const bl of blocList()){
+      let d="",pen=false,last=null;
+      for(let t=from;t<=tmax;t+=step){
+        const v=blocAvg(bl,t,pset);
+        if(v==null){pen=false;continue;}
+        d+=(pen?"L":"M")+X(t).toFixed(1)+" "+Y(v).toFixed(1)+" ";pen=true;last={t,v};
+      }
+      s+=`<path d="${d}" fill="none" stroke="${bl.color}" stroke-width="3" stroke-linejoin="round"/>`;
+      if(last)s+=`<text x="${X(last.t)+4}" y="${Y(last.v)+4}" font-size="12.5" font-weight="600" fill="${bl.color}">${last.v.toFixed(1)}</text>`;
+    }
+  } else {
+    if(document.getElementById("dots").checked){
+      for(const p of shown){for(const k of sel){const v=p[k];if(v==null)continue;
+        dotEls.push({x:X(p.t),y:Y(v),p,k,v});
+        s+=`<circle cx="${X(p.t)}" cy="${Y(v)}" r="2.6" fill="${P[k].color}" fill-opacity=".45"/>`;}}
+    }
+    ELEC.forEach(e=>{if(e.t<from)return;for(const k of sel){const v=e[k];if(v==null)continue;
+      s+=`<path d="M ${X(e.t)} ${Y(v)-5} L ${X(e.t)+4.4} ${Y(v)+3} L ${X(e.t)-4.4} ${Y(v)+3} Z" fill="${P[k].color}" stroke="${C.stroke}" stroke-width="1.2"/>`;}});
+    for(const k of sel){
+      let d="",pen=false,last=null;
+      for(let t=from;t<=tmax;t+=step){
+        const v=kernelAvg(k,t,pset,sigma);
+        if(v==null){pen=false;continue;}
+        d+=(pen?"L":"M")+X(t).toFixed(1)+" "+Y(v).toFixed(1)+" ";pen=true;last={t,v};
+      }
+      s+=`<path d="${d}" fill="none" stroke="${P[k].color}" stroke-width="2.4" stroke-linejoin="round"/>`;
+      if(last)s+=`<text x="${X(last.t)+4}" y="${Y(last.v)+4}" font-size="12.5" font-weight="600" fill="${P[k].color}">${last.v.toFixed(1)}</text>`;
+    }
+  }
+  svg.innerHTML=s;
+  svg._dots=dotEls;
+  drawSeats();
+}
+function tipShow(e,touch){
+  const r=svg.getBoundingClientRect(),x=e.clientX-r.left,y=e.clientY-r.top;
+  let best=null,bd=touch?900:110; // na dotyk väčší polomer hľadania (prst je menej presný než kurzor)
+  for(const d of (svg._dots||[])){const dd=(d.x-x)**2+(d.y-y)**2;if(dd<bd){bd=dd;best=d;}}
+  if(best){
+    tip.style.opacity=1;
+    tip.style.left=Math.min(x+14,r.width-260)+"px";tip.style.top=(y+8)+"px";
+    const nm=best.bloc?(BLOCKS[best.k]?BLOCKS[best.k].name:best.k):P[best.k].name;
+    tip.innerHTML=`<b>${nm}: ${best.v} %</b><br>${best.p.agency} · ${fmtDF(new Date(best.p.start).getTime())} – ${fmtDF(new Date(best.p.end).getTime())}<br>vzorka: ${best.p.sample||"?"}`;
+  } else tip.style.opacity=0;
+}
+svg.addEventListener("mousemove",e=>tipShow(e,false));
+svg.addEventListener("pointerdown",e=>{if(e.pointerType!=="mouse")tipShow(e,true);}); // ťuknutie na dotykovej obrazovke
+document.addEventListener("pointerdown",e=>{if(e.pointerType!=="mouse"&&!svg.contains(e.target))tip.style.opacity=0;},true);
+svg.addEventListener("mouseleave",()=>tip.style.opacity=0);
+
+/* ---------- seats ---------- */
+function seatCalc(avg){
+  const q=Object.entries(avg).filter(([k,v])=>v>=5);
+  const tot=q.reduce((a,[,v])=>a+v,0);
+  if(!q.length)return{};
+  const quota=tot/151;
+  let seats={},rem=[],used=0;
+  for(const[k,v]of q){const n=Math.floor(v/quota);seats[k]=n;used+=n;rem.push([k,v/quota-n]);}
+  rem.sort((a,b)=>b[1]-a[1]);
+  for(let i=0;used<150&&i<rem.length;i++,used++)seats[rem[i][0]]++;
+  return seats;
+}
+let curSeats={},koalSel=new Set();
+function drawSeats(){
+  const t=from+(tmax-from)*mfrac;
+  document.getElementById("mdate").textContent=fmtDF(t);
+  const pset=activePolls();
+  const avg={};
+  ALLP.forEach(k=>{const v=kernelAvg(k,t,pset,60);if(v!=null)avg[k]=v;});
+  curSeats=seatCalc(avg);
+  const box=document.getElementById("seats");
+  const ord=Object.keys(avg).sort((a,b)=>avg[b]-avg[a]).filter(k=>avg[k]>=2);
+  box.innerHTML=ord.map(k=>{
+    const sN=curSeats[k]||0;
+    return `<div class="seatrow"><span class="nm"><span class="dot" style="display:inline-block;width:9px;height:9px;border-radius:50%;background:${P[k].color};margin-right:5px"></span>${P[k].name}</span>
+    <span class="pct">${avg[k].toFixed(1)} %</span>
+    <span class="bar" style="width:${sN*2.6}px;background:${P[k].color};opacity:${sN?1:.25}"></span>
+    <span class="n">${sN||"—"}</span></div>`;
+  }).join("");
+  // koal chips
+  const kb=document.getElementById("koal");kb.innerHTML="";
+  koalSel=new Set([...koalSel].filter(k=>curSeats[k]));
+  Object.keys(curSeats).sort((a,b)=>curSeats[b]-curSeats[a]).forEach(k=>{
+    chip(kb,k,`${P[k].name} (${curSeats[k]})`,P[k].color,koalSel,koalSel.has(k),drawKoal);
+  });
+  drawKoal();
+}
+function drawKoal(){
+  const n=[...koalSel].reduce((a,k)=>a+(curSeats[k]||0),0);
+  const res=document.getElementById("kres");
+  res.innerHTML=`Spolu: <b>${n}</b> / 150 kresiel — `+(n>=90?`<span class="ok">ústavná väčšina</span>`:n>=76?`<span class="ok">väčšina ✓</span>`:`<span class="nok">bez väčšiny (chýba ${76-n})</span>`);
+  document.getElementById("kfill").style.width=Math.min(100,n/150*100)+"%";
+}
+window.addEventListener("resize",draw);
+draw();
+</script>
+</body>
+</html>
