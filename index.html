@@ -7883,7 +7883,7 @@ function draw(){
         s+=`<text x="${X(e.t)+(room?-4:4)}" y="${mt+11}" font-size="11.5" fill="${C.axis}" text-anchor="${room?"end":"start"}">${e.agency}</text>`;}});
   }
   // dots
-  const dotEls=[];
+  const dotEls=[],endLab=[];
   const step=Math.max(4,Math.round((tmax-from)/DAY/260))*DAY;
   if(mode==="demstack"){
     // stacked bands of democratic-bloc parties
@@ -7949,7 +7949,7 @@ function draw(){
         d+=(pen?"L":"M")+X(t).toFixed(1)+" "+Y(v).toFixed(1)+" ";pen=true;last={t,v};
       }
       s+=`<path d="${d}" fill="none" stroke="${bl.color}" stroke-width="3" stroke-linejoin="round"/>`;
-      if(last)s+=`<text x="${X(last.t)+4}" y="${Y(last.v)+4}" font-size="12.5" font-weight="600" fill="${bl.color}">${last.v.toFixed(1)}</text>`;
+      if(last)endLab.push({x:X(last.t)+4,y:Y(last.v)+4,col:bl.color,txt:last.v.toFixed(1)});
     }
   } else {
     { const showDots=document.getElementById("dots").checked;
@@ -7967,8 +7967,18 @@ function draw(){
         d+=(pen?"L":"M")+X(t).toFixed(1)+" "+Y(v).toFixed(1)+" ";pen=true;last={t,v};
       }
       s+=`<path d="${d}" fill="none" stroke="${P[k].color}" stroke-width="2.4" stroke-linejoin="round"/>`;
-      if(last)s+=`<text x="${X(last.t)+4}" y="${Y(last.v)+4}" font-size="12.5" font-weight="600" fill="${P[k].color}">${last.v.toFixed(1)}</text>`;
+      if(last)endLab.push({x:X(last.t)+4,y:Y(last.v)+4,col:P[k].color,txt:last.v.toFixed(1)});
     }
+  }
+  // koncové hodnoty pri blízkych stranách sa prekrývali — rozostupujeme ich po zvislej osi
+  if(endLab.length){
+    endLab.sort((a,b)=>a.y-b.y);
+    const gap=13;
+    for(let i=1;i<endLab.length;i++)
+      if(endLab[i].y-endLab[i-1].y<gap)endLab[i].y=endLab[i-1].y+gap;
+    const over=endLab.length?endLab[endLab.length-1].y-(H-mb+4):0;
+    if(over>0)endLab.forEach(l=>l.y-=Math.min(over,l.y-(mt+8)));
+    endLab.forEach(l=>{s+=`<text x="${l.x}" y="${l.y}" font-size="12.5" font-weight="600" fill="${l.col}">${l.txt}</text>`;});
   }
   svg.innerHTML=s;
   svg._dots=dotEls;
