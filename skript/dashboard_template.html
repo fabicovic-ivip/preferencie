@@ -236,8 +236,9 @@ footer .foot-main{margin-top:12px}
 <section class="cta">
   <div class="cta-txt">
     <h2>Tento prehľad pre vás pripravuje IVIP</h2>
-    <p>Každý prieskum ručne overujeme proti zdroju a prehľad zverejňujeme bez reklám a zadarmo — vaša podpora
-       ho udrží aktuálny. Zároveň nám pomáha pripravovať novú generáciu zodpovedných lídrov pre Slovensko.</p>
+    <p>Všetky zverejnené prieskumy od roku 2016 na jednom mieste, s uvedenými zdrojmi — bez reklám a bez
+       plateného prístupu. Vaša podpora drží prehľad aktuálny a pomáha nám pripravovať novú generáciu
+       zodpovedných lídrov pre Slovensko.</p>
   </div>
   <div class="cta-act">
     <a class="cta-btn" href="https://ivip.sk/#podpora" target="_blank" rel="noopener">Podporím prehľad</a>
@@ -490,19 +491,19 @@ function draw(){
         ? `<text x="${X(last.t)-5}" y="${Y(last.v)-7}" font-size="13" font-weight="700" fill="${BLOCKS.dem.color}" text-anchor="end">Σ ${last.v.toFixed(1)}</text>`
         : `<text x="${X(last.t)+4}" y="${Y(last.v)+4}" font-size="13" font-weight="700" fill="${BLOCKS.dem.color}">Σ ${last.v.toFixed(1)}</text>`;
     }
-    if(document.getElementById("dots").checked){
+    { const showDots=document.getElementById("dots").checked; // body sa dajú skryť, ale tooltip funguje aj tak
       for(const p of shown){const v=blocSumPoll(p,BLOCKS.dem);if(v==null)continue;
         dotEls.push({x:X(p.t),y:Y(v),p,k:"dem",v,bloc:true});
-        s+=`<circle cx="${X(p.t)}" cy="${Y(v)}" r="2.6" fill="${BLOCKS.dem.color}" fill-opacity=".42"/>`;}
+        if(showDots)s+=`<circle cx="${X(p.t)}" cy="${Y(v)}" r="2.6" fill="${BLOCKS.dem.color}" fill-opacity=".42"/>`;}
     }
     ELEC.forEach(e=>{if(e.t<from)return;const v=blocSumPoll(e,BLOCKS.dem);if(v==null)return;
       s+=`<path d="M ${X(e.t)} ${Y(v)-5} L ${X(e.t)+4.4} ${Y(v)+3} L ${X(e.t)-4.4} ${Y(v)+3} Z" fill="${BLOCKS.dem.color}" stroke="${C.stroke}" stroke-width="1.2"/>`;});
   } else if(mode==="bloky"){
-    if(document.getElementById("dots").checked){
+    { const showDots=document.getElementById("dots").checked;
       for(const p of shown){for(const bl of blocList()){ const bk=bl.name;
         const v=blocSumPoll(p,bl);if(v==null)continue;
         dotEls.push({x:X(p.t),y:Y(v),p,k:bk,v,bloc:true});
-        s+=`<circle cx="${X(p.t)}" cy="${Y(v)}" r="2.6" fill="${bl.color}" fill-opacity=".42"/>`;}}
+        if(showDots)s+=`<circle cx="${X(p.t)}" cy="${Y(v)}" r="2.6" fill="${bl.color}" fill-opacity=".42"/>`;}}
     }
     ELEC.forEach(e=>{if(e.t<from)return;for(const bl of blocList()){
       const v=blocSumPoll(e,bl);if(v==null)continue;
@@ -518,10 +519,10 @@ function draw(){
       if(last)s+=`<text x="${X(last.t)+4}" y="${Y(last.v)+4}" font-size="12.5" font-weight="600" fill="${bl.color}">${last.v.toFixed(1)}</text>`;
     }
   } else {
-    if(document.getElementById("dots").checked){
+    { const showDots=document.getElementById("dots").checked;
       for(const p of shown){for(const k of sel){const v=p[k];if(v==null)continue;
         dotEls.push({x:X(p.t),y:Y(v),p,k,v});
-        s+=`<circle cx="${X(p.t)}" cy="${Y(v)}" r="2.6" fill="${P[k].color}" fill-opacity=".45"/>`;}}
+        if(showDots)s+=`<circle cx="${X(p.t)}" cy="${Y(v)}" r="2.6" fill="${P[k].color}" fill-opacity=".45"/>`;}}
     }
     ELEC.forEach(e=>{if(e.t<from)return;for(const k of sel){const v=e[k];if(v==null)continue;
       s+=`<path d="M ${X(e.t)} ${Y(v)-5} L ${X(e.t)+4.4} ${Y(v)+3} L ${X(e.t)-4.4} ${Y(v)+3} Z" fill="${P[k].color}" stroke="${C.stroke}" stroke-width="1.2"/>`;}});
@@ -608,6 +609,13 @@ function updFsum(){
   const per=[...document.getElementById("presets").children].find(b=>b.classList.contains("on"));
   const ags=selAg.size===AGS.length?"všetky agentúry":`${selAg.size} z ${AGS.length} agentúr`;
   fsum.textContent=`${per?per.textContent:""} · ${sel.size} ${sel.size===1?"strana":(sel.size>=2&&sel.size<=4?"strany":"strán")} · ${ags}`;
+}
+/* na mobile štartujeme s prehľadnejším pohľadom: od volieb 2023 a bez bodov
+   (body sa dajú zapnúť v nastaveniach; tooltip po ťuknutí funguje aj bez nich) */
+if(isMobile()){
+  const i=presets.findIndex(([lab])=>lab==="Od volieb 2023");
+  if(i>=0){from=presets[i][1];[...pbox.children].forEach((c,j)=>c.classList.toggle("on",j===i));}
+  document.getElementById("dots").checked=false;
 }
 syncFilters();updFsum();
 let wasMobile=isMobile();
