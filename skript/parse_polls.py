@@ -255,6 +255,13 @@ EXTRA = [
  dict(agency="NMS", d1=D("2026-07-01"), d2=D("2026-07-06"), sample="1,002", typ="poll",
       vals=dict(ps=18.8, smer=15.4, rep=12.8, olano=9.1, sas=8.0, hlas=7.7, kdh=5.8, dem=5.1,
                 ali=4.2, sr=3.5, sns=2.7, oth=2.3)),
+ # NMS august 2026 — primárny článok NMS (zber 5.-10. 8. 2026, n = 1 001, bez zadávateľa).
+ # Medzimesačné zmeny uvádzané v článku sedia s júlovým riadkom NMS v datasete
+ # (Hlas -1,9 a Sme rodina +0,1 sedia na 0,1 p.b. kvôli zaokrúhľovaniu).
+ # Právo na pravdu 3,6 sa vyčleňuje cez PRAVDA; zvyšok do 100 % ide do `oth`.
+ dict(agency="NMS", d1=D("2026-08-05"), d2=D("2026-08-10"), sample="1,001", typ="poll",
+      vals=dict(ps=19.2, smer=16.5, rep=13.3, olano=8.9, sas=7.4, hlas=5.9, kdh=5.9, dem=4.6,
+                ali=4.0, sr=3.7, sns=2.9, zl=2.2)),
 ]
 
 
@@ -368,7 +375,7 @@ TURNOUT_NMS = {
  "2025-01":60.1, "2025-03":59.8, "2025-04":59.8, "2025-08":62.5, "2025-09":61.1,
  "2025-10":62.6, "2025-11":61.9, "2025-12":60.2,
  "2026-02":60.8, "2026-03":59.7, "2026-04":61.9, "2026-05":60.9, "2026-06":59.0,
- "2026-07":60.8,
+ "2026-07":60.8, "2026-08":59.7,
  # doplnené 28. 7. 2026 z primárnych článkov NMS:
  "2025-02":62.0,   # „Deklarovaná volebná účasť je na úrovni 62 %" — primárny článok NMS.
                    # Sekundárne zhrnutie uvádzalo 59,8; rozpor rozhodnutý v prospech NMS.
@@ -415,6 +422,7 @@ PRAVDA = {
  ("NMS","2026-05-10"):2.7, ("Focus","2026-05-11"):2.0, ("AKO","2026-05-21"):2.1,
  ("AKO","2026-06-18"):2.3, ("Focus","2026-06-29"):2.7,
  ("NMS","2026-07-06"):2.3, ("AKO","2026-07-14"):2.8, ("Infostat","2026-07-17"):1.5,
+ ("NMS","2026-08-10"):3.6,
 }
 
 def apply_pravda(recs):
@@ -478,7 +486,7 @@ PARTY_META = {
  "oth":  ("Iné", "#c8c8c8"),
 }
 
-VERZIA = "2026-07-28.3"   # meniť pri každej zmene dát; zapisuje sa do JSON aj do index.html
+VERZIA = "2026-08-12.1"   # meniť pri každej zmene dát; zapisuje sa do JSON aj do index.html
 
 def main():
     f1,p1=parse_file1()

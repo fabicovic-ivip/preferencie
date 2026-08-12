@@ -20,7 +20,7 @@
 <meta name="twitter:title" content="Preferencie politických strán SR — agregátor prieskumov">
 <meta name="twitter:description" content="Dlhodobé trendy preferencií, prepočet mandátov a koaličná kalkulačka. 330+ prieskumov od roku 2016.">
 <meta name="twitter:image" content="https://ivip.sk/wp-content/uploads/2026/07/ivip-preferencie-og-2.png">
-<meta name="dashboard-version" content="2026-07-28.3">
+<meta name="dashboard-version" content="2026-08-12.1">
 <meta property="og:locale" content="sk_SK">
 <meta name="robots" content="index, follow">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%235a3787'/%3E%3Cpath d='M6 22l5-7 4 4 6-9 5 6' stroke='%23ffffff' stroke-width='2.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
@@ -97,16 +97,38 @@ svg text{font-family:inherit}
 footer{color:var(--mut);font-size:14px;line-height:1.55;padding:0 24px 26px;max-width:1200px}
 footer .errnote{margin-top:10px;font-size:12px;opacity:.85}
 footer .errnote a{color:var(--acc)}
-footer summary{cursor:pointer;display:inline-flex;align-items:center;gap:6px;font-weight:600;font-size:13.5px;
-  color:var(--ink);border:1px solid var(--line);border-radius:7px;padding:6px 13px;
-  background:rgba(255,255,255,.07);list-style:none;user-select:none;transition:.12s}
-footer summary::-webkit-details-marker{display:none}
-footer summary::after{content:"\25be";font-size:11px;opacity:.75;transition:transform .15s}
-footer details[open] summary::after{transform:rotate(180deg)}
-footer summary:hover{background:rgba(255,255,255,.16)}
-footer .srcbody{margin-top:10px;max-width:1000px}
-footer .srcbody p{margin:0 0 7px}
-footer .foot-main{margin-top:12px}
+footer .foot-main{margin-top:0}
+/* ---- meta blok pod bocnym panelom (verzia dat + zdroje) ---- */
+.sidemeta{margin-top:12px;padding:0 2px;color:var(--mut);font-size:13px;line-height:1.5}
+.sidemeta>div+div{margin-top:7px}
+.sidemeta b{color:var(--ink);font-weight:600}
+/* ---- odkaz na zdroje: nenapadny inline link, nie tlacidlo ---- */
+.srclink{appearance:none;-webkit-appearance:none;background:none;border:0;padding:0;margin:0;
+  font:inherit;color:var(--acc);font-weight:600;cursor:pointer;
+  text-decoration:underline;text-underline-offset:2px;text-decoration-thickness:1px}
+.srclink:hover{color:var(--ink)}
+.srclink::before{content:"i";display:inline-flex;align-items:center;justify-content:center;
+  width:14px;height:14px;margin-right:5px;border:1.2px solid currentColor;border-radius:50%;
+  font-size:10px;font-weight:700;font-style:normal;line-height:1;vertical-align:-2px;text-decoration:none}
+/* ---- modal so zdrojmi a metodikou ---- */
+.modal[hidden]{display:none}
+.modal{position:fixed;inset:0;z-index:60;display:flex;align-items:center;justify-content:center;padding:24px}
+.modal-bg{position:absolute;inset:0;background:rgba(20,10,35,.68)}
+.modal-card{position:relative;background:var(--card);border:1px solid var(--line);border-radius:12px;
+  width:min(820px,100%);max-height:82vh;display:flex;flex-direction:column;
+  box-shadow:0 18px 50px rgba(0,0,0,.5)}
+.modal-head{display:flex;align-items:center;gap:12px;padding:15px 20px;border-bottom:1px solid var(--line);flex:none}
+.modal-head h3{margin:0;font-family:"Rasa","Barlow",Georgia,serif;font-weight:600;font-size:19px;
+  color:var(--ink);text-transform:none;letter-spacing:0}
+.modal-x{margin-left:auto;flex:none;background:rgba(255,255,255,.07);border:1px solid var(--line);
+  color:var(--ink);border-radius:7px;width:32px;height:32px;font-size:20px;line-height:1;
+  cursor:pointer;font-family:inherit}
+.modal-x:hover{background:rgba(255,255,255,.18)}
+.modal-body{overflow-y:auto;overscroll-behavior:contain;padding:16px 20px 20px;
+  color:var(--mut);font-size:14px;line-height:1.55}
+.modal-body p{margin:0 0 9px}
+.modal-body p:last-child{margin-bottom:0}
+.modal-body b{color:var(--ink)}
 /* ---- fundraising CTA ---- */
 /* na tmavom podklade odlíšené svetlejšou fialovou + azúrovým rámom */
 .cta{margin:22px 24px 20px;background:var(--card-2);border:1.5px solid rgba(0,170,215,.55);
@@ -166,7 +188,14 @@ footer .foot-main{margin-top:12px}
   label.opt{margin:0;padding:9px 0;font-size:15.5px}
   label.opt input[type=checkbox]{width:21px;height:21px}
   input[type=range]{height:34px}
-  footer summary{font-size:15px;padding:9px 15px}
+  .srclink{font-size:15px}
+  .sidemeta{margin-top:14px;font-size:14px}
+  .sidemeta>div+div{margin-top:10px}
+  /* modal na mobile ako bottom sheet */
+  .modal{padding:0;align-items:flex-end}
+  .modal-card{width:100%;max-height:88vh;border-radius:14px 14px 0 0;border-bottom:0}
+  .modal-head{padding:14px 16px}
+  .modal-body{padding:14px 16px 20px;font-size:14.5px}
   .note{font-size:13px}
   .seatrow .nm{font-size:15px;width:auto;flex:1;min-width:0}
   .seatrow .bar{height:18px}
@@ -216,6 +245,10 @@ footer .foot-main{margin-top:12px}
     </div>
     </div>
    </details>
+   <div class="sidemeta">
+     <div>Verzia dát <b id="verdata">2026-08-12.1</b></div>
+     <div><button type="button" class="srclink" id="srcopen" aria-haspopup="dialog">Zdroje a metodika</button></div>
+   </div>
   </div>
   <div>
     <div class="card" id="chartbox">
@@ -257,9 +290,18 @@ footer .foot-main{margin-top:12px}
   </div>
 </section>
 <footer>
-  <details>
-    <summary>Zdroje a metodika</summary>
-    <div class="srcbody">
+  <div class="foot-main">Pripravuje <a href="https://ivip.sk" target="_blank" rel="noopener" style="color:var(--acc);font-weight:600">IVIP — Inštitút vzdelávania a inovácií v politike</a>.</div>
+  <div class="errnote">Našli ste chybu v dátach alebo vám tu nejaký prieskum chýba? Napíšte nám na <a href="mailto:ahoj@ivip.sk">ahoj@ivip.sk</a> — ideálne s odkazom na zdroj. Každý podnet preveríme.</div>
+</footer>
+
+<div class="modal" id="srcmodal" hidden role="dialog" aria-modal="true" aria-labelledby="srctitle">
+  <div class="modal-bg" data-close></div>
+  <div class="modal-card">
+    <div class="modal-head">
+      <h3 id="srctitle">Zdroje a metodika</h3>
+      <button type="button" class="modal-x" data-close aria-label="Zavrieť">&times;</button>
+    </div>
+    <div class="modal-body">
       <p><b>Zdroj dát:</b> zverejnené prieskumy agentúr AKO, Focus, Ipsos, NMS, Median, Polis, SANEP, MVK a štátneho Infostatu (ÚVVM/CSV pri ŠÚ SR),
       agregované cez Wikipédiu (<i>Opinion polling for the 2020 / 2023 / next Slovak parliamentary election</i>) a tlačové správy
       (SITA, TASR/teraz.sk, ta3, STVR, SME) a priamo od agentúr (NMS). Volebné výsledky: Štatistický úrad SR. Stav k 28.&nbsp;7.&nbsp;2026.</p>
@@ -283,16 +325,35 @@ footer .foot-main{margin-top:12px}
       účasť zverejnila (AKO a NMS). AKO uvádza podiel rozhodnutých voličov, NMS deklarovanú volebnú účasť; ide o dve podobné, ale nie totožné
       veličiny, preto medzi agentúrami nie sú priamo porovnateľné.</p>
     </div>
-  </details>
-  <div class="foot-main">Verzia dát <b>2026-07-28.3</b> · Pripravuje <a href="https://ivip.sk" target="_blank" rel="noopener" style="color:var(--acc);font-weight:600">IVIP — Inštitút vzdelávania a inovácií v politike</a>.</div>
-  <div class="errnote">Našli ste chybu v dátach alebo vám tu nejaký prieskum chýba? Napíšte nám na <a href="mailto:ahoj@ivip.sk">ahoj@ivip.sk</a> — ideálne s odkazom na zdroj. Každý podnet preveríme.</div>
-</footer>
+  </div>
+</div>
+<script>
+/* modal "Zdroje a metodika" — samostatný blok, funguje aj keď sa dáta nenačítajú */
+(function(){
+  var m=document.getElementById("srcmodal"), o=document.getElementById("srcopen"), prev=null;
+  if(!m||!o) return;
+  function esc(e){ if(e.key==="Escape"||e.key==="Esc") close(); }
+  function open(){
+    prev=document.activeElement; m.hidden=false;
+    document.body.style.overflow="hidden";
+    var x=m.querySelector(".modal-x"); if(x) x.focus();
+    document.addEventListener("keydown",esc);
+  }
+  function close(){
+    m.hidden=true; document.body.style.overflow="";
+    document.removeEventListener("keydown",esc);
+    if(prev&&prev.focus) prev.focus();
+  }
+  o.addEventListener("click",open);
+  m.addEventListener("click",function(e){ if(e.target.hasAttribute("data-close")) close(); });
+})();
+</script>
 <script>
 /* farby kresliace do SVG – ladené pre tmavý fialový podklad */
 const C={grid:"rgba(255,255,255,.10)", gridY:"rgba(255,255,255,.13)", axis:"#cbbde0",
          thr:"#ff6b7a", elec:"rgba(255,255,255,.38)", stroke:"#3b2359"};
 const DATA = {
- "verzia": "2026-07-28.3",
+ "verzia": "2026-08-12.1",
  "meta": {
   "smer": {
    "name": "Smer-SD",
@@ -7722,6 +7783,30 @@ const DATA = {
    "ali": 4.6,
    "sns": 4.5,
    "oth": 6.2
+  },
+  {
+   "agency": "NMS",
+   "start": "2026-08-05",
+   "end": "2026-08-10",
+   "mid": "2026-08-07",
+   "sample": "1,001",
+   "type": "poll",
+   "ps": 19.2,
+   "smer": 16.5,
+   "rep": 13.3,
+   "olano": 8.9,
+   "sas": 7.4,
+   "hlas": 5.9,
+   "kdh": 5.9,
+   "dem": 4.6,
+   "ali": 4.0,
+   "sr": 3.7,
+   "sns": 2.9,
+   "zl": 2.2,
+   "oth": 1.9,
+   "pravda": 3.6,
+   "ucast": 59.7,
+   "ucast_typ": "deklarovana"
   }
  ]
 };
