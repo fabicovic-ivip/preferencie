@@ -1,5 +1,5 @@
 {
- "verzia": "2026-08-12.1",
+ "verzia": "2026-08-27.1",
  "meta": {
   "smer": {
    "name": "Smer-SD",
@@ -7431,6 +7431,29 @@
    "oth": 6.2
   },
   {
+   "agency": "Infostat",
+   "start": "2026-08-03",
+   "end": "2026-08-07",
+   "mid": "2026-08-05",
+   "sample": "1,046",
+   "type": "poll",
+   "smer": 20.4,
+   "ps": 18.6,
+   "sas": 9.8,
+   "hlas": 8.9,
+   "rep": 8.1,
+   "kdh": 7.9,
+   "olano": 6.6,
+   "dem": 6.0,
+   "ali": 5.8,
+   "sns": 2.9,
+   "sr": 2.2,
+   "oth": 0.9,
+   "pravda": 1.9,
+   "ucast": 65.2,
+   "ucast_typ": "deklarovana_sirsia"
+  },
+  {
    "agency": "NMS",
    "start": "2026-08-05",
    "end": "2026-08-10",
@@ -7453,6 +7476,28 @@
    "pravda": 3.6,
    "ucast": 59.7,
    "ucast_typ": "deklarovana"
+  },
+  {
+   "agency": "Ipsos",
+   "start": "2026-08-18",
+   "end": "2026-08-23",
+   "mid": "2026-08-20",
+   "sample": "1,061",
+   "type": "poll",
+   "ps": 18.1,
+   "smer": 17.9,
+   "rep": 10.9,
+   "olano": 8.4,
+   "hlas": 8.2,
+   "sas": 8.2,
+   "kdh": 7.3,
+   "dem": 4.7,
+   "ali": 3.4,
+   "sns": 3.0,
+   "sr": 2.8,
+   "zl": 1.8,
+   "oth": 2.2,
+   "pravda": 3.1
   }
  ]
 }

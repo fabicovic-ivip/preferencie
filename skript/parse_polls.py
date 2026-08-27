@@ -262,6 +262,19 @@ EXTRA = [
  dict(agency="NMS", d1=D("2026-08-05"), d2=D("2026-08-10"), sample="1,001", typ="poll",
       vals=dict(ps=19.2, smer=16.5, rep=13.3, olano=8.9, sas=7.4, hlas=5.9, kdh=5.9, dem=4.6,
                 ali=4.0, sr=3.7, sns=2.9, zl=2.2)),
+ # Infostat / CSV pri ŠÚ SR — august 2026, PDF tlačová správa (zber 3.–7. 8. 2026, CAPI, n = 1 046).
+ # PDF uvádza len strany nad 1 %, súčet 99,1 %. Deklarovaná účasť 65,2 % (31,1 určite + 34,1 pravdepodobne).
+ # Právo na pravdu 1,9 sa vyčleňuje cez PRAVDA.
+ dict(agency="Infostat", d1=D("2026-08-03"), d2=D("2026-08-07"), sample="1,046", typ="poll",
+      vals=dict(smer=20.4, ps=18.6, sas=9.8, hlas=8.9, rep=8.1, kdh=7.9, olano=6.6, dem=6.0,
+                ali=5.8, sns=2.9, sr=2.2)),
+ # Ipsos pre Denník N — august 2026, PDF tlačová správa z 25. 8. 2026 (zber 18.–23. 8. 2026, CAWI, n = 1 061).
+ # Kontrola 2: májový aj júnový stĺpec v tabuľke tlačovej správy sedí s datasetom do desatiny.
+ # Právo na Pravdu 3,1 ide cez PRAVDA. Tlačová správa uvádza „Iné strany 2,1"; dopočet zvyšku
+ # do 100 % dáva 2,2 — rozdiel 0,1 p.b. je zaokrúhľovanie (stĺpec v PDF sčíta 99,9 %).
+ dict(agency="Ipsos", d1=D("2026-08-18"), d2=D("2026-08-23"), sample="1,061", typ="poll",
+      vals=dict(ps=18.1, smer=17.9, rep=10.9, olano=8.4, hlas=8.2, sas=8.2, kdh=7.3, dem=4.7,
+                ali=3.4, sns=3.0, sr=2.8, zl=1.8)),
 ]
 
 
@@ -404,7 +417,8 @@ TURNOUT_FOCUS = {
 # Infostat / CSV — deklarovaná účasť vrátane odpovede „pravdepodobne by som išiel“,
 # preto vychádza systematicky vyššie než u AKO aj NMS. Kľúč = rok-mesiac konca zberu.
 TURNOUT_INFOSTAT = {"2025-11":68.6, "2026-01":66.4, "2026-03":68.0,
-                    "2026-07":64.0}  # PDF 7/2026: 64 % (32,4 určite + 31,6 pravdepodobne)
+                    "2026-07":64.0,  # PDF 7/2026: 64 % (32,4 určite + 31,6 pravdepodobne)
+                    "2026-08":65.2}  # PDF 8/2026: 65,2 % (31,1 určite + 34,1 pravdepodobne)
 
 # Skutočná účasť vo voľbách (ŠÚ SR)
 TURNOUT_ELECTION = {"2016-03-05":59.82, "2020-02-29":65.80, "2023-09-30":68.51}
@@ -422,7 +436,7 @@ PRAVDA = {
  ("NMS","2026-05-10"):2.7, ("Focus","2026-05-11"):2.0, ("AKO","2026-05-21"):2.1,
  ("AKO","2026-06-18"):2.3, ("Focus","2026-06-29"):2.7,
  ("NMS","2026-07-06"):2.3, ("AKO","2026-07-14"):2.8, ("Infostat","2026-07-17"):1.5,
- ("NMS","2026-08-10"):3.6,
+ ("NMS","2026-08-10"):3.6, ("Infostat","2026-08-07"):1.9, ("Ipsos","2026-08-23"):3.1,
 }
 
 def apply_pravda(recs):
@@ -486,7 +500,7 @@ PARTY_META = {
  "oth":  ("Iné", "#c8c8c8"),
 }
 
-VERZIA = "2026-08-12.1"   # meniť pri každej zmene dát; zapisuje sa do JSON aj do index.html
+VERZIA = "2026-08-27.1"   # meniť pri každej zmene dát; zapisuje sa do JSON aj do index.html
 
 def main():
     f1,p1=parse_file1()
