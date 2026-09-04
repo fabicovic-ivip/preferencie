@@ -275,6 +275,14 @@ EXTRA = [
  dict(agency="Ipsos", d1=D("2026-08-18"), d2=D("2026-08-23"), sample="1,061", typ="poll",
       vals=dict(ps=18.1, smer=17.9, rep=10.9, olano=8.4, hlas=8.2, sas=8.2, kdh=7.3, dem=4.7,
                 ali=3.4, sns=3.0, sr=2.8, zl=1.8)),
+ # AKO august 2026 — PDF tlačová správa agentúry z 24. 8. 2026 (zber 6.–14. 8. 2026, CATI,
+ # n = 1 000, exkluzívne pre JOJ 24). Rozhodnutých 68,6 %; nerozhodnutí 22,2, nešli by 5,8,
+ # odmietli 3,4. Kontrola 2: júlový stĺpec v tabuľke PDF sedí s júlovým riadkom AKO v datasete
+ # na desatinu pri všetkých stranách. Stĺpce PDF sčítajú presne 100,0 %.
+ # Právo na pravdu 2,9 ide cez PRAVDA; v `oth` ostáva Pirátska strana 0,2 + Strana vidieka 0,2.
+ dict(agency="AKO", d1=D("2026-08-06"), d2=D("2026-08-14"), sample="1,000", typ="poll",
+      vals=dict(ps=21.0, smer=17.7, rep=9.8, sas=8.8, hlas=8.8, kdh=7.8, olano=7.7, sns=4.7,
+                dem=4.3, ali=2.9, sr=2.7, ku=0.3, lsns=0.2)),
 ]
 
 
@@ -378,6 +386,7 @@ TURNOUT_AKO = {
  "2026-05-21": dict(nerozhodnuti=21.2, nesli_by=10.3, odmietli=4.0),
  "2026-06-18": dict(nerozhodnuti=23.5, nesli_by=10.5, odmietli=3.2),
  "2026-07-14": dict(nerozhodnuti=23.0, nesli_by=9.9,  odmietli=1.8),
+ "2026-08-14": dict(nerozhodnuti=22.2, nesli_by=5.8,  odmietli=3.4),
 }
 
 # NMS — deklarovaná volebná účasť, kľúč = rok-mesiac konca zberu
@@ -437,6 +446,7 @@ PRAVDA = {
  ("AKO","2026-06-18"):2.3, ("Focus","2026-06-29"):2.7,
  ("NMS","2026-07-06"):2.3, ("AKO","2026-07-14"):2.8, ("Infostat","2026-07-17"):1.5,
  ("NMS","2026-08-10"):3.6, ("Infostat","2026-08-07"):1.9, ("Ipsos","2026-08-23"):3.1,
+ ("AKO","2026-08-14"):2.9,
 }
 
 def apply_pravda(recs):
@@ -500,7 +510,7 @@ PARTY_META = {
  "oth":  ("Iné", "#c8c8c8"),
 }
 
-VERZIA = "2026-08-27.1"   # meniť pri každej zmene dát; zapisuje sa do JSON aj do index.html
+VERZIA = "2026-09-04.1"   # meniť pri každej zmene dát; zapisuje sa do JSON aj do index.html
 
 def main():
     f1,p1=parse_file1()
