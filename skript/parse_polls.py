@@ -241,6 +241,12 @@ EXTRA = [
  dict(agency="SANEP", d1=D("2026-07-13"), d2=D("2026-07-19"), sample="2,150", typ="poll",
       vals=dict(smer=19.6, ps=18.1, rep=11.6, olano=8.2, sas=7.7, hlas=7.6, kdh=6.3, dem=5.6,
                 ali=4.6, sns=4.5)),
+ # SANEP august 2026 — pre ta3 (zber 12.–18. 8., n=2300). Medzimesačné zmeny uvádzané v článku
+ # (Smer -0,4 · PS +0,4 · Republika +0,6) presne sedia s júlovým riadkom SANEP v datasete.
+ # Rozhodnutých 67,9 % · nevie 14,3 % · nešlo by 17,8 %; agentúra nezverejnila Právo na pravdu.
+ dict(agency="SANEP", d1=D("2026-08-12"), d2=D("2026-08-18"), sample="2,300", typ="poll",
+      vals=dict(smer=19.2, ps=18.5, rep=12.2, olano=8.5, sas=7.8, hlas=6.9, kdh=6.4, dem=5.3,
+                sns=4.6, ali=4.4, sr=3.5)),
  # AKO júl 2026 — tlačová správa agentúry (zber 8.–14. 7., pre JOJ 24), 65,3 % rozhodnutých
  # v oth: Právo na pravdu 2,8 · Strana vidieka 0,3 · KSS 0,2 · Spravodlivosť 0,1
  dict(agency="AKO", d1=D("2026-07-08"), d2=D("2026-07-14"), sample="1,000", typ="poll",
@@ -510,7 +516,7 @@ PARTY_META = {
  "oth":  ("Iné", "#c8c8c8"),
 }
 
-VERZIA = "2026-09-04.1"   # meniť pri každej zmene dát; zapisuje sa do JSON aj do index.html
+VERZIA = "2026-09-07.1"   # meniť pri každej zmene dát; zapisuje sa do JSON aj do index.html
 
 def main():
     f1,p1=parse_file1()

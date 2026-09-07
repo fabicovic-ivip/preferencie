@@ -1,5 +1,5 @@
 {
- "verzia": "2026-09-04.1",
+ "verzia": "2026-09-07.1",
  "meta": {
   "smer": {
    "name": "Smer-SD",
@@ -7504,6 +7504,26 @@
    "odmietli": 3.4,
    "ucast": 68.6,
    "ucast_typ": "rozhodnuti"
+  },
+  {
+   "agency": "SANEP",
+   "start": "2026-08-12",
+   "end": "2026-08-18",
+   "mid": "2026-08-15",
+   "sample": "2,300",
+   "type": "poll",
+   "smer": 19.2,
+   "ps": 18.5,
+   "rep": 12.2,
+   "olano": 8.5,
+   "sas": 7.8,
+   "hlas": 6.9,
+   "kdh": 6.4,
+   "dem": 5.3,
+   "sns": 4.6,
+   "ali": 4.4,
+   "sr": 3.5,
+   "oth": 2.7
   },
   {
    "agency": "Ipsos",
