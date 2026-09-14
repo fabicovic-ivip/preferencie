@@ -289,6 +289,30 @@ EXTRA = [
  dict(agency="AKO", d1=D("2026-08-06"), d2=D("2026-08-14"), sample="1,000", typ="poll",
       vals=dict(ps=21.0, smer=17.7, rep=9.8, sas=8.8, hlas=8.8, kdh=7.8, olano=7.7, sns=4.7,
                 dem=4.3, ali=2.9, sr=2.7, ku=0.3, lsns=0.2)),
+ # NMS september 2026 — primárny článok NMS z 10. 9. 2026 (zber 2.–7. 9. 2026, online
+ # National Sample, n = 1 004, bez zadávateľa). Deklarovaná účasť 61 % (+1,3 p.b.) → TURNOUT_NMS.
+ # Kontrola 2: všetky medzimesačné zmeny uvádzané v článku sedia s augustovým riadkom NMS
+ # (PS 19,2+2,4; Smer 16,5-0,3; Rep 13,3+2,4; Hlas 5,9+0,5; Dem 4,6+0,1; SaS 7,4-0,7;
+ # KDH a Slovensko „takmer totožné"), rozdiely max 0,1 p.b. zo zaokrúhľovania.
+ # Právo na pravdu 2,1 ide cez PRAVDA. Článok menuje strany do 2 %; ostatné („menej ako
+ # 2 percentá") nerozpisuje, preto ich skript dopočíta do `oth` (5,6). PolitPro k tomuto
+ # prieskumu uvádza SNS 1,9 / ZĽ 1,6 / ĽSNS 1,0 / SV 0,5 / KÚ 0,5 — neoverené v primárnom
+ # zdroji, preto nezapísané (viď QA_report.md).
+ dict(agency="NMS", d1=D("2026-09-02"), d2=D("2026-09-07"), sample="1,004", typ="poll",
+      vals=dict(ps=21.6, smer=16.2, rep=15.6, olano=9.0, sas=6.8, hlas=6.4, kdh=5.8,
+                dem=4.8, ali=3.1, sr=3.0)),
+ # Focus september 2026 — PDF tlačová správa agentúry z 10. 9. 2026 (zber 1.–7. 9. 2026,
+ # osobné + online rozhovory, n = 1 012, pre portál 360tka.sk).
+ # Kontrola 2: PDF má vedľa seba stĺpec jún 2026, ktorý sedí s júnovým riadkom Focusu
+ # v datasete na desatinu pri všetkých stranách (PS 18,1 / Smer 17,7 / Rep 11,6 / Slovensko
+ # 9,0 / Hlas 8,0 / SaS 7,0 / KDH 6,7 / Dem 4,8). Focus júl ani august 2026 nevydal.
+ # Právo na pravdu 2,8 ide cez PRAVDA; v `oth` ostáva Strana vidieka 0,6 + iná strana 0,4.
+ # Stĺpec PDF sčíta presne 100,0 %.
+ # Rozpad účasti (10,9 % by nešlo voliť, 14,7 % „neviem", 74,4 % rozhodnutých) sa nezapisuje —
+ # skript nemá pre Focus turnout tabuľku; zaznamenané v QA_report.md.
+ dict(agency="Focus", d1=D("2026-09-01"), d2=D("2026-09-07"), sample="1,012", typ="poll",
+      vals=dict(ps=17.3, smer=17.3, rep=12.4, olano=8.9, hlas=8.4, sas=7.5, kdh=6.4,
+                dem=5.0, sns=4.0, ali=3.8, sr=3.2, zl=1.6, ku=0.4)),
 ]
 
 
@@ -403,7 +427,7 @@ TURNOUT_NMS = {
  "2025-01":60.1, "2025-03":59.8, "2025-04":59.8, "2025-08":62.5, "2025-09":61.1,
  "2025-10":62.6, "2025-11":61.9, "2025-12":60.2,
  "2026-02":60.8, "2026-03":59.7, "2026-04":61.9, "2026-05":60.9, "2026-06":59.0,
- "2026-07":60.8, "2026-08":59.7,
+ "2026-07":60.8, "2026-08":59.7, "2026-09":61.0,
  # doplnené 28. 7. 2026 z primárnych článkov NMS:
  "2025-02":62.0,   # „Deklarovaná volebná účasť je na úrovni 62 %" — primárny článok NMS.
                    # Sekundárne zhrnutie uvádzalo 59,8; rozpor rozhodnutý v prospech NMS.
@@ -453,6 +477,7 @@ PRAVDA = {
  ("NMS","2026-07-06"):2.3, ("AKO","2026-07-14"):2.8, ("Infostat","2026-07-17"):1.5,
  ("NMS","2026-08-10"):3.6, ("Infostat","2026-08-07"):1.9, ("Ipsos","2026-08-23"):3.1,
  ("AKO","2026-08-14"):2.9,
+ ("NMS","2026-09-07"):2.1, ("Focus","2026-09-07"):2.8,
 }
 
 def apply_pravda(recs):
@@ -516,7 +541,7 @@ PARTY_META = {
  "oth":  ("Iné", "#c8c8c8"),
 }
 
-VERZIA = "2026-09-07.1"   # meniť pri každej zmene dát; zapisuje sa do JSON aj do index.html
+VERZIA = "2026-09-14.1"   # meniť pri každej zmene dát; zapisuje sa do JSON aj do index.html
 
 def main():
     f1,p1=parse_file1()

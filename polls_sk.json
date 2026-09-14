@@ -1,5 +1,5 @@
 {
- "verzia": "2026-09-07.1",
+ "verzia": "2026-09-14.1",
  "meta": {
   "smer": {
    "name": "Smer-SD",
@@ -7546,6 +7546,51 @@
    "zl": 1.8,
    "oth": 2.2,
    "pravda": 3.1
+  },
+  {
+   "agency": "Focus",
+   "start": "2026-09-01",
+   "end": "2026-09-07",
+   "mid": "2026-09-04",
+   "sample": "1,012",
+   "type": "poll",
+   "ps": 17.3,
+   "smer": 17.3,
+   "rep": 12.4,
+   "olano": 8.9,
+   "hlas": 8.4,
+   "sas": 7.5,
+   "kdh": 6.4,
+   "dem": 5.0,
+   "sns": 4.0,
+   "ali": 3.8,
+   "sr": 3.2,
+   "zl": 1.6,
+   "ku": 0.4,
+   "oth": 1.0,
+   "pravda": 2.8
+  },
+  {
+   "agency": "NMS",
+   "start": "2026-09-02",
+   "end": "2026-09-07",
+   "mid": "2026-09-04",
+   "sample": "1,004",
+   "type": "poll",
+   "ps": 21.6,
+   "smer": 16.2,
+   "rep": 15.6,
+   "olano": 9.0,
+   "sas": 6.8,
+   "hlas": 6.4,
+   "kdh": 5.8,
+   "dem": 4.8,
+   "ali": 3.1,
+   "sr": 3.0,
+   "oth": 5.6,
+   "pravda": 2.1,
+   "ucast": 61.0,
+   "ucast_typ": "deklarovana"
   }
  ]
 }
