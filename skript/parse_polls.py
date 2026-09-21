@@ -313,6 +313,16 @@ EXTRA = [
  dict(agency="Focus", d1=D("2026-09-01"), d2=D("2026-09-07"), sample="1,012", typ="poll",
       vals=dict(ps=17.3, smer=17.3, rep=12.4, olano=8.9, hlas=8.4, sas=7.5, kdh=6.4,
                 dem=5.0, sns=4.0, ali=3.8, sr=3.2, zl=1.6, ku=0.4)),
+ # Infostat / CSV pri ŠÚ SR — september 2026, PDF tlačová správa (zber 31. 8. – 4. 9. 2026,
+ # CAPI, n = 1 095). PDF uvádza len strany nad 1 %, stĺpec sčíta 99,6 %.
+ # Deklarovaná účasť 66,4 % (31,8 určite + 34,6 pravdepodobne) → TURNOUT_INFOSTAT.
+ # Kontrola 2: PDF neuvádza medzimesačné zmeny ani porovnávací stĺpec, takže sa nedá
+ # spraviť; smer zmien proti augustovému riadku Infostatu (Smer -1,7, Hlas -1,5,
+ # Republika +1,8, Právo na pravdu +1,6) je konzistentný s Focusom aj NMS za september.
+ # Právo na pravdu 3,5 ide cez PRAVDA; do `oth` ostáva 0,4 dopočtu.
+ dict(agency="Infostat", d1=D("2026-08-31"), d2=D("2026-09-04"), sample="1,095", typ="poll",
+      vals=dict(smer=18.7, ps=18.2, rep=9.9, kdh=8.8, sas=8.4, hlas=7.4, olano=6.9,
+                dem=5.9, ali=5.0, sns=3.2, sr=2.2, lsns=1.5)),
 ]
 
 
@@ -457,7 +467,8 @@ TURNOUT_FOCUS = {
 # preto vychádza systematicky vyššie než u AKO aj NMS. Kľúč = rok-mesiac konca zberu.
 TURNOUT_INFOSTAT = {"2025-11":68.6, "2026-01":66.4, "2026-03":68.0,
                     "2026-07":64.0,  # PDF 7/2026: 64 % (32,4 určite + 31,6 pravdepodobne)
-                    "2026-08":65.2}  # PDF 8/2026: 65,2 % (31,1 určite + 34,1 pravdepodobne)
+                    "2026-08":65.2,  # PDF 8/2026: 65,2 % (31,1 určite + 34,1 pravdepodobne)
+                    "2026-09":66.4}  # PDF 9/2026: 66,4 % (31,8 určite + 34,6 pravdepodobne)
 
 # Skutočná účasť vo voľbách (ŠÚ SR)
 TURNOUT_ELECTION = {"2016-03-05":59.82, "2020-02-29":65.80, "2023-09-30":68.51}
@@ -478,6 +489,7 @@ PRAVDA = {
  ("NMS","2026-08-10"):3.6, ("Infostat","2026-08-07"):1.9, ("Ipsos","2026-08-23"):3.1,
  ("AKO","2026-08-14"):2.9,
  ("NMS","2026-09-07"):2.1, ("Focus","2026-09-07"):2.8,
+ ("Infostat","2026-09-04"):3.5,
 }
 
 def apply_pravda(recs):
@@ -541,7 +553,7 @@ PARTY_META = {
  "oth":  ("Iné", "#c8c8c8"),
 }
 
-VERZIA = "2026-09-14.1"   # meniť pri každej zmene dát; zapisuje sa do JSON aj do index.html
+VERZIA = "2026-09-21.1"   # meniť pri každej zmene dát; zapisuje sa do JSON aj do index.html
 
 def main():
     f1,p1=parse_file1()
