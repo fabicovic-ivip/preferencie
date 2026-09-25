@@ -1,5 +1,5 @@
 {
- "verzia": "2026-09-21.1",
+ "verzia": "2026-09-25.1",
  "meta": {
   "smer": {
    "name": "Smer-SD",
@@ -7615,6 +7615,47 @@
    "pravda": 2.1,
    "ucast": 61.0,
    "ucast_typ": "deklarovana"
+  },
+  {
+   "agency": "SANEP",
+   "start": "2026-09-11",
+   "end": "2026-09-21",
+   "mid": "2026-09-16",
+   "sample": "2,100",
+   "type": "poll",
+   "smer": 19.8,
+   "ps": 18.6,
+   "rep": 12.9,
+   "olano": 8.7,
+   "sas": 7.6,
+   "hlas": 7.2,
+   "kdh": 6.2,
+   "dem": 4.6,
+   "sns": 4.1,
+   "ali": 4.1,
+   "sr": 3.4,
+   "oth": 2.8
+  },
+  {
+   "agency": "Ipsos",
+   "start": "2026-09-18",
+   "end": "2026-09-22",
+   "mid": "2026-09-20",
+   "sample": "1,030",
+   "type": "poll",
+   "ps": 19.0,
+   "smer": 16.9,
+   "rep": 12.8,
+   "olano": 10.7,
+   "sas": 8.4,
+   "kdh": 7.0,
+   "hlas": 6.6,
+   "dem": 5.5,
+   "ali": 3.9,
+   "sns": 2.2,
+   "sr": 2.0,
+   "oth": 2.8,
+   "pravda": 2.2
   }
  ]
 }

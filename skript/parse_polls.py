@@ -323,6 +323,30 @@ EXTRA = [
  dict(agency="Infostat", d1=D("2026-08-31"), d2=D("2026-09-04"), sample="1,095", typ="poll",
       vals=dict(smer=18.7, ps=18.2, rep=9.9, kdh=8.8, sas=8.4, hlas=7.4, olano=6.9,
                 dem=5.9, ali=5.0, sns=3.2, sr=2.2, lsns=1.5)),
+ # SANEP september 2026 — prieskum pre ta3 (zber 11.–21. 9. 2026, n = 2 100, 18+,
+ # stat. odchylka +/- 1,5 %). Zdroje: ta3.com (clanok 1072945) a spravy.stvr.sk z 24. 9. 2026 —
+ # obe uvadzaju rovnake cisla pri vsetkych 11 stranach. Stlpec scita 97,2 %, oth = 2,8 dopoctom.
+ # Kontrola 2: proti augustovemu riadku SANEP (12.-18. 8.) Smer +0,6, PS +0,1, Republika +0,7,
+ # Demokrati -0,7 (pod 5 %) — zodpoveda titulkom "Smer zvysil naskok pred PS" a
+ # "Demokrati mimo parlamentu". SANEP Pravo na pravdu samostatne nezverejnuje.
+ dict(agency="SANEP", d1=D("2026-09-11"), d2=D("2026-09-21"), sample="2,100", typ="poll",
+      vals=dict(smer=19.8, ps=18.6, rep=12.9, olano=8.7, sas=7.6, hlas=7.2, kdh=6.2,
+                dem=4.6, sns=4.1, ali=4.1, sr=3.4)),
+ # Ipsos september 2026 — PDF tlacova sprava Ipsos pre Dennik N z 24. 9. 2026
+ # (zber 18.-22. 9. 2026, online, n = 1 030, 18+). PDF uvadza strany nad 1 %,
+ # stlpec scita 100,1 % (zaokruhlovanie). Pravo na pravdu 2,2 ide cez PRAVDA.
+ # Ipsos uvadza aj "Volebna ucast by bola 64 %" — nezapisane, skript nema pre Ipsos
+ # turnout tabulku a isty bod by bol v krivke osamoteny; zaznamenane v QA_report.md.
+ # Kontrola 2: proti augustovemu riadku Ipsosu PS 18,1->19,0 ("mierny narast"),
+ # Smer 17,9->16,9 ("mierny pokles"), Republika 10,9->12,8 ("priblizila sa k 13 %"),
+ # Slovensko 8,4->10,7 ("narast"), Hlas 8,2->6,6 ("pokles"), Demokrati 4,7->5,5
+ # ("prekrocili hranicu zvolitelnosti"), SaS/KDH/Alianciu PDF oznacuje za stabilne —
+ # vsetko sedi. Mandaty v sprave (PS 33, Smer 29, Rep 22, S 19, SaS 15, KDH 12,
+ # Hlas 11, Dem 9) davaju spolu 150. POZOR: agregator PolitPro uvadza pri tomto
+ # prieskume SaS 8,8 — tlacova sprava Ipsosu uvadza 8,4; zapisana je hodnota z PDF.
+ dict(agency="Ipsos", d1=D("2026-09-18"), d2=D("2026-09-22"), sample="1,030", typ="poll",
+      vals=dict(ps=19.0, smer=16.9, rep=12.8, olano=10.7, sas=8.4, kdh=7.0, hlas=6.6,
+                dem=5.5, ali=3.9, sns=2.2, sr=2.0)),
 ]
 
 
@@ -490,6 +514,7 @@ PRAVDA = {
  ("AKO","2026-08-14"):2.9,
  ("NMS","2026-09-07"):2.1, ("Focus","2026-09-07"):2.8,
  ("Infostat","2026-09-04"):3.5,
+ ("Ipsos","2026-09-22"):2.2,
 }
 
 def apply_pravda(recs):
@@ -553,7 +578,7 @@ PARTY_META = {
  "oth":  ("Iné", "#c8c8c8"),
 }
 
-VERZIA = "2026-09-21.1"   # meniť pri každej zmene dát; zapisuje sa do JSON aj do index.html
+VERZIA = "2026-09-25.1"   # meniť pri každej zmene dát; zapisuje sa do JSON aj do index.html
 
 def main():
     f1,p1=parse_file1()
