@@ -1,5 +1,5 @@
 {
- "verzia": "2026-09-25.1",
+ "verzia": "2026-10-05.1",
  "meta": {
   "smer": {
    "name": "Smer-SD",
@@ -7615,6 +7615,32 @@
    "pravda": 2.1,
    "ucast": 61.0,
    "ucast_typ": "deklarovana"
+  },
+  {
+   "agency": "AKO",
+   "start": "2026-09-10",
+   "end": "2026-09-21",
+   "mid": "2026-09-15",
+   "sample": "2,000",
+   "type": "poll",
+   "ps": 18.9,
+   "smer": 17.1,
+   "rep": 9.7,
+   "hlas": 8.6,
+   "olano": 8.1,
+   "sas": 8.1,
+   "kdh": 6.9,
+   "sns": 4.8,
+   "dem": 4.4,
+   "ali": 3.3,
+   "sr": 3.2,
+   "oth": 4.2,
+   "pravda": 2.7,
+   "nerozhodnuti": 14.6,
+   "nesli_by": 11.1,
+   "odmietli": 1.3,
+   "ucast": 73.0,
+   "ucast_typ": "rozhodnuti"
   },
   {
    "agency": "SANEP",

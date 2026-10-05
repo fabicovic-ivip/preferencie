@@ -347,6 +347,18 @@ EXTRA = [
  dict(agency="Ipsos", d1=D("2026-09-18"), d2=D("2026-09-22"), sample="1,030", typ="poll",
       vals=dict(ps=19.0, smer=16.9, rep=12.8, olano=10.7, sas=8.4, kdh=7.0, hlas=6.6,
                 dem=5.5, ali=3.9, sns=2.2, sr=2.0)),
+ # AKO september 2026 — PDF tlacova sprava AKO pre JOJ 24 (publikovana 1. 10. 2026,
+ # zber 10.-21. 9. 2026, n = 2 000, 50 % telefonicky + 50 % online).
+ # Rozpad: rozhodnutych 73 %, nevedelo sa rozhodnut 14,6 %, neslo by volit 11,1 %,
+ # odmietlo odpovedat 1,3 % (suci 100,0 %) -> TURNOUT_AKO.
+ # Pravo na pravdu 2,7 ide cez PRAVDA. Menovane strany scitaju 95,8 %; PDF uvadza
+ # "Ostatne strany 4,2 %" bez rozpisu, co presne zodpoveda dopoctu `oth`.
+ # Kontrola 2: augustovy stlpec PDF (PS 21,0 · Smer 17,7 · Rep 9,8 · Hlas 8,8 ·
+ # SaS 8,8 · KDH 7,8 · Slovensko 7,7 · SNS 4,7 · Dem 4,3 · Ali 2,9 · SR 2,7 ·
+ # Pravda 2,9 · ostatne 0,9) sedi bod po bode s riadkom AKO 2026-08-14 v datasete.
+ dict(agency="AKO", d1=D("2026-09-10"), d2=D("2026-09-21"), sample="2,000", typ="poll",
+      vals=dict(ps=18.9, smer=17.1, rep=9.7, hlas=8.6, olano=8.1, sas=8.1, kdh=6.9,
+                sns=4.8, dem=4.4, ali=3.3, sr=3.2)),
 ]
 
 
@@ -451,6 +463,7 @@ TURNOUT_AKO = {
  "2026-06-18": dict(nerozhodnuti=23.5, nesli_by=10.5, odmietli=3.2),
  "2026-07-14": dict(nerozhodnuti=23.0, nesli_by=9.9,  odmietli=1.8),
  "2026-08-14": dict(nerozhodnuti=22.2, nesli_by=5.8,  odmietli=3.4),
+ "2026-09-21": dict(nerozhodnuti=14.6, nesli_by=11.1, odmietli=1.3),
 }
 
 # NMS — deklarovaná volebná účasť, kľúč = rok-mesiac konca zberu
@@ -514,7 +527,7 @@ PRAVDA = {
  ("AKO","2026-08-14"):2.9,
  ("NMS","2026-09-07"):2.1, ("Focus","2026-09-07"):2.8,
  ("Infostat","2026-09-04"):3.5,
- ("Ipsos","2026-09-22"):2.2,
+ ("Ipsos","2026-09-22"):2.2, ("AKO","2026-09-21"):2.7,
 }
 
 def apply_pravda(recs):
@@ -578,7 +591,7 @@ PARTY_META = {
  "oth":  ("Iné", "#c8c8c8"),
 }
 
-VERZIA = "2026-09-25.1"   # meniť pri každej zmene dát; zapisuje sa do JSON aj do index.html
+VERZIA = "2026-10-05.1"   # meniť pri každej zmene dát; zapisuje sa do JSON aj do index.html
 
 def main():
     f1,p1=parse_file1()
