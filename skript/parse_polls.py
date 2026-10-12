@@ -359,6 +359,25 @@ EXTRA = [
  dict(agency="AKO", d1=D("2026-09-10"), d2=D("2026-09-21"), sample="2,000", typ="poll",
       vals=dict(ps=18.9, smer=17.1, rep=9.7, hlas=8.6, olano=8.1, sas=8.1, kdh=6.9,
                 sns=4.8, dem=4.4, ali=3.3, sr=3.2)),
+ # NMS oktober 2026 — primarny clanok NMS "Volebny model oktober 2026" (publ. 7. 10. 2026),
+ # zber 1.-5. 10. 2026, online, n = 1 005, 18+. Clanok uvadza strany nad 2 %, o ostatnych
+ # pise "Ostatne subjekty ziskali menej ako 2 percenta" (bez rozpisu) -> zapisane su len
+ # menovane strany, `oth` dopocita skript ako zvysok do 100 (menovane scitaju 94,2 %).
+ # Rovnako ako pri NMS 2026-09-07 teda SNS/ZL/KU/LSNS nemaju vlastnu hodnotu; sekundarne
+ # zdroje (Wikipedia, PolitPro) pre ne uvadzaju SNS 1,5 · ZL 1,9 · LSNS 0,9 · KU 0,6 ·
+ # SV 0,5 — nezapisane, nejde o primarny zdroj (pozri QA_report.md).
+ # Pravo na pravdu 2,3 ide cez PRAVDA, deklarovana ucast 58,7 cez TURNOUT_NMS.
+ # Kontrola 2: vsetky medzimesacne zmeny z clanku sedia s riadkom NMS 2026-09-07
+ # (PS 21,6 -2,1 -> 19,5 · Smer 16,2 +1,6 -> 17,8 · Republika 15,6 -1,4 -> 14,2 ·
+ # Slovensko 9,0 bez zmeny · KDH 5,8 +0,4 -> 6,2 · Hlas 6,4 -0,5 -> 5,9 ·
+ # Demokrati 4,8 +0,1 -> 4,9 · Sme rodina 3,0 +0,1 -> 3,1 · Pravda 2,1 +0,2 -> 2,3).
+ # Dve zaokruhlovacie odchylky: SaS clanok uvadza "rovnych 8 %" a zaroven "+1,3 p.b."
+ # (6,8+1,3 = 8,1) a Maďarska aliancia "3,3" pri "+0,1" (3,1+0,1 = 3,2) — zapisane su
+ # absolutne hodnoty z clanku. Mandaty v clanku (PS 36 · Smer 33 · Rep 27 · S 17 ·
+ # SaS 15 · Hlas 11 · KDH 11) davaju spolu 150.
+ dict(agency="NMS", d1=D("2026-10-01"), d2=D("2026-10-05"), sample="1,005", typ="poll",
+      vals=dict(ps=19.5, smer=17.8, rep=14.2, olano=9.0, sas=8.0, kdh=6.2, hlas=5.9,
+                dem=4.9, ali=3.3, sr=3.1)),
 ]
 
 
@@ -475,6 +494,7 @@ TURNOUT_NMS = {
  "2025-10":62.6, "2025-11":61.9, "2025-12":60.2,
  "2026-02":60.8, "2026-03":59.7, "2026-04":61.9, "2026-05":60.9, "2026-06":59.0,
  "2026-07":60.8, "2026-08":59.7, "2026-09":61.0,
+ "2026-10":58.7,  # "Deklarovana volebna ucast je na urovni 58,7 percenta" — clanok NMS 10/2026
  # doplnené 28. 7. 2026 z primárnych článkov NMS:
  "2025-02":62.0,   # „Deklarovaná volebná účasť je na úrovni 62 %" — primárny článok NMS.
                    # Sekundárne zhrnutie uvádzalo 59,8; rozpor rozhodnutý v prospech NMS.
@@ -528,6 +548,7 @@ PRAVDA = {
  ("NMS","2026-09-07"):2.1, ("Focus","2026-09-07"):2.8,
  ("Infostat","2026-09-04"):3.5,
  ("Ipsos","2026-09-22"):2.2, ("AKO","2026-09-21"):2.7,
+ ("NMS","2026-10-05"):2.3,
 }
 
 def apply_pravda(recs):
@@ -591,7 +612,7 @@ PARTY_META = {
  "oth":  ("Iné", "#c8c8c8"),
 }
 
-VERZIA = "2026-10-05.1"   # meniť pri každej zmene dát; zapisuje sa do JSON aj do index.html
+VERZIA = "2026-10-12.1"   # meniť pri každej zmene dát; zapisuje sa do JSON aj do index.html
 
 def main():
     f1,p1=parse_file1()

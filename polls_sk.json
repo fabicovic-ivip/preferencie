@@ -1,5 +1,5 @@
 {
- "verzia": "2026-10-05.1",
+ "verzia": "2026-10-12.1",
  "meta": {
   "smer": {
    "name": "Smer-SD",
@@ -7682,6 +7682,28 @@
    "sr": 2.0,
    "oth": 2.8,
    "pravda": 2.2
+  },
+  {
+   "agency": "NMS",
+   "start": "2026-10-01",
+   "end": "2026-10-05",
+   "mid": "2026-10-03",
+   "sample": "1,005",
+   "type": "poll",
+   "ps": 19.5,
+   "smer": 17.8,
+   "rep": 14.2,
+   "olano": 9.0,
+   "sas": 8.0,
+   "kdh": 6.2,
+   "hlas": 5.9,
+   "dem": 4.9,
+   "ali": 3.3,
+   "sr": 3.1,
+   "oth": 5.8,
+   "pravda": 2.3,
+   "ucast": 58.7,
+   "ucast_typ": "deklarovana"
   }
  ]
 }
