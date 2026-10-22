@@ -391,6 +391,105 @@ EXTRA = [
  dict(agency="Infostat", d1=D("2026-10-05"), d2=D("2026-10-09"), sample="1,080", typ="poll",
       vals=dict(smer=19.0, ps=18.5, rep=12.0, olano=9.5, kdh=8.6, hlas=7.4, sas=6.3,
                 dem=4.8, ali=4.7, sr=4.1, sns=1.7)),
+ # Focus oktober 2026 — prieskum pre 360tka.sk, zber 12.-19. 10. 2026, n = 1 017
+ # (osobne + online dotazniky). Zdroje: spravy.stvr.sk (20. 10. 2026) a Refresher
+ # (clanok 213688) — obe uvadzaju rovnake hodnoty pri vsetkych 12 hlavnych stranach,
+ # Refresher navyse Za ludi 1,1 a Stranu vidieka 1,0 (Strana vidieka nema vlastny stlpec,
+ # ide do `oth` dopoctom). Menovane strany scitaju 95,7 %, oth = 4,3 - 2,7 (Pravo na
+ # pravdu cez PRAVDA) = 1,6.
+ # Kontrola 2: vsetkych 8 medzimesacnych zmien zo STVR sedi s riadkom Focus 2026-09-07
+ # (PS 17,3 +0,1 · Smer 17,3 -0,3 · Republika 12,4 -1,1 · Slovensko 8,9 +0,8 ·
+ # Hlas 8,4 +0,1 · KDH 6,4 bez zmeny · SaS 7,5 -1,2 · Demokrati 5,0 +0,8).
+ # Focus uvadza aj rozpad: 13,7 % by neslo volit, 12,8 % neuviedlo preferenciu
+ # (=> rozhodnutych 73,5 %) — nezapisane, skript nema pre Focus turnout tabulku
+ # a isty bod by bol v krivke osamoteny; zaznamenane v QA_report.md.
+ dict(agency="Focus", d1=D("2026-10-12"), d2=D("2026-10-19"), sample="1,017", typ="poll",
+      vals=dict(ps=17.4, smer=17.0, rep=11.3, olano=9.7, hlas=8.5, kdh=6.4, sas=6.3,
+                dem=5.8, ali=4.4, sr=4.3, sns=3.5, zl=1.1)),
+ # Ipsos oktober 2026 — prieskum pre Dennik N, zber 15.-19. 10. 2026, online, n = 1 032,
+ # 18+, vazene (pohlavie, vek, region, vzdelanie, narodnost, velkost obce, ekonomicka
+ # aktivita, prijem). Volebny model: aktualna vlna + predosla s polovicnou vahou.
+ # Zdroje: ipsos.com (stranka prieskumu) + plna tabulka v pravda.sk (clanok 2063383),
+ # overene aj v spravy.stvr.sk a Refresheri (clanok 213765).
+ # Kontrola 1: menovane strany + Pravo na pravdu scitaju 98,0 % (Pravda uvadza
+ # "ostatne 2,2", t. j. 100,2 so zaokruhlenim) — v norme.
+ # Krizova kontrola mandatov z Ipsosu (PS 33 · Smer 32 · Rep 19 · Slovensko 18 · SaS 14 ·
+ # KDH 13 · Hlas 12 · Demokrati 9 = 150): pri sucte stran nad 5 % = 85,1 davaju vsetkych
+ # 8 hodnot presne tieto mandaty, cim su potvrdene aj SaS 8,1 a KDH 7,3, ktore Ipsos
+ # v texte neuvadza ciselne.
+ # Ipsos uvadza "volebna ucast by bola 64 %" — nezapisane (rovnako ako 9/2026),
+ # skript nema pre Ipsos turnout tabulku; zaznamenane v QA_report.md.
+ dict(agency="Ipsos", d1=D("2026-10-15"), d2=D("2026-10-19"), sample="1,032", typ="poll",
+      vals=dict(ps=18.6, smer=18.4, rep=10.8, olano=10.0, sas=8.1, kdh=7.3, hlas=6.6,
+                dem=5.3, ali=3.4, sr=2.4, sns=2.0, zl=1.8)),
+
+ # ---------------- SCIO (Agentura SCIO, Martin Klus) ----------------
+ # Nova agentura v datasete (doplnena 22. 10. 2026). Vsetky hodnoty su odcitane priamo
+ # z grafov v tlacovych spravach na agenturascio.sk ("Ak by sa parlamentne volby do NR SR
+ # konali tuto sobotu..."), teda z primarneho zdroja. SCIO publikuje MODEL ROZHODNUTYCH
+ # VOLICOV (rovnaka velicina ako AKO), hodnoty na dve desatiny a vratane malych stran.
+ # Ucast ani rozpad nerozhodnutych SCIO nezverejnuje -> ziadna turnout tabulka.
+ # Strana vidieka, Nova strana O. Luntera, Ludskost a prosperita, Domov-NS a Narodna
+ # koalicia nemaju vlastny stlpec -> idu do `oth` (dopocet do 100). Pravo na pravdu ide
+ # cez PRAVDA. Kontrola 1 pri kazdom riadku: graf scita 99,6-100,1 %.
+ # NEZARADENE vlny (zdovodnenie v QA_report.md): 10/2024 (model s ponukou "ina strana /
+ # hnutie" 15,8 % — ina metodika, skreslilo by trend), 6/2024 (clanok neobsahuje graf),
+ # 8/2026 (clanok o hypotetickej konzervativnej koalicii, zber 8.-13. 7. = ta ista vlna
+ # ako julovy model, nie samostatne meranie).
+
+ dict(agency="SCIO", d1=D("2024-12-10"), d2=D("2024-12-16"), sample="1,000", typ="poll",
+      vals=dict(ps=21.60, smer=21.40, rep=12.70, hlas=10.60, olano=7.20, kdh=6.50,
+                dem=5.20, sas=4.80, sr=4.80, sns=3.20, ali=2.10)),  # scita 100,1 -> bez dopoctu oth
+ dict(agency="SCIO", d1=D("2025-01-07"), d2=D("2025-01-13"), sample="1,000", typ="poll",
+      vals=dict(ps=23.0, smer=20.9, rep=10.4, hlas=10.2, olano=8.6, kdh=6.0, sas=5.5,
+                dem=5.3, sr=4.8, sns=2.9, ali=2.4)),  # graf 1/2025 na jedno desatinne miesto, scita 100,0
+ dict(agency="SCIO", d1=D("2025-04-28"), d2=D("2025-05-02"), sample="1,000", typ="poll",
+      vals=dict(ps=21.15, smer=20.35, rep=10.31, hlas=9.37, olano=8.17, kdh=6.96,
+                sas=6.02, sns=4.95, dem=4.69, sr=4.42, ali=3.62)),  # prieskum pre Startitup, scita 100,0
+ dict(agency="SCIO", d1=D("2025-06-24"), d2=D("2025-06-30"), sample="1,000", typ="poll",
+      vals=dict(smer=21.09, ps=20.83, rep=11.62, olano=8.94, hlas=8.54, kdh=6.54,
+                sas=5.87, dem=4.81, sr=4.41, sns=3.60, ali=1.74, zl=1.60)),  # Narodna koalicia 0,40 -> oth
+ dict(agency="SCIO", d1=D("2025-09-17"), d2=D("2025-09-22"), sample="1,000", typ="poll",
+      vals=dict(ps=20.37, smer=16.46, rep=10.61, olano=8.78, hlas=8.05, sas=6.46,
+                kdh=5.98, dem=5.12, sns=4.15, sr=3.90, ali=3.17, zl=1.83, ku=1.22)),
+ dict(agency="SCIO", d1=D("2025-10-10"), d2=D("2025-10-16"), sample="1,000", typ="poll",
+      vals=dict(ps=20.87, smer=16.16, rep=11.58, olano=8.78, hlas=7.51, sas=7.25,
+                dem=5.34, kdh=5.22, sr=4.20, sns=3.94, ali=2.93, zl=1.65, ku=0.89)),
+ dict(agency="SCIO", d1=D("2025-11-10"), d2=D("2025-11-14"), sample="1,000", typ="poll",
+      vals=dict(ps=22.33, smer=17.00, rep=11.79, olano=8.19, hlas=8.06, sas=7.07,
+                kdh=5.33, dem=5.09, sns=3.97, sr=3.85, ali=2.98, zl=1.49)),
+ dict(agency="SCIO", d1=D("2025-12-09"), d2=D("2025-12-17"), sample="1,000", typ="poll",
+      vals=dict(ps=22.04, smer=16.31, rep=12.63, olano=8.97, sas=7.10, hlas=7.10,
+                dem=5.98, kdh=5.40, sr=4.61, sns=3.86, ali=3.11)),  # Domov-NS 0,87 -> oth
+ dict(agency="SCIO", d1=D("2026-01-20"), d2=D("2026-01-27"), sample="4,000", typ="poll",
+      vals=dict(ps=22.16, smer=15.50, rep=11.67, olano=7.82, sas=7.51, hlas=7.19,
+                kdh=5.76, dem=5.74, sr=3.82, ali=3.58, sns=3.37, zl=2.16, ku=0.86)),
+ dict(agency="SCIO", d1=D("2026-02-20"), d2=D("2026-02-24"), sample="1,000", typ="poll",
+      vals=dict(ps=17.98, smer=16.62, rep=11.85, olano=9.54, sas=6.68, hlas=6.54,
+                dem=6.13, kdh=5.72, ali=3.95, sns=3.95, sr=3.54, zl=2.18, ku=1.09)),
+ dict(agency="SCIO", d1=D("2026-03-27"), d2=D("2026-03-31"), sample="1,025", typ="poll",
+      vals=dict(ps=18.51, smer=17.56, rep=11.39, olano=9.96, sas=7.35, hlas=7.12,
+                kdh=6.05, dem=5.56, sr=4.03, ali=3.56, sns=3.20, zl=1.78, ku=0.59)),
+ dict(agency="SCIO", d1=D("2026-05-07"), d2=D("2026-05-11"), sample="1,031", typ="poll",
+      vals=dict(ps=19.70, smer=15.41, rep=11.47, olano=9.62, sas=7.42, hlas=6.60,
+                kdh=6.37, dem=5.21, sr=4.06, sns=3.94, ali=3.13, zl=1.51, ku=0.70)),
+ dict(agency="SCIO", d1=D("2026-06-01"), d2=D("2026-06-04"), sample="1,023", typ="poll",
+      vals=dict(ps=18.58, smer=17.03, rep=10.97, olano=9.55, hlas=8.00, sas=7.48,
+                kdh=6.19, dem=6.06, sr=3.87, ali=3.61, sns=3.48, zl=1.55, ku=0.52,
+                lsns=0.52)),
+ dict(agency="SCIO", d1=D("2026-07-08"), d2=D("2026-07-13"), sample="1,028", typ="poll",
+      vals=dict(ps=17.18, smer=16.41, rep=10.08, olano=9.04, hlas=8.91, sas=8.14,
+                kdh=5.68, dem=5.68, sr=4.01, sns=3.49, ali=3.36, zl=2.33, ku=0.78,
+                lsns=0.52)),
+ dict(agency="SCIO", d1=D("2026-08-28"), d2=D("2026-09-03"), sample="1,020", typ="poll",
+      vals=dict(smer=17.32, ps=16.94, rep=10.45, olano=9.30, hlas=9.04, sas=8.41,
+                kdh=5.61, dem=5.22, sns=3.69, sr=3.57, ali=3.57, zl=1.27, ku=0.64)),
+ # SCIO 10/2026 — pre portal TEMA.21; cisla z grafu SCIO sa zhoduju s plnou tabulkou
+ # v clanku tema21.sk (dva nezavisle zdroje, vsetkych 18 hodnot do stotiny).
+ dict(agency="SCIO", d1=D("2026-09-24"), d2=D("2026-09-30"), sample="1,025", typ="poll",
+      vals=dict(ps=17.03, smer=15.46, rep=11.59, olano=10.02, hlas=8.70, sas=7.85,
+                dem=5.68, kdh=5.43, sr=3.62, ali=3.50, sns=2.42, zl=1.45, lsns=0.97,
+                ku=0.48)),
 ]
 
 
@@ -440,7 +539,13 @@ OTH_RESIDUAL_FROM  = "2026-01-01"
 OTH_RESIDUAL_EXTRA = {("Ipsos","2025-03-14"), ("Focus","2025-11-18"),
                       ("NMS","2023-05-17"),   ("NMS","2023-09-09"),
                       ("Focus","2023-02-08"), ("AKO","2023-04-11"),
-                      ("SANEP","2023-07-16")}
+                      ("SANEP","2023-07-16"),
+                      # SCIO 2025 — grafy SCIO uvadzaju vsetky merane subjekty,
+                      # zvysok do 100 su strany bez vlastneho stlpca (Strana vidieka,
+                      # Domov-NS, Narodna koalicia) -> dopocet `oth` je opravneny.
+                      ("SCIO","2025-06-30"), ("SCIO","2025-09-22"),
+                      ("SCIO","2025-10-16"), ("SCIO","2025-11-14"),
+                      ("SCIO","2025-12-17")}
 
 def apply_qa(recs, party_cols):
     """Opravy hodnôt, zlúčenie SMK->ali, typy riadkov, dopočet 'oth'."""
@@ -563,6 +668,12 @@ PRAVDA = {
  ("Infostat","2026-09-04"):3.5,
  ("Ipsos","2026-09-22"):2.2, ("AKO","2026-09-21"):2.7,
  ("NMS","2026-10-05"):2.3, ("Infostat","2026-10-09"):2.4,
+ ("Focus","2026-10-19"):2.7, ("Ipsos","2026-10-19"):3.3,
+ # SCIO — hodnoty z grafov tlacovych sprav (do 8/2025 strana v modeli SCIO nefiguruje)
+ ("SCIO","2025-09-22"):3.17, ("SCIO","2025-10-16"):2.80, ("SCIO","2025-11-14"):1.36,
+ ("SCIO","2025-12-17"):1.74, ("SCIO","2026-01-27"):2.85, ("SCIO","2026-02-24"):2.32,
+ ("SCIO","2026-03-31"):1.66, ("SCIO","2026-05-11"):2.67, ("SCIO","2026-06-04"):1.81,
+ ("SCIO","2026-07-13"):2.97, ("SCIO","2026-09-03"):3.95, ("SCIO","2026-09-30"):2.90,
 }
 
 def apply_pravda(recs):
@@ -626,7 +737,7 @@ PARTY_META = {
  "oth":  ("Iné", "#c8c8c8"),
 }
 
-VERZIA = "2026-10-19.1"   # meniť pri každej zmene dát; zapisuje sa do JSON aj do index.html
+VERZIA = "2026-10-22.1"   # meniť pri každej zmene dát; zapisuje sa do JSON aj do index.html
 
 def main():
     f1,p1=parse_file1()
