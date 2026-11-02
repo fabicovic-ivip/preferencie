@@ -20,7 +20,7 @@
 <meta name="twitter:title" content="Preferencie politických strán SR — agregátor prieskumov">
 <meta name="twitter:description" content="Dlhodobé trendy preferencií, prepočet mandátov a koaličná kalkulačka. 330+ prieskumov od roku 2016.">
 <meta name="twitter:image" content="https://ivip.sk/wp-content/uploads/2026/07/ivip-preferencie-og-2.png">
-<meta name="dashboard-version" content="2026-10-22.1">
+<meta name="dashboard-version" content="2026-11-02.1">
 <meta property="og:locale" content="sk_SK">
 <meta name="robots" content="index, follow">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%235a3787'/%3E%3Cpath d='M6 22l5-7 4 4 6-9 5 6' stroke='%23ffffff' stroke-width='2.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
@@ -246,7 +246,7 @@ footer .foot-main{margin-top:0}
     </div>
    </details>
    <div class="sidemeta">
-     <div>Verzia dát <b id="verdata">2026-10-22.1</b></div>
+     <div>Verzia dát <b id="verdata">2026-11-02.1</b></div>
      <div><button type="button" class="srclink" id="srcopen" aria-haspopup="dialog">Zdroje a metodika</button></div>
    </div>
   </div>
@@ -304,7 +304,7 @@ footer .foot-main{margin-top:0}
     <div class="modal-body">
       <p><b>Zdroj dát:</b> zverejnené prieskumy agentúr AKO, Focus, Ipsos, NMS, SCIO, Median, Polis, SANEP, MVK a štátneho Infostatu (ÚVVM/CSV pri ŠÚ SR),
       agregované cez Wikipédiu (<i>Opinion polling for the 2020 / 2023 / next Slovak parliamentary election</i>) a tlačové správy
-      (SITA, TASR/teraz.sk, ta3, STVR, SME) a priamo od agentúr (NMS, SCIO). Volebné výsledky: Štatistický úrad SR. Stav k 22.&nbsp;10.&nbsp;2026.</p>
+      (SITA, TASR/teraz.sk, ta3, STVR, SME) a priamo od agentúr (NMS, SCIO). Volebné výsledky: Štatistický úrad SR. Stav k 2.&nbsp;11.&nbsp;2026.</p>
 
       <p><b>Ako čítať graf:</b> body = jednotlivé prieskumy, čiary = vážený kĺzavý priemer (gaussovské jadro).
       Trojuholníky a zvislé čiary = skutočné volebné výsledky (parlamentné aj eurovoľby 2024). Do trendových kriviek nevstupujú — krivky sa počítajú výhradne z prieskumov. Eurovoľby majú navyše inú účasť aj volebný systém, preto s parlamentnými nie sú porovnateľné. Prepočet mandátov je ilustračný — vychádza z celoštátnych preferencií.</p>
@@ -354,7 +354,7 @@ footer .foot-main{margin-top:0}
 const C={grid:"rgba(255,255,255,.10)", gridY:"rgba(255,255,255,.13)", axis:"#cbbde0",
          thr:"#ff6b7a", elec:"rgba(255,255,255,.38)", stroke:"#3b2359"};
 const DATA = {
- "verzia": "2026-10-22.1",
+ "verzia": "2026-11-02.1",
  "meta": {
   "smer": {
    "name": "Smer-SD",
@@ -8480,6 +8480,54 @@ const DATA = {
    "zl": 1.8,
    "oth": 2.0,
    "pravda": 3.3
+  },
+  {
+   "agency": "SANEP",
+   "start": "2026-10-12",
+   "end": "2026-10-26",
+   "mid": "2026-10-19",
+   "sample": "2,300",
+   "type": "poll",
+   "smer": 18.9,
+   "ps": 18.4,
+   "rep": 12.1,
+   "olano": 8.9,
+   "sas": 7.7,
+   "hlas": 6.9,
+   "kdh": 6.4,
+   "dem": 4.8,
+   "ali": 3.9,
+   "sr": 3.5,
+   "sns": 2.9,
+   "oth": 4.0,
+   "pravda": 1.6
+  },
+  {
+   "agency": "AKO",
+   "start": "2026-10-21",
+   "end": "2026-10-28",
+   "mid": "2026-10-24",
+   "sample": "1,000",
+   "type": "poll",
+   "ps": 19.1,
+   "smer": 16.6,
+   "rep": 10.4,
+   "olano": 9.9,
+   "sas": 8.6,
+   "hlas": 8.2,
+   "kdh": 7.3,
+   "dem": 5.1,
+   "sns": 4.5,
+   "ali": 4.4,
+   "sr": 2.1,
+   "lsns": 0.5,
+   "oth": 0.4,
+   "pravda": 2.9,
+   "nerozhodnuti": 19.1,
+   "nesli_by": 9.1,
+   "odmietli": 5.0,
+   "ucast": 66.8,
+   "ucast_typ": "rozhodnuti"
   }
  ]
 };

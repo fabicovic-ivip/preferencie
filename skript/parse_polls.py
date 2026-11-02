@@ -490,6 +490,35 @@ EXTRA = [
       vals=dict(ps=17.03, smer=15.46, rep=11.59, olano=10.02, hlas=8.70, sas=7.85,
                 dem=5.68, kdh=5.43, sr=3.62, ali=3.50, sns=2.42, zl=1.45, lsns=0.97,
                 ku=0.48)),
+
+ # AKO 10/2026 — primarny zdroj: tlacova sprava ag.AKO (PDF)
+ # ako.sk/wp-content/uploads/2026/10/ag.AKO_VOLEBNE-PREF-OKTOBER-2026-tlacova-sprava.pdf
+ # Zber 21.-28. 10. 2026, telefonicky prieskum, n = 1 000. Pre JOJ 24.
+ # Menovane strany scitaju 96,7 %; + Pravo na pravdu 2,9 (cez PRAVDA) = 99,6;
+ # + Strana vidieka 0,4 (bez vlastneho stlpca) = 100,0 -> `oth` sa dopocita na 0,4,
+ # co presne zodpoveda Strane vidieka. PDF v oktobri riadok "Ostatne strany" neuvadza.
+ # Kontrola 2: septembrovy stlpec PDF (PS 18,9 · Smer 17,1 · Rep 9,7 · Hlas 8,6 ·
+ # Slovensko 8,1 · SaS 8,1 · KDH 6,9 · SNS 4,8 · Dem 4,4 · Ali 3,3 · SR 3,2 ·
+ # Pravda 2,7) sedi bod po bode s riadkom AKO 2026-09-21 v datasete.
+ # Krizova kontrola PolitPro: AKO 28. 10. 2026 — PS 19,1 · Smer 16,6 · Rep 10,4 ·
+ # Slovensko 9,9 · SaS 8,6 · Hlas 8,2 · KDH 7,3 · Dem 5,1 — zhodne.
+ # Rozpad rozhodnutosti ide cez TURNOUT_AKO (rozhodnuti 66,8 %).
+ dict(agency="AKO", d1=D("2026-10-21"), d2=D("2026-10-28"), sample="1,000", typ="poll",
+      vals=dict(ps=19.1, smer=16.6, rep=10.4, olano=9.9, sas=8.6, hlas=8.2, kdh=7.3,
+                dem=5.1, sns=4.5, ali=4.4, sr=2.1, lsns=0.5)),
+ # SANEP 10/2026 — exkluzivne pre ta3, clanok 29. 10. 2026
+ # ta3.com/politika/clanok/1079689/... ; zber 12.-26. 10. 2026, CAWI, n = 2 300, 18+,
+ # chyba +-1,5 b. Model z 69,6 % rozhodnutych (nerozhodnutych 12,3 %, nesli by 18,1 %).
+ # Clanok vymenuva len strany nad 1 %. Menovane scitaju 94,4 %; + Pravo na pravdu 1,6
+ # (cez PRAVDA) = 96,0; + Strana vidieka 1,1 = 97,1 -> `oth` sa dopocita na 4,0.
+ # Pravo na pravdu: ta3 (primarny) aj pravda.sk uvadzaju 1,6; spravy.stvr.sk uvadza 1,9
+ # — berie sa 1,6 (dva zdroje vratane primarneho), rozpor zapisany v QA_report.md.
+ # Kontrola 2: vsetky styri zmeny uvedene v clanku sedia s riadkom SANEP 2026-09-21 —
+ # Smer 19,8->18,9 (-0,9), PS 18,6->18,4 (-0,2), Rep 12,9->12,1 (-0,8),
+ # SNS 4,1->2,9 (-1,2).
+ dict(agency="SANEP", d1=D("2026-10-12"), d2=D("2026-10-26"), sample="2,300", typ="poll",
+      vals=dict(smer=18.9, ps=18.4, rep=12.1, olano=8.9, sas=7.7, hlas=6.9, kdh=6.4,
+                dem=4.8, ali=3.9, sr=3.5, sns=2.9)),
 ]
 
 
@@ -601,6 +630,7 @@ TURNOUT_AKO = {
  "2026-07-14": dict(nerozhodnuti=23.0, nesli_by=9.9,  odmietli=1.8),
  "2026-08-14": dict(nerozhodnuti=22.2, nesli_by=5.8,  odmietli=3.4),
  "2026-09-21": dict(nerozhodnuti=14.6, nesli_by=11.1, odmietli=1.3),
+ "2026-10-28": dict(nerozhodnuti=19.1, nesli_by=9.1,  odmietli=5.0),
 }
 
 # NMS — deklarovaná volebná účasť, kľúč = rok-mesiac konca zberu
@@ -668,6 +698,7 @@ PRAVDA = {
  ("Infostat","2026-09-04"):3.5,
  ("Ipsos","2026-09-22"):2.2, ("AKO","2026-09-21"):2.7,
  ("NMS","2026-10-05"):2.3, ("Infostat","2026-10-09"):2.4,
+ ("AKO","2026-10-28"):2.9, ("SANEP","2026-10-26"):1.6,
  ("Focus","2026-10-19"):2.7, ("Ipsos","2026-10-19"):3.3,
  # SCIO — hodnoty z grafov tlacovych sprav (do 8/2025 strana v modeli SCIO nefiguruje)
  ("SCIO","2025-09-22"):3.17, ("SCIO","2025-10-16"):2.80, ("SCIO","2025-11-14"):1.36,
@@ -737,7 +768,7 @@ PARTY_META = {
  "oth":  ("Iné", "#c8c8c8"),
 }
 
-VERZIA = "2026-10-22.1"   # meniť pri každej zmene dát; zapisuje sa do JSON aj do index.html
+VERZIA = "2026-11-02.1"   # meniť pri každej zmene dát; zapisuje sa do JSON aj do index.html
 
 def main():
     f1,p1=parse_file1()
