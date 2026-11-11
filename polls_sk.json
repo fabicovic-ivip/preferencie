@@ -1,5 +1,5 @@
 {
- "verzia": "2026-11-02.1",
+ "verzia": "2026-11-11.1",
  "meta": {
   "smer": {
    "name": "Smer-SD",
@@ -7546,7 +7546,8 @@
    "sr": 3.1,
    "zl": 2.9,
    "sns": 2.4,
-   "oth": 4.9,
+   "oth": 2.2,
+   "pravda": 2.7,
    "ucast": 59.0,
    "ucast_typ": "deklarovana"
   },
@@ -7941,7 +7942,9 @@
    "dem": 4.8,
    "ali": 3.1,
    "sr": 3.0,
-   "oth": 5.6,
+   "sns": 1.9,
+   "zl": 1.6,
+   "oth": 2.1,
    "pravda": 2.1,
    "ucast": 61.0,
    "ucast_typ": "deklarovana"
@@ -8054,7 +8057,9 @@
    "dem": 4.9,
    "ali": 3.3,
    "sr": 3.1,
-   "oth": 5.8,
+   "sns": 1.5,
+   "zl": 1.9,
+   "oth": 2.4,
    "pravda": 2.3,
    "ucast": 58.7,
    "ucast_typ": "deklarovana"
@@ -8173,6 +8178,30 @@
    "odmietli": 5.0,
    "ucast": 66.8,
    "ucast_typ": "rozhodnuti"
+  },
+  {
+   "agency": "NMS",
+   "start": "2026-11-05",
+   "end": "2026-11-08",
+   "mid": "2026-11-06",
+   "sample": "1,004",
+   "type": "poll",
+   "ps": 19.2,
+   "smer": 17.9,
+   "rep": 13.0,
+   "olano": 9.8,
+   "sas": 7.9,
+   "hlas": 7.4,
+   "kdh": 5.0,
+   "dem": 4.9,
+   "ali": 3.1,
+   "sr": 2.3,
+   "sns": 1.9,
+   "zl": 1.9,
+   "oth": 2.7,
+   "pravda": 3.0,
+   "ucast": 59.8,
+   "ucast_typ": "deklarovana"
   }
  ]
 }

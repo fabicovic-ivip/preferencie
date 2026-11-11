@@ -519,6 +519,24 @@ EXTRA = [
  dict(agency="SANEP", d1=D("2026-10-12"), d2=D("2026-10-26"), sample="2,300", typ="poll",
       vals=dict(smer=18.9, ps=18.4, rep=12.1, olano=8.9, sas=7.7, hlas=6.9, kdh=6.4,
                 dem=4.8, ali=3.9, sr=3.5, sns=2.9)),
+ # NMS november 2026 — primarny zdroj nms.global/sk/volebny-model-november-2026/ (11. 11. 2026),
+ # text clanku cital priamo prehliadac. Zber 5.-8. 11. 2026, online dopytovanie, n = 1 004,
+ # bez zadavatela. Clanok cislami vymenuva 11 stran, ostatne zhrnie ako "menej ako 2 percenta";
+ # SNS 1,9 a Za ludi 1,9 su odcitane z primarneho grafu NMS (Flourish 30851791, pole
+ # _Flourish_data), ktoreho hodnoty pre vsetkych 11 menovanych stran sedia s textom presne.
+ # Pravo na pravdu 3,0 ide cez PRAVDA, deklarovana ucast 59,8 cez TURNOUT_NMS.
+ # Kontrola 1: menovane strany + SNS + Za ludi + Pravda scitaju 97,3 % -> `oth` 2,7.
+ # Kontrola 2: vsetky medzimesacne zmeny z clanku sedia s riadkom NMS 2026-10-05
+ # (PS 19,5 -0,3 -> 19,2 · Smer 17,8 +0,1 -> 17,9 · Republika 14,2 -1,2 -> 13,0 ·
+ # Hlas 5,9 +1,5 -> 7,4 · Demokrati 4,9 bez zmeny · Pravda 2,3 +0,7 -> 3,0 ·
+ # Sme rodina 3,1 -0,8 -> 2,3 · ucast 58,7 +1,1 -> 59,8). Styri zaokruhlovacie odchylky
+ # po 0,1 p.b.: Slovensko (9,0 +0,9 = 9,9 vs uvedene 9,8), SaS (8,0 -0,2 = 7,8 vs 7,9),
+ # KDH (6,2 -1,1 = 5,1 vs 5,0), Ali (3,3 -0,1 = 3,2 vs 3,1) — zapisane su absolutne
+ # hodnoty z clanku. Mandaty v clanku (PS 36 · Smer 34 · Rep 24 · S 18 · SaS 15 ·
+ # Hlas 14 · KDH 9) davaju spolu 150.
+ dict(agency="NMS", d1=D("2026-11-05"), d2=D("2026-11-08"), sample="1,004", typ="poll",
+      vals=dict(ps=19.2, smer=17.9, rep=13.0, olano=9.8, sas=7.9, hlas=7.4, kdh=5.0,
+                dem=4.9, ali=3.1, sr=2.3, sns=1.9, zl=1.9)),
 ]
 
 
@@ -550,6 +568,15 @@ CORRECTIONS = {
  # a Kresťanskú úniu 0,6; zvyšných 13 hodnôt riadku sedí do desatiny. Kontrola: rovnaký graf
  # pre 1/2026, 2/2026 a 4/2026 sedí s datasetom presne, odchýlka je len v marci.
  ("NMS",        "2026-03-09"): {"zl": 1.9, "ku": 0.6},
+
+ # NMS 9/2026 a 10/2026 — SNS a Za ľudí článok NMS číslami neuvádza (zhrnie ich ako
+ # „ostatné subjekty"), hodnoty sú z primárneho grafu NMS (Flourish 30851791, pole
+ # _Flourish_data, crawl 11. 11. 2026). Rovnaký graf sedí do 0,05 p.b. so VŠETKÝMI
+ # hodnotami, ktoré dataset pre NMS už má, vo všetkých 32 mesiacoch od 1/2024 okrem
+ # dvoch (pozri QA_report.md, otvorené veci), takže mapovanie mesiac -> riadok je overené.
+ # Po doplnení: 9/2026 sčíta 97,9 % (`oth` 2,1), 10/2026 sčíta 98,1 % (`oth` 1,9).
+ ("NMS",        "2026-09-07"): {"sns": 1.9, "zl": 1.6},
+ ("NMS",        "2026-10-05"): {"sns": 1.5, "zl": 1.9},
 }
 
 # Riadky, kde zdroj preukázateľne neuvádza všetky strany, takže súčet nedosahuje 100 %.
@@ -643,6 +670,7 @@ TURNOUT_NMS = {
  "2026-02":60.8, "2026-03":59.7, "2026-04":61.9, "2026-05":60.9, "2026-06":59.0,
  "2026-07":60.8, "2026-08":59.7, "2026-09":61.0,
  "2026-10":58.7,  # "Deklarovana volebna ucast je na urovni 58,7 percenta" — clanok NMS 10/2026
+ "2026-11":59.8,  # "Deklarovana volebna ucast je na urovni 59,8 percenta" — clanok NMS 11/2026
  # doplnené 28. 7. 2026 z primárnych článkov NMS:
  "2025-02":62.0,   # „Deklarovaná volebná účasť je na úrovni 62 %" — primárny článok NMS.
                    # Sekundárne zhrnutie uvádzalo 59,8; rozpor rozhodnutý v prospech NMS.
@@ -700,6 +728,10 @@ PRAVDA = {
  ("NMS","2026-10-05"):2.3, ("Infostat","2026-10-09"):2.4,
  ("AKO","2026-10-28"):2.9, ("SANEP","2026-10-26"):1.6,
  ("Focus","2026-10-19"):2.7, ("Ipsos","2026-10-19"):3.3,
+ ("NMS","2026-11-08"):3.0,
+ # NMS 6/2026 chybalo — doplnene z primarneho grafu NMS (Flourish 30851791), kde ma
+ # Pravo na pravdu 2,7; zvysok riadku sedi s grafom presne.
+ ("NMS","2026-06-08"):2.7,
  # SCIO — hodnoty z grafov tlacovych sprav (do 8/2025 strana v modeli SCIO nefiguruje)
  ("SCIO","2025-09-22"):3.17, ("SCIO","2025-10-16"):2.80, ("SCIO","2025-11-14"):1.36,
  ("SCIO","2025-12-17"):1.74, ("SCIO","2026-01-27"):2.85, ("SCIO","2026-02-24"):2.32,
@@ -768,7 +800,7 @@ PARTY_META = {
  "oth":  ("Iné", "#c8c8c8"),
 }
 
-VERZIA = "2026-11-02.1"   # meniť pri každej zmene dát; zapisuje sa do JSON aj do index.html
+VERZIA = "2026-11-11.1"   # meniť pri každej zmene dát; zapisuje sa do JSON aj do index.html
 
 def main():
     f1,p1=parse_file1()
