@@ -316,7 +316,16 @@ footer .foot-main{margin-top:0}
       Prieskumy zverejnené v deň volieb (exit polly) do trendu nevstupujú.
       SCIO (doplnené od decembra 2024) zverejňuje model rozhodnutých voličov s hodnotami na dve desatiny vrátane malých strán; hodnoty sú odčítané z grafov v jeho tlačových správach.</p>
 
-      <p><b>Blokový pohľad:</b> demokratický blok = PS, SaS, OĽaNO/Slovensko, KDH, Demokrati, SPOLU, Modrí, Za ľudí, KÚ, SIEŤ;
+      <p><b>PS + Demokrati:</b> obe strany idú do volieb ako koalícia, preto ich prehľad uvádza ako jeden subjekt.
+      Agentúry ju začali takto merať v novembri 2026 (prvý Ipsos, zber 16.–20. 11. 2026) — od toho prieskumu je krivka
+      plná čiara a vychádza z nameranej koaličnej hodnoty. Skorší úsek je <b>čiarkovaný</b>, lebo koaličná hodnota vtedy
+      neexistovala a ide o dopočet: súčet samostatne meraných preferencií PS a Demokratov (pred rokom 2023, keď Demokrati
+      ešte neboli v modeloch, teda o samotné PS). Súčet dvoch strán nie je to isté ako meranie koalície — voliči na
+      spoločnú kandidátku reagujú inak — preto sú oba úseky odlíšené. Pri každom bode tooltip ukazuje, o ktorý prípad ide.
+      Samostatné krivky PS a Demokratov sú aj naďalej k dispozícii v zozname „ďalšie strany“ aj s celou históriou.
+      V prepočte na mandáty platí pre dvojkoalíciu kvórum 7 %, nie 5 %.</p>
+
+      <p><b>Blokový pohľad:</b> demokratický blok = PS + Demokrati, SaS, OĽaNO/Slovensko, KDH, SPOLU, Modrí, Za ľudí, KÚ, SIEŤ;
       národno-sociálny blok = Smer, Hlas, SNS, Republika, ĽSNS, Vlasť, Právo na pravdu; nezaradené = Sme rodina, maďarské strany (SMK/Aliancia, Most-Híd, MF), Dobrá voľba.
       V blokových režimoch čiara „kvóra“ zobrazuje hranicu 50 %. Režim „Demokratický blok“ skladá strany demokratického bloku ako farebné pásy
       pod súčtovou krivkou (Σ). Zaradenie strán do blokov je interpretačná voľba, nie oficiálna kategorizácia.</p>
@@ -358,7 +367,14 @@ const P = DATA.meta, polls = DATA.polls;
 polls.forEach(p=>{p.t = new Date(p.mid).getTime();});
 const DAY=86400000;
 const tmin = Math.min(...polls.map(p=>p.t)), tmax = Math.max(...polls.map(p=>p.t));
-const MAIN=["smer","ps","hlas","olano","kdh","sas","sns","rep","ali","dem","sr","lsns"];
+// Hlavné strany = prednastavený výber. PS a Demokrati sú od 11/2026 v koalícii, preto je
+// v hlavnom výbere koaličná séria `psdem`; samostatné PS a Demokrati (s celou históriou)
+// zostávajú zapínateľné v rozbaľovacom zozname „ďalšie strany".
+const MAIN=["smer","psdem","hlas","olano","kdh","sas","sns","rep","ali","sr","pravda"];
+// Dátum prvého prieskumu, v ktorom agentúra merala koalíciu ako jeden subjekt.
+// Po tento dátum je koaličná krivka dopočet (súčet PS a Demokratov) a kreslí sa
+// čiarkovane, od neho je meraná a kreslí sa plne.
+const PSDEM_T=DATA.psdem_od?new Date(DATA.psdem_od).getTime():null;
 const ALLP=Object.keys(P).filter(k=>k!=="oth");
 const AGS=[...new Set(polls.filter(p=>p.type==="poll").map(p=>p.agency))];
 // Voľby sa v grafe vyznačujú ako body a zvislé čiary, ale do žiadnej krivky nevstupujú
@@ -368,7 +384,7 @@ const ELEC=polls.filter(p=>p.type==="election"||p.type==="ep_election");
 let sel=new Set(MAIN), selAg=new Set(AGS), from=tmin, sigma=45, mfrac=1, mode="strany";
 const BLOCKS={
   dem:{name:"Demokratický blok", color:"#6aa6ff",
-       members:["ps","sas","olano","kdh","dem","spolu","modri","zl","ku","siet"]},
+       members:["psdem","sas","olano","kdh","spolu","modri","zl","ku","siet"]},
   nat:{name:"Národno-sociálny blok", color:"#ff6b73",
        members:["smer","hlas","sns","rep","lsns","vlast","pravda"]},
   nez:{name:"Nezaradené", color:"#c3cbd4",
@@ -396,7 +412,9 @@ function chip(box,key,label,color,set,on,cb){
 const NEVOL={name:"Nerozhodnutí a nevoliči", color:"#9aa0ab", members:[]};
 function tOn(){const e=document.getElementById("turnout");return mode==="bloky"&&!!e&&e.checked;}
 function blocList(){return tOn()?Object.values(BLOCKS).concat([NEVOL]):Object.values(BLOCKS);}
-const DEMSTACK_ORDER=["ps","olano","sas","kdh","dem","spolu","modri","zl","ku","siet"];
+// `psdem` nahrádza samostatné ps a dem, aby sa pásy nezdvojili a aby séria nemala
+// medzeru od chvíle, keď agentúry merajú už len koalíciu.
+const DEMSTACK_ORDER=["psdem","olano","sas","kdh","spolu","modri","zl","ku","siet"];
 const mb=document.getElementById("modebtns");
 [["strany","Strany"],["bloky","Bloky"],["demstack","Demokratický blok"]].forEach(([m,lab],i)=>{
   const b=document.createElement("button");b.className="pbtn"+(i===0?" on":"");b.textContent=lab;
@@ -593,6 +611,13 @@ function draw(){
       if(last)endLab.push({x:X(last.t)+4,y:Y(last.v)+4,col:bl.color,txt:last.v.toFixed(1)});
     }
   } else {
+    // Odkiaľ je koaličná hodnota meraná, nie dopočítaná. Kým je takých prieskumov málo,
+    // plný úsek krivky je kratučký, takže prechod označuje aj zvislá značka.
+    if(sel.has("psdem")&&PSDEM_T&&PSDEM_T>=from&&PSDEM_T<=tmax){
+      const xx=X(PSDEM_T).toFixed(1);
+      s+=`<line x1="${xx}" y1="${mt}" x2="${xx}" y2="${H-mb}" stroke="${P.psdem.color}" stroke-width="1" stroke-dasharray="2 3" stroke-opacity=".55"/>`;
+      s+=`<text x="${xx}" y="${mt+10}" font-size="10.5" fill="${P.psdem.color}" fill-opacity=".9" text-anchor="end" transform="rotate(-90 ${xx} ${mt+10})">meraná koalícia</text>`;
+    }
     { const showDots=document.getElementById("dots").checked;
       for(const p of shown){for(const k of sel){const v=p[k];if(v==null)continue;
         dotEls.push({x:X(p.t),y:Y(v),p,k,v});
@@ -601,13 +626,27 @@ function draw(){
     ELEC.forEach(e=>{if(e.t<from)return;for(const k of sel){const v=e[k];if(v==null)continue;
       s+=`<path d="M ${X(e.t)} ${Y(v)-5} L ${X(e.t)+4.4} ${Y(v)+3} L ${X(e.t)-4.4} ${Y(v)+3} Z" fill="${P[k].color}" stroke="${C.stroke}" stroke-width="1.2"/>`;}});
     for(const k of sel){
-      let d="",pen=false,last=null;
-      for(let t=from;t<=tmax;t+=step){
+      const pts=[];let last=null;
+      const grid=[];for(let t=from;t<=tmax;t+=step)grid.push(t);
+      if(grid[grid.length-1]!==tmax)grid.push(tmax); // koniec série sa musí vzorkovať vždy
+      for(const t of grid){
         const v=kernelAvg(k,t,pset,sigma);
-        if(v==null){pen=false;continue;}
-        d+=(pen?"L":"M")+X(t).toFixed(1)+" "+Y(v).toFixed(1)+" ";pen=true;last={t,v};
+        pts.push(v==null?null:{t,v});
+        if(v!=null)last={t,v};
       }
-      s+=`<path d="${d}" fill="none" stroke="${P[k].color}" stroke-width="2.4" stroke-linejoin="round"/>`;
+      // koaličná séria: dopočítaný úsek čiarkovane, meraný plne. Deliaci bod patrí
+      // do oboch úsekov, aby na seba čiary nadviazali bez medzery.
+      const seg=keep=>{let d="",pen=false;
+        for(const q of pts){if(!q||!keep(q)){pen=false;continue;}
+          d+=(pen?"L":"M")+X(q.t).toFixed(1)+" "+Y(q.v).toFixed(1)+" ";pen=true;}
+        return d;};
+      if(k==="psdem"&&PSDEM_T){
+        const dd=seg(q=>q.t<=PSDEM_T), ds=seg(q=>q.t>=PSDEM_T);
+        if(dd)s+=`<path d="${dd}" fill="none" stroke="${P[k].color}" stroke-width="2.4" stroke-dasharray="7 4" stroke-linejoin="round"/>`;
+        if(ds)s+=`<path d="${ds}" fill="none" stroke="${P[k].color}" stroke-width="2.4" stroke-linejoin="round"/>`;
+      } else {
+        s+=`<path d="${seg(()=>true)}" fill="none" stroke="${P[k].color}" stroke-width="2.4" stroke-linejoin="round"/>`;
+      }
       if(last)endLab.push({x:X(last.t)+4,y:Y(last.v)+4,col:P[k].color,txt:last.v.toFixed(1)});
     }
   }
@@ -634,7 +673,14 @@ function tipShow(e,touch){
     tip.style.opacity=1;
     tip.style.left=Math.min(x+14,r.width-260)+"px";tip.style.top=(y+8)+"px";
     const nm=best.bloc?(BLOCKS[best.k]?BLOCKS[best.k].name:best.k):P[best.k].name;
-    tip.innerHTML=`<b>${nm}: ${best.v} %</b><br>${best.p.agency} · ${fmtDF(new Date(best.p.start).getTime())} – ${fmtDF(new Date(best.p.end).getTime())}<br>vzorka: ${best.p.sample||"?"}`;
+    let pozn="";
+    if(best.k==="psdem")
+      pozn = best.p.psdem_merane
+        ? `<br><i>koalíciu merala agentúra ako jeden subjekt</i>`
+        : (best.p.dem!=null
+            ? `<br><i>dopočet: PS ${best.p.ps} + Demokrati ${best.p.dem}</i>`
+            : `<br><i>dopočet: samotné PS (Demokrati vtedy nemeraní)</i>`);
+    tip.innerHTML=`<b>${nm}: ${best.v} %</b><br>${best.p.agency} · ${fmtDF(new Date(best.p.start).getTime())} – ${fmtDF(new Date(best.p.end).getTime())}<br>vzorka: ${best.p.sample||"?"}${pozn}`;
   } else tip.style.opacity=0;
 }
 svg.addEventListener("mousemove",e=>tipShow(e,false));
@@ -643,8 +689,12 @@ document.addEventListener("pointerdown",e=>{if(e.pointerType!=="mouse"&&!svg.con
 svg.addEventListener("mouseleave",()=>tip.style.opacity=0);
 
 /* ---------- seats ---------- */
+const QUORUM={psdem:7};
+const SEAT_SKIP=new Set(["ps","dem"]);
 function seatCalc(avg){
-  const q=Object.entries(avg).filter(([k,v])=>v>=5);
+  // Zákon o voľbách: samostatná strana 5 %, koalícia dvoch alebo troch strán 7 %,
+  // koalícia štyroch a viac 10 %. PS + Demokrati je dvojkoalícia.
+  const q=Object.entries(avg).filter(([k,v])=>v>=(QUORUM[k]||5));
   const tot=q.reduce((a,[,v])=>a+v,0);
   if(!q.length)return{};
   const quota=tot/151;
@@ -660,7 +710,9 @@ function drawSeats(){
   document.getElementById("mdate").textContent=fmtDF(t);
   const pset=activePolls();
   const avg={};
-  ALLP.forEach(k=>{const v=kernelAvg(k,t,pset,60);if(v!=null)avg[k]=v;});
+  // PS a Demokratov zastupuje koaličná séria `psdem` — do mandátov aj do koaličnej
+  // kalkulačky preto vstupuje len ona, inak by sa tí istí voliči počítali dvakrát.
+  ALLP.filter(k=>!SEAT_SKIP.has(k)).forEach(k=>{const v=kernelAvg(k,t,pset,60);if(v!=null)avg[k]=v;});
   curSeats=seatCalc(avg);
   const box=document.getElementById("seats");
   const ord=Object.keys(avg).sort((a,b)=>avg[b]-avg[a]).filter(k=>avg[k]>=2);

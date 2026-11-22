@@ -554,6 +554,23 @@ EXTRA = [
  dict(agency="Infostat", d1=D("2026-11-02"), d2=D("2026-11-06"), sample="1,001", typ="poll",
       vals=dict(ps=17.6, smer=17.4, rep=9.7, hlas=9.5, olano=8.9, sas=8.6, kdh=8.1,
                 dem=7.1, ali=4.6, sr=2.9, sns=2.0)),
+ # Ipsos pre Dennik N, november 2026 — PRVA VLNA S MERANOU KOALICIOU PS + DEMOKRATI.
+ # Primarny zdroj: tlacova sprava Ipsosu z 22. 11. 2026 (PDF na ipsos.com), zber
+ # 16.-20. 11. 2026, online, n = 1 009. Ipsos po oznameni dohody zaradil do merania
+ # koaliciu ako JEDEN subjekt (24,1 %) a pri PS aj Demokratoch ma v novembrovom
+ # stlpci pomlcku — samostatne hodnoty teda neexistuju a nedaju sa odvodit.
+ # Preto ide hodnota do kluca `psdem` a `ps`/`dem` zostavaju prazdne.
+ # Kontrola 1: menovane subjekty (vratane koalicie a Prava na pravdu 2,4 cez PRAVDA)
+ # scitaju 97,8 %, `oth` sa dopocita na 2,2 — sedi s polozkou "Ine strany 2,2 %"
+ # v tabulke Ipsosu.
+ # Kontrola 2: oktobrovy stlpec tej istej tabulky sedi s riadkom Ipsos 2026-10-19
+ # bod po bode pri vsetkych 13 hodnotach (vratane SaS 8,1 a KDH 7,3, ktore boli
+ # v oktobri doplnene krizovou kontrolou mandatov — tym sa spatne potvrdili).
+ # Mandaty v sprave: koalicia 42 · Smer 30 · Republika 21 · Slovensko 19 · SaS 14 ·
+ # KDH 12 · Hlas 12 = 150. Ucast 63 % — nezapisana (nie je tabulka TURNOUT_IPSOS).
+ dict(agency="Ipsos", d1=D("2026-11-16"), d2=D("2026-11-20"), sample="1,009", typ="poll",
+      vals=dict(psdem=24.1, smer=17.2, rep=12.3, olano=10.8, sas=8.5, kdh=6.9,
+                hlas=6.8, ali=4.3, sr=2.0, zl=1.4, sns=1.0)),
 ]
 
 
@@ -747,6 +764,7 @@ PRAVDA = {
  ("AKO","2026-10-28"):2.9, ("SANEP","2026-10-26"):1.6,
  ("Focus","2026-10-19"):2.7, ("Ipsos","2026-10-19"):3.3,
  ("NMS","2026-11-08"):3.0, ("Infostat","2026-11-06"):2.2,
+ ("Ipsos","2026-11-20"):2.4,
  # NMS 6/2026 chybalo — doplnene z primarneho grafu NMS (Flourish 30851791), kde ma
  # Pravo na pravdu 2,7; zvysok riadku sedi s grafom presne.
  ("NMS","2026-06-08"):2.7,
@@ -795,6 +813,7 @@ def apply_turnout(recs):
 PARTY_META = {
  "smer": ("Smer-SD", "#ff7b80"),
  "hlas": ("Hlas-SD", "#e0a0a0"),
+ "psdem":("PS + Demokrati", "#0e8fc4"),
  "ps":   ("PS", "#2ccbef"),
  "olano":("Slovensko (OĽaNO)", "#a9dc5f"),
  "sas":  ("SaS", "#d3ec3a"),
@@ -818,7 +837,41 @@ PARTY_META = {
  "oth":  ("Iné", "#c8c8c8"),
 }
 
-VERZIA = "2026-11-22.1"   # meniť pri každej zmene dát; zapisuje sa do JSON aj do index.html
+VERZIA = "2026-11-22.2"   # meniť pri každej zmene dát; zapisuje sa do JSON aj do index.html
+
+
+# ---------------- Koalícia PS + Demokrati ----------------
+# Od novembra 2026 agentúry zaraďujú PS a Demokratov do merania ako JEDEN subjekt
+# (prvý Ipsos, zber 16.–20. 11. 2026). Pre staršie prieskumy koaličná hodnota
+# neexistuje — dá sa len dopočítať ako súčet samostatne meraných strán, čo NIE JE
+# to isté ako meranie koalície. Dashboard preto kreslí dopočítaný úsek čiarkovane
+# a meraný plne; rozlišuje ich stĺpec `psdem_merane` (1 = merané, 0 = dopočet).
+#
+# Dopočet sa robí až PO apply_qa (teda po dopočte `oth`), aby sa koalícia
+# nezapočítala dvakrát: v tom momente je `psdem` vyplnené len tam, kde ho agentúra
+# naozaj merala, a do súčtu pre `oth` teda vstupuje správne ako samostatný subjekt.
+# Dopočítava sa všade, kde je nameraná hodnota PS — teda aj pred vznikom Demokratov
+# (prvé meranie Demokratov je 16. 1. 2023), kde sa súčet rovná samotnému PS. Vďaka tomu
+# je séria súvislá aj v blokovom pohľade a v pásoch demokratického bloku; že ide
+# o dopočet, je v grafe vidieť podľa čiarkovanej čiary a v tooltipe.
+
+def apply_psdem(recs):
+    first_merane = None
+    n_der = 0
+    for r in recs:
+        if r.get("psdem") is not None:
+            r["psdem_merane"] = 1
+            if first_merane is None or r["mid"] < first_merane:
+                first_merane = r["mid"]
+            continue
+        if r.get("ps") is None:
+            continue
+        r["psdem"] = round(r["ps"] + (r.get("dem") or 0), 2)
+        r["psdem_merane"] = 0
+        n_der += 1
+    print(f"koalícia PS+Demokrati: {n_der} dopočítaných riadkov, "
+          f"prvé meranie {first_merane}")
+    return recs, first_merane
 
 def main():
     f1,p1=parse_file1()
@@ -850,13 +903,15 @@ def main():
     recs=apply_qa(recs, PARTY_COLS)
     recs=apply_pravda(recs)
     recs=apply_turnout(recs)
-    TURN_COLS=["ucast","ucast_typ","nerozhodnuti","nesli_by","odmietli","neuplny"]
+    recs,psdem_od=apply_psdem(recs)
+    TURN_COLS=["psdem_merane","ucast","ucast_typ","nerozhodnuti","nesli_by","odmietli","neuplny"]
     cols=["agency","start","end","mid","sample","type"]+list(PARTY_META.keys())+TURN_COLS
     with open(f"{BASE}/polls_sk.csv","w",newline="",encoding="utf-8") as f:
         w=csv.DictWriter(f, fieldnames=cols); w.writeheader()
         for r in recs: w.writerow({c:r.get(c,"") for c in cols})
     with open(f"{BASE}/polls_sk.json","w",encoding="utf-8") as f:
         json.dump(dict(verzia=VERZIA, meta={k:dict(name=v[0],color=v[1]) for k,v in PARTY_META.items()},
+                       psdem_od=psdem_od,
                        polls=recs), f, ensure_ascii=False, indent=1)
     print(f"VERZIA {VERZIA}")
     print(f"TOTAL exported: {len(recs)} rows, {recs[0]['mid']} .. {recs[-1]['mid']}")

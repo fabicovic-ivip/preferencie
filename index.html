@@ -20,7 +20,7 @@
 <meta name="twitter:title" content="Preferencie politických strán SR — agregátor prieskumov">
 <meta name="twitter:description" content="Dlhodobé trendy preferencií, prepočet mandátov a koaličná kalkulačka. 330+ prieskumov od roku 2016.">
 <meta name="twitter:image" content="https://ivip.sk/wp-content/uploads/2026/07/ivip-preferencie-og-2.png">
-<meta name="dashboard-version" content="2026-11-22.1">
+<meta name="dashboard-version" content="2026-11-22.2">
 <meta property="og:locale" content="sk_SK">
 <meta name="robots" content="index, follow">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%235a3787'/%3E%3Cpath d='M6 22l5-7 4 4 6-9 5 6' stroke='%23ffffff' stroke-width='2.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
@@ -246,7 +246,7 @@ footer .foot-main{margin-top:0}
     </div>
    </details>
    <div class="sidemeta">
-     <div>Verzia dát <b id="verdata">2026-11-22.1</b></div>
+     <div>Verzia dát <b id="verdata">2026-11-22.2</b></div>
      <div><button type="button" class="srclink" id="srcopen" aria-haspopup="dialog">Zdroje a metodika</button></div>
    </div>
   </div>
@@ -316,7 +316,16 @@ footer .foot-main{margin-top:0}
       Prieskumy zverejnené v deň volieb (exit polly) do trendu nevstupujú.
       SCIO (doplnené od decembra 2024) zverejňuje model rozhodnutých voličov s hodnotami na dve desatiny vrátane malých strán; hodnoty sú odčítané z grafov v jeho tlačových správach.</p>
 
-      <p><b>Blokový pohľad:</b> demokratický blok = PS, SaS, OĽaNO/Slovensko, KDH, Demokrati, SPOLU, Modrí, Za ľudí, KÚ, SIEŤ;
+      <p><b>PS + Demokrati:</b> obe strany idú do volieb ako koalícia, preto ich prehľad uvádza ako jeden subjekt.
+      Agentúry ju začali takto merať v novembri 2026 (prvý Ipsos, zber 16.–20. 11. 2026) — od toho prieskumu je krivka
+      plná čiara a vychádza z nameranej koaličnej hodnoty. Skorší úsek je <b>čiarkovaný</b>, lebo koaličná hodnota vtedy
+      neexistovala a ide o dopočet: súčet samostatne meraných preferencií PS a Demokratov (pred rokom 2023, keď Demokrati
+      ešte neboli v modeloch, teda o samotné PS). Súčet dvoch strán nie je to isté ako meranie koalície — voliči na
+      spoločnú kandidátku reagujú inak — preto sú oba úseky odlíšené. Pri každom bode tooltip ukazuje, o ktorý prípad ide.
+      Samostatné krivky PS a Demokratov sú aj naďalej k dispozícii v zozname „ďalšie strany“ aj s celou históriou.
+      V prepočte na mandáty platí pre dvojkoalíciu kvórum 7 %, nie 5 %.</p>
+
+      <p><b>Blokový pohľad:</b> demokratický blok = PS + Demokrati, SaS, OĽaNO/Slovensko, KDH, SPOLU, Modrí, Za ľudí, KÚ, SIEŤ;
       národno-sociálny blok = Smer, Hlas, SNS, Republika, ĽSNS, Vlasť, Právo na pravdu; nezaradené = Sme rodina, maďarské strany (SMK/Aliancia, Most-Híd, MF), Dobrá voľba.
       V blokových režimoch čiara „kvóra“ zobrazuje hranicu 50 %. Režim „Demokratický blok“ skladá strany demokratického bloku ako farebné pásy
       pod súčtovou krivkou (Σ). Zaradenie strán do blokov je interpretačná voľba, nie oficiálna kategorizácia.</p>
@@ -354,7 +363,7 @@ footer .foot-main{margin-top:0}
 const C={grid:"rgba(255,255,255,.10)", gridY:"rgba(255,255,255,.13)", axis:"#cbbde0",
          thr:"#ff6b7a", elec:"rgba(255,255,255,.38)", stroke:"#3b2359"};
 const DATA = {
- "verzia": "2026-11-22.1",
+ "verzia": "2026-11-22.2",
  "meta": {
   "smer": {
    "name": "Smer-SD",
@@ -363,6 +372,10 @@ const DATA = {
   "hlas": {
    "name": "Hlas-SD",
    "color": "#e0a0a0"
+  },
+  "psdem": {
+   "name": "PS + Demokrati",
+   "color": "#0e8fc4"
   },
   "ps": {
    "name": "PS",
@@ -449,6 +462,7 @@ const DATA = {
    "color": "#c8c8c8"
   }
  },
+ "psdem_od": "2026-11-18",
  "polls": [
   {
    "agency": "Voľby 2016",
@@ -1278,7 +1292,9 @@ const DATA = {
    "mh": 5.7,
    "kdh": 7.4,
    "ali": 3.9,
-   "ps": 1.9
+   "ps": 1.9,
+   "psdem": 1.9,
+   "psdem_merane": 0
   },
   {
    "agency": "AKO",
@@ -1297,7 +1313,9 @@ const DATA = {
    "kdh": 7.7,
    "ali": 3.4,
    "ps": 1.6,
-   "spolu": 1.6
+   "spolu": 1.6,
+   "psdem": 1.6,
+   "psdem_merane": 0
   },
   {
    "agency": "Focus",
@@ -1316,7 +1334,9 @@ const DATA = {
    "kdh": 7.0,
    "ali": 4.1,
    "ps": 1.4,
-   "spolu": 1.1
+   "spolu": 1.1,
+   "psdem": 1.4,
+   "psdem_merane": 0
   },
   {
    "agency": "AKO",
@@ -1335,7 +1355,9 @@ const DATA = {
    "kdh": 8.6,
    "ali": 2.7,
    "ps": 3.2,
-   "spolu": 2.8
+   "spolu": 2.8,
+   "psdem": 3.2,
+   "psdem_merane": 0
   },
   {
    "agency": "AKO",
@@ -1354,7 +1376,9 @@ const DATA = {
    "kdh": 6.9,
    "ali": 1.9,
    "ps": 3.8,
-   "spolu": 3.7
+   "spolu": 3.7,
+   "psdem": 3.8,
+   "psdem_merane": 0
   },
   {
    "agency": "Focus",
@@ -1373,7 +1397,9 @@ const DATA = {
    "kdh": 6.8,
    "ali": 3.3,
    "ps": 3.6,
-   "spolu": 2.8
+   "spolu": 2.8,
+   "psdem": 3.6,
+   "psdem_merane": 0
   },
   {
    "agency": "AKO",
@@ -1392,7 +1418,9 @@ const DATA = {
    "kdh": 6.7,
    "ali": 2.5,
    "ps": 3.9,
-   "spolu": 3.6
+   "spolu": 3.6,
+   "psdem": 3.9,
+   "psdem_merane": 0
   },
   {
    "agency": "Focus",
@@ -1411,7 +1439,9 @@ const DATA = {
    "kdh": 6.7,
    "ali": 4.0,
    "ps": 3.9,
-   "spolu": 2.9
+   "spolu": 2.9,
+   "psdem": 3.9,
+   "psdem_merane": 0
   },
   {
    "agency": "AKO",
@@ -1430,7 +1460,9 @@ const DATA = {
    "kdh": 7.2,
    "ali": 2.4,
    "ps": 4.0,
-   "spolu": 3.8
+   "spolu": 3.8,
+   "psdem": 4.0,
+   "psdem_merane": 0
   },
   {
    "agency": "Focus",
@@ -1449,7 +1481,9 @@ const DATA = {
    "kdh": 7.1,
    "ali": 4.1,
    "ps": 4.2,
-   "spolu": 3.3
+   "spolu": 3.3,
+   "psdem": 4.2,
+   "psdem_merane": 0
   },
   {
    "agency": "AKO",
@@ -1468,7 +1502,9 @@ const DATA = {
    "kdh": 6.1,
    "ali": 3.0,
    "ps": 4.1,
-   "spolu": 3.3
+   "spolu": 3.3,
+   "psdem": 4.1,
+   "psdem_merane": 0
   },
   {
    "agency": "AKO",
@@ -1487,7 +1523,9 @@ const DATA = {
    "kdh": 7.6,
    "ali": 3.0,
    "ps": 4.6,
-   "spolu": 2.3
+   "spolu": 2.3,
+   "psdem": 4.6,
+   "psdem_merane": 0
   },
   {
    "agency": "Focus",
@@ -1506,7 +1544,9 @@ const DATA = {
    "kdh": 5.5,
    "ali": 3.1,
    "ps": 4.4,
-   "spolu": 3.1
+   "spolu": 3.1,
+   "psdem": 4.4,
+   "psdem_merane": 0
   },
   {
    "agency": "Focus",
@@ -1525,7 +1565,9 @@ const DATA = {
    "kdh": 7.7,
    "ali": 3.6,
    "ps": 5.3,
-   "spolu": 5.0
+   "spolu": 5.0,
+   "psdem": 5.3,
+   "psdem_merane": 0
   },
   {
    "agency": "AKO",
@@ -1544,7 +1586,9 @@ const DATA = {
    "kdh": 5.9,
    "ali": 3.2,
    "ps": 5.0,
-   "spolu": 4.2
+   "spolu": 4.2,
+   "psdem": 5.0,
+   "psdem_merane": 0
   },
   {
    "agency": "AKO",
@@ -1563,7 +1607,9 @@ const DATA = {
    "kdh": 6.7,
    "ali": 2.4,
    "ps": 5.3,
-   "spolu": 3.2
+   "spolu": 3.2,
+   "psdem": 5.3,
+   "psdem_merane": 0
   },
   {
    "agency": "Focus",
@@ -1582,7 +1628,9 @@ const DATA = {
    "kdh": 6.5,
    "ali": 3.3,
    "ps": 5.1,
-   "spolu": 4.1
+   "spolu": 4.1,
+   "psdem": 5.1,
+   "psdem_merane": 0
   },
   {
    "agency": "Focus",
@@ -1601,7 +1649,9 @@ const DATA = {
    "kdh": 7.0,
    "ali": 3.4,
    "ps": 4.9,
-   "spolu": 3.5
+   "spolu": 3.5,
+   "psdem": 4.9,
+   "psdem_merane": 0
   },
   {
    "agency": "AKO",
@@ -1619,7 +1669,9 @@ const DATA = {
    "mh": 6.3,
    "kdh": 6.1,
    "ali": 3.3,
-   "ps": 7.5
+   "ps": 7.5,
+   "psdem": 7.5,
+   "psdem_merane": 0
   },
   {
    "agency": "Focus",
@@ -1637,7 +1689,9 @@ const DATA = {
    "mh": 5.4,
    "kdh": 6.5,
    "ali": 3.1,
-   "ps": 9.5
+   "ps": 9.5,
+   "psdem": 9.5,
+   "psdem_merane": 0
   },
   {
    "agency": "Focus",
@@ -1655,7 +1709,9 @@ const DATA = {
    "mh": 4.5,
    "kdh": 7.5,
    "ali": 3.0,
-   "ps": 9.1
+   "ps": 9.1,
+   "psdem": 9.1,
+   "psdem_merane": 0
   },
   {
    "agency": "AKO",
@@ -1673,7 +1729,9 @@ const DATA = {
    "mh": 5.0,
    "kdh": 6.9,
    "ali": 2.6,
-   "ps": 14.4
+   "ps": 14.4,
+   "psdem": 14.4,
+   "psdem_merane": 0
   },
   {
    "agency": "Focus",
@@ -1691,7 +1749,9 @@ const DATA = {
    "mh": 4.7,
    "kdh": 6.8,
    "ali": 3.6,
-   "ps": 13.4
+   "ps": 13.4,
+   "psdem": 13.4,
+   "psdem_merane": 0
   },
   {
    "agency": "AKO",
@@ -1709,7 +1769,9 @@ const DATA = {
    "mh": 5.0,
    "kdh": 6.6,
    "ali": 2.6,
-   "ps": 13.7
+   "ps": 13.7,
+   "psdem": 13.7,
+   "psdem_merane": 0
   },
   {
    "agency": "AKO",
@@ -1727,7 +1789,9 @@ const DATA = {
    "mh": 5.1,
    "kdh": 7.4,
    "ali": 2.2,
-   "ps": 13.6
+   "ps": 13.6,
+   "psdem": 13.6,
+   "psdem_merane": 0
   },
   {
    "agency": "AKO",
@@ -1745,7 +1809,9 @@ const DATA = {
    "mh": 4.2,
    "kdh": 8.6,
    "ali": 2.9,
-   "ps": 18.0
+   "ps": 18.0,
+   "psdem": 18.0,
+   "psdem_merane": 0
   },
   {
    "agency": "Focus",
@@ -1763,7 +1829,9 @@ const DATA = {
    "mh": 4.4,
    "kdh": 7.5,
    "ali": 3.7,
-   "ps": 17.8
+   "ps": 17.8,
+   "psdem": 17.8,
+   "psdem_merane": 0
   },
   {
    "agency": "Polis",
@@ -1781,7 +1849,9 @@ const DATA = {
    "mh": 5.1,
    "kdh": 8.2,
    "ps": 15.0,
-   "zl": 5.2
+   "zl": 5.2,
+   "psdem": 15.0,
+   "psdem_merane": 0
   },
   {
    "agency": "Focus",
@@ -1800,7 +1870,9 @@ const DATA = {
    "kdh": 7.0,
    "ali": 3.3,
    "ps": 15.7,
-   "zl": 5.2
+   "zl": 5.2,
+   "psdem": 15.7,
+   "psdem_merane": 0
   },
   {
    "agency": "Focus",
@@ -1819,7 +1891,9 @@ const DATA = {
    "kdh": 7.5,
    "ali": 3.4,
    "ps": 14.0,
-   "zl": 5.0
+   "zl": 5.0,
+   "psdem": 14.0,
+   "psdem_merane": 0
   },
   {
    "agency": "Focus",
@@ -1838,7 +1912,9 @@ const DATA = {
    "kdh": 7.3,
    "ali": 3.5,
    "ps": 14.9,
-   "zl": 5.5
+   "zl": 5.5,
+   "psdem": 14.9,
+   "psdem_merane": 0
   },
   {
    "agency": "MVK",
@@ -1857,7 +1933,9 @@ const DATA = {
    "kdh": 9.4,
    "ali": 3.4,
    "ps": 13.3,
-   "zl": 7.9
+   "zl": 7.9,
+   "psdem": 13.3,
+   "psdem_merane": 0
   },
   {
    "agency": "AKO",
@@ -1876,7 +1954,9 @@ const DATA = {
    "kdh": 6.3,
    "ali": 3.5,
    "ps": 15.5,
-   "zl": 8.8
+   "zl": 8.8,
+   "psdem": 15.5,
+   "psdem_merane": 0
   },
   {
    "agency": "Focus",
@@ -1896,7 +1976,9 @@ const DATA = {
    "ali": 3.3,
    "ps": 13.3,
    "zl": 6.5,
-   "dv": 2.1
+   "dv": 2.1,
+   "psdem": 13.3,
+   "psdem_merane": 0
   },
   {
    "agency": "AKO",
@@ -1916,7 +1998,9 @@ const DATA = {
    "ali": 3.6,
    "ps": 17.1,
    "zl": 9.1,
-   "dv": 2.0
+   "dv": 2.0,
+   "psdem": 17.1,
+   "psdem_merane": 0
   },
   {
    "agency": "AKO",
@@ -1936,7 +2020,9 @@ const DATA = {
    "ali": 3.1,
    "ps": 12.7,
    "zl": 12.0,
-   "dv": 1.7
+   "dv": 1.7,
+   "psdem": 12.7,
+   "psdem_merane": 0
   },
   {
    "agency": "Focus",
@@ -1957,7 +2043,9 @@ const DATA = {
    "ps": 11.0,
    "zl": 9.1,
    "vlast": 1.8,
-   "dv": 2.4
+   "dv": 2.4,
+   "psdem": 11.0,
+   "psdem_merane": 0
   },
   {
    "agency": "Focus",
@@ -1978,7 +2066,9 @@ const DATA = {
    "ps": 11.7,
    "zl": 10.6,
    "vlast": 3.0,
-   "dv": 2.9
+   "dv": 2.9,
+   "psdem": 11.7,
+   "psdem_merane": 0
   },
   {
    "agency": "Polis",
@@ -1999,7 +2089,9 @@ const DATA = {
    "ps": 11.1,
    "zl": 11.2,
    "vlast": 3.3,
-   "dv": 2.4
+   "dv": 2.4,
+   "psdem": 11.1,
+   "psdem_merane": 0
   },
   {
    "agency": "AKO",
@@ -2020,7 +2112,9 @@ const DATA = {
    "ps": 12.4,
    "zl": 12.5,
    "vlast": 2.1,
-   "dv": 3.2
+   "dv": 3.2,
+   "psdem": 12.4,
+   "psdem_merane": 0
   },
   {
    "agency": "Focus",
@@ -2041,7 +2135,9 @@ const DATA = {
    "ps": 10.3,
    "zl": 9.2,
    "vlast": 2.1,
-   "dv": 3.8
+   "dv": 3.8,
+   "psdem": 10.3,
+   "psdem_merane": 0
   },
   {
    "agency": "Polis",
@@ -2062,7 +2158,9 @@ const DATA = {
    "ps": 9.5,
    "zl": 10.1,
    "vlast": 2.2,
-   "dv": 2.4
+   "dv": 2.4,
+   "psdem": 9.5,
+   "psdem_merane": 0
   },
   {
    "agency": "AKO",
@@ -2083,7 +2181,9 @@ const DATA = {
    "ps": 9.1,
    "zl": 10.4,
    "vlast": 1.7,
-   "dv": 3.2
+   "dv": 3.2,
+   "psdem": 9.1,
+   "psdem_merane": 0
   },
   {
    "agency": "Focus",
@@ -2104,7 +2204,9 @@ const DATA = {
    "ps": 10.5,
    "zl": 10.3,
    "vlast": 2.3,
-   "dv": 3.3
+   "dv": 3.3,
+   "psdem": 10.5,
+   "psdem_merane": 0
   },
   {
    "agency": "Polis",
@@ -2125,7 +2227,9 @@ const DATA = {
    "ps": 8.4,
    "zl": 9.7,
    "vlast": 3.8,
-   "dv": 4.1
+   "dv": 4.1,
+   "psdem": 8.4,
+   "psdem_merane": 0
   },
   {
    "agency": "AKO",
@@ -2146,7 +2250,9 @@ const DATA = {
    "ps": 10.2,
    "zl": 10.0,
    "vlast": 2.3,
-   "dv": 3.4
+   "dv": 3.4,
+   "psdem": 10.2,
+   "psdem_merane": 0
   },
   {
    "agency": "Focus",
@@ -2167,7 +2273,9 @@ const DATA = {
    "ps": 9.8,
    "zl": 10.8,
    "vlast": 2.0,
-   "dv": 4.0
+   "dv": 4.0,
+   "psdem": 9.8,
+   "psdem_merane": 0
   },
   {
    "agency": "Polis",
@@ -2188,7 +2296,9 @@ const DATA = {
    "ps": 9.1,
    "zl": 10.0,
    "vlast": 3.9,
-   "dv": 4.6
+   "dv": 4.6,
+   "psdem": 9.1,
+   "psdem_merane": 0
   },
   {
    "agency": "MVK",
@@ -2209,7 +2319,9 @@ const DATA = {
    "ps": 8.1,
    "zl": 8.5,
    "vlast": 2.4,
-   "dv": 2.9
+   "dv": 2.9,
+   "psdem": 8.1,
+   "psdem_merane": 0
   },
   {
    "agency": "AKO",
@@ -2230,7 +2342,9 @@ const DATA = {
    "ps": 8.7,
    "zl": 9.5,
    "vlast": 2.2,
-   "dv": 4.1
+   "dv": 4.1,
+   "psdem": 8.7,
+   "psdem_merane": 0
   },
   {
    "agency": "Focus",
@@ -2251,7 +2365,9 @@ const DATA = {
    "ps": 9.3,
    "zl": 8.2,
    "vlast": 3.2,
-   "dv": 4.0
+   "dv": 4.0,
+   "psdem": 9.3,
+   "psdem_merane": 0
   },
   {
    "agency": "AKO",
@@ -2272,7 +2388,9 @@ const DATA = {
    "ps": 9.4,
    "zl": 8.9,
    "vlast": 1.5,
-   "dv": 4.3
+   "dv": 4.3,
+   "psdem": 9.4,
+   "psdem_merane": 0
   },
   {
    "agency": "Focus+AKO",
@@ -2293,7 +2411,9 @@ const DATA = {
    "ps": 9.1,
    "zl": 8.2,
    "vlast": 3.2,
-   "dv": 3.8
+   "dv": 3.8,
+   "psdem": 9.1,
+   "psdem_merane": 0
   },
   {
    "agency": "Focus+AKO",
@@ -2314,7 +2434,9 @@ const DATA = {
    "ps": 9.4,
    "zl": 6.6,
    "vlast": 4.1,
-   "dv": 3.6
+   "dv": 3.6,
+   "psdem": 9.4,
+   "psdem_merane": 0
   },
   {
    "agency": "Median",
@@ -2335,7 +2457,9 @@ const DATA = {
    "ps": 8.8,
    "zl": 5.6,
    "vlast": 2.7,
-   "dv": 2.9
+   "dv": 2.9,
+   "psdem": 8.8,
+   "psdem_merane": 0
   },
   {
    "agency": "Focus",
@@ -2356,7 +2480,9 @@ const DATA = {
    "ps": 9.7,
    "zl": 7.8,
    "vlast": 1.9,
-   "dv": 2.8
+   "dv": 2.8,
+   "psdem": 9.7,
+   "psdem_merane": 0
   },
   {
    "agency": "Voľby 2020",
@@ -2379,7 +2505,9 @@ const DATA = {
    "dv": 3.1,
    "vlast": 2.93,
    "ucast": 65.8,
-   "ucast_typ": "volby"
+   "ucast_typ": "volby",
+   "psdem": 7.0,
+   "psdem_merane": 0
   },
   {
    "agency": "Focus",
@@ -2399,7 +2527,9 @@ const DATA = {
    "ali": 3.5,
    "mh": 1.3,
    "sns": 3.4,
-   "dv": 2.4
+   "dv": 2.4,
+   "psdem": 5.9,
+   "psdem_merane": 0
   },
   {
    "agency": "AKO",
@@ -2420,7 +2550,9 @@ const DATA = {
    "ali": 4.4,
    "mh": 0.6,
    "sns": 2.2,
-   "dv": 2.2
+   "dv": 2.2,
+   "psdem": 6.9,
+   "psdem_merane": 0
   },
   {
    "agency": "Focus",
@@ -2440,7 +2572,9 @@ const DATA = {
    "ali": 2.8,
    "mh": 1.8,
    "sns": 1.6,
-   "dv": 1.1
+   "dv": 1.1,
+   "psdem": 7.6,
+   "psdem_merane": 0
   },
   {
    "agency": "Focus",
@@ -2461,7 +2595,9 @@ const DATA = {
    "ali": 4.2,
    "mh": 1.5,
    "sns": 1.4,
-   "dv": 2.0
+   "dv": 2.0,
+   "psdem": 6.5,
+   "psdem_merane": 0
   },
   {
    "agency": "Focus",
@@ -2484,7 +2620,9 @@ const DATA = {
    "oth": 0.5,
    "mh": 1.5,
    "sns": 2.1,
-   "dv": 2.4
+   "dv": 2.4,
+   "psdem": 6.2,
+   "psdem_merane": 0
   },
   {
    "agency": "AKO",
@@ -2506,7 +2644,9 @@ const DATA = {
    "mh": 1.0,
    "sns": 1.4,
    "dv": 2.6,
-   "hlas": 16.7
+   "hlas": 16.7,
+   "psdem": 5.2,
+   "psdem_merane": 0
   },
   {
    "agency": "Focus",
@@ -2529,7 +2669,9 @@ const DATA = {
    "mh": 1.7,
    "sns": 3.0,
    "dv": 1.9,
-   "hlas": 16.2
+   "hlas": 16.2,
+   "psdem": 5.9,
+   "psdem_merane": 0
   },
   {
    "agency": "AKO",
@@ -2553,7 +2695,9 @@ const DATA = {
    "mh": 1.9,
    "sns": 2.4,
    "dv": 2.8,
-   "hlas": 18.8
+   "hlas": 18.8,
+   "psdem": 6.2,
+   "psdem_merane": 0
   },
   {
    "agency": "Focus",
@@ -2576,7 +2720,9 @@ const DATA = {
    "mh": 2.4,
    "sns": 2.1,
    "dv": 2.1,
-   "hlas": 18.7
+   "hlas": 18.7,
+   "psdem": 5.4,
+   "psdem_merane": 0
   },
   {
    "agency": "Focus",
@@ -2599,7 +2745,9 @@ const DATA = {
    "mh": 2.1,
    "sns": 2.2,
    "dv": 2.8,
-   "hlas": 19.1
+   "hlas": 19.1,
+   "psdem": 5.9,
+   "psdem_merane": 0
   },
   {
    "agency": "Focus",
@@ -2622,7 +2770,9 @@ const DATA = {
    "mh": 2.0,
    "sns": 2.7,
    "dv": 2.1,
-   "hlas": 20.1
+   "hlas": 20.1,
+   "psdem": 6.0,
+   "psdem_merane": 0
   },
   {
    "agency": "AKO",
@@ -2646,7 +2796,9 @@ const DATA = {
    "mh": 0.9,
    "sns": 1.6,
    "dv": 1.4,
-   "hlas": 22.8
+   "hlas": 22.8,
+   "psdem": 6.5,
+   "psdem_merane": 0
   },
   {
    "agency": "Focus",
@@ -2669,7 +2821,9 @@ const DATA = {
    "mh": 2.0,
    "sns": 2.8,
    "dv": 2.1,
-   "hlas": 24.3
+   "hlas": 24.3,
+   "psdem": 5.2,
+   "psdem_merane": 0
   },
   {
    "agency": "AKO",
@@ -2693,7 +2847,9 @@ const DATA = {
    "mh": 0.8,
    "sns": 2.3,
    "dv": 1.6,
-   "hlas": 25.0
+   "hlas": 25.0,
+   "psdem": 7.2,
+   "psdem_merane": 0
   },
   {
    "agency": "Focus",
@@ -2717,7 +2873,9 @@ const DATA = {
    "mh": 2.1,
    "sns": 2.8,
    "dv": 1.9,
-   "hlas": 23.0
+   "hlas": 23.0,
+   "psdem": 6.7,
+   "psdem_merane": 0
   },
   {
    "agency": "AKO",
@@ -2741,7 +2899,9 @@ const DATA = {
    "mh": 0.8,
    "sns": 3.0,
    "dv": 2.8,
-   "hlas": 24.9
+   "hlas": 24.9,
+   "psdem": 8.0,
+   "psdem_merane": 0
   },
   {
    "agency": "Focus",
@@ -2764,7 +2924,9 @@ const DATA = {
    "sns": 3.4,
    "dv": 1.8,
    "hlas": 22.3,
-   "rep": 4.7
+   "rep": 4.7,
+   "psdem": 6.2,
+   "psdem_merane": 0
   },
   {
    "agency": "AKO",
@@ -2787,7 +2949,9 @@ const DATA = {
    "sns": 3.3,
    "dv": 3.1,
    "hlas": 23.9,
-   "rep": 3.1
+   "rep": 3.1,
+   "psdem": 8.3,
+   "psdem_merane": 0
   },
   {
    "agency": "AKO",
@@ -2810,7 +2974,9 @@ const DATA = {
    "sns": 1.6,
    "dv": 3.0,
    "hlas": 22.5,
-   "rep": 3.5
+   "rep": 3.5,
+   "psdem": 8.5,
+   "psdem_merane": 0
   },
   {
    "agency": "Focus",
@@ -2833,7 +2999,9 @@ const DATA = {
    "sns": 3.4,
    "dv": 1.4,
    "hlas": 22.4,
-   "rep": 4.5
+   "rep": 4.5,
+   "psdem": 6.1,
+   "psdem_merane": 0
   },
   {
    "agency": "Focus",
@@ -2856,7 +3024,9 @@ const DATA = {
    "sns": 3.2,
    "dv": 1.3,
    "hlas": 21.6,
-   "rep": 4.6
+   "rep": 4.6,
+   "psdem": 6.3,
+   "psdem_merane": 0
   },
   {
    "agency": "AKO",
@@ -2879,7 +3049,9 @@ const DATA = {
    "sns": 3.1,
    "dv": 2.5,
    "hlas": 21.0,
-   "rep": 2.8
+   "rep": 2.8,
+   "psdem": 8.3,
+   "psdem_merane": 0
   },
   {
    "agency": "AKO",
@@ -2902,7 +3074,9 @@ const DATA = {
    "sns": 3.4,
    "dv": 1.9,
    "hlas": 20.8,
-   "rep": 3.8
+   "rep": 3.8,
+   "psdem": 8.4,
+   "psdem_merane": 0
   },
   {
    "agency": "AKO",
@@ -2925,7 +3099,9 @@ const DATA = {
    "sns": 3.5,
    "dv": 1.5,
    "hlas": 19.5,
-   "rep": 4.5
+   "rep": 4.5,
+   "psdem": 8.9,
+   "psdem_merane": 0
   },
   {
    "agency": "Median",
@@ -2945,7 +3121,9 @@ const DATA = {
    "ali": 4.8,
    "hlas": 16.3,
    "rep": 5.4,
-   "oth": 10.7
+   "oth": 10.7,
+   "psdem": 8.6,
+   "psdem_merane": 0
   },
   {
    "agency": "Focus",
@@ -2965,7 +3143,9 @@ const DATA = {
    "ali": 5.5,
    "hlas": 18.5,
    "rep": 6.8,
-   "oth": 8.3
+   "oth": 8.3,
+   "psdem": 7.0,
+   "psdem_merane": 0
   },
   {
    "agency": "AKO",
@@ -2988,7 +3168,9 @@ const DATA = {
    "sns": 3.5,
    "dv": 0.9,
    "hlas": 18.8,
-   "rep": 5.2
+   "rep": 5.2,
+   "psdem": 8.7,
+   "psdem_merane": 0
   },
   {
    "agency": "AKO",
@@ -3011,7 +3193,9 @@ const DATA = {
    "sns": 3.6,
    "dv": 1.8,
    "hlas": 18.2,
-   "rep": 5.0
+   "rep": 5.0,
+   "psdem": 8.6,
+   "psdem_merane": 0
   },
   {
    "agency": "Actly",
@@ -3033,7 +3217,9 @@ const DATA = {
    "sns": 3.1,
    "dv": 2.0,
    "hlas": 21.0,
-   "rep": 5.1
+   "rep": 5.1,
+   "psdem": 5.9,
+   "psdem_merane": 0
   },
   {
    "agency": "Focus",
@@ -3055,7 +3241,9 @@ const DATA = {
    "sns": 3.3,
    "dv": 2.2,
    "hlas": 19.3,
-   "rep": 5.5
+   "rep": 5.5,
+   "psdem": 6.9,
+   "psdem_merane": 0
   },
   {
    "agency": "AKO",
@@ -3078,7 +3266,9 @@ const DATA = {
    "sns": 3.6,
    "dv": 2.3,
    "hlas": 18.5,
-   "rep": 5.6
+   "rep": 5.6,
+   "psdem": 8.7,
+   "psdem_merane": 0
   },
   {
    "agency": "Focus",
@@ -3100,7 +3290,9 @@ const DATA = {
    "sns": 3.6,
    "dv": 2.1,
    "hlas": 19.2,
-   "rep": 6.8
+   "rep": 6.8,
+   "psdem": 7.7,
+   "psdem_merane": 0
   },
   {
    "agency": "AKO",
@@ -3121,7 +3313,9 @@ const DATA = {
    "sns": 3.6,
    "dv": 2.2,
    "hlas": 19.0,
-   "rep": 5.9
+   "rep": 5.9,
+   "psdem": 8.6,
+   "psdem_merane": 0
   },
   {
    "agency": "AKO",
@@ -3144,7 +3338,9 @@ const DATA = {
    "sns": 3.6,
    "dv": 2.0,
    "hlas": 18.0,
-   "rep": 6.2
+   "rep": 6.2,
+   "psdem": 8.5,
+   "psdem_merane": 0
   },
   {
    "agency": "Focus",
@@ -3165,7 +3361,9 @@ const DATA = {
    "ali": 4.4,
    "sns": 3.9,
    "hlas": 17.8,
-   "rep": 7.8
+   "rep": 7.8,
+   "psdem": 8.3,
+   "psdem_merane": 0
   },
   {
    "agency": "Median",
@@ -3186,7 +3384,9 @@ const DATA = {
    "ali": 3.4,
    "sns": 3.3,
    "hlas": 13.5,
-   "rep": 5.6
+   "rep": 5.6,
+   "psdem": 10.6,
+   "psdem_merane": 0
   },
   {
    "agency": "AKO",
@@ -3209,7 +3409,9 @@ const DATA = {
    "sns": 3.8,
    "dv": 1.2,
    "hlas": 17.5,
-   "rep": 6.9
+   "rep": 6.9,
+   "psdem": 8.7,
+   "psdem_merane": 0
   },
   {
    "agency": "Focus",
@@ -3230,7 +3432,9 @@ const DATA = {
    "sns": 3.8,
    "dv": 1.1,
    "hlas": 18.5,
-   "rep": 7.0
+   "rep": 7.0,
+   "psdem": 8.1,
+   "psdem_merane": 0
   },
   {
    "agency": "Median",
@@ -3252,7 +3456,9 @@ const DATA = {
    "sns": 1.1,
    "dv": 2.0,
    "hlas": 14.1,
-   "rep": 7.0
+   "rep": 7.0,
+   "psdem": 11.0,
+   "psdem_merane": 0
   },
   {
    "agency": "Focus",
@@ -3275,7 +3481,9 @@ const DATA = {
    "sns": 3.6,
    "dv": 1.9,
    "hlas": 19.0,
-   "rep": 6.9
+   "rep": 6.9,
+   "psdem": 7.3,
+   "psdem_merane": 0
   },
   {
    "agency": "AKO",
@@ -3298,7 +3506,9 @@ const DATA = {
    "sns": 3.9,
    "dv": 0.9,
    "hlas": 18.9,
-   "rep": 6.2
+   "rep": 6.2,
+   "psdem": 8.7,
+   "psdem_merane": 0
   },
   {
    "agency": "Polis",
@@ -3320,7 +3530,9 @@ const DATA = {
    "sns": 3.1,
    "dv": 2.8,
    "hlas": 17.9,
-   "rep": 6.0
+   "rep": 6.0,
+   "psdem": 5.7,
+   "psdem_merane": 0
   },
   {
    "agency": "AKO",
@@ -3342,7 +3554,9 @@ const DATA = {
    "sns": 4.0,
    "dv": 1.5,
    "hlas": 18.2,
-   "rep": 6.2
+   "rep": 6.2,
+   "psdem": 9.7,
+   "psdem_merane": 0
   },
   {
    "agency": "Focus",
@@ -3369,7 +3583,9 @@ const DATA = {
    "nesli_by": 15.8,
    "nerozhodnuti": 18.0,
    "ucast": 66.2,
-   "ucast_typ": "rozhodnuti"
+   "ucast_typ": "rozhodnuti",
+   "psdem": 9.1,
+   "psdem_merane": 0
   },
   {
    "agency": "AKO",
@@ -3390,7 +3606,9 @@ const DATA = {
    "ali": 1.9,
    "sns": 4.2,
    "hlas": 20.2,
-   "rep": 5.2
+   "rep": 5.2,
+   "psdem": 9.9,
+   "psdem_merane": 0
   },
   {
    "agency": "Focus",
@@ -3413,7 +3631,9 @@ const DATA = {
    "sns": 4.0,
    "dv": 1.2,
    "hlas": 20.5,
-   "rep": 6.8
+   "rep": 6.8,
+   "psdem": 9.1,
+   "psdem_merane": 0
   },
   {
    "agency": "AKO",
@@ -3435,7 +3655,9 @@ const DATA = {
    "sns": 4.1,
    "dv": 1.5,
    "hlas": 20.0,
-   "rep": 5.4
+   "rep": 5.4,
+   "psdem": 9.8,
+   "psdem_merane": 0
   },
   {
    "agency": "Ipsos",
@@ -3456,7 +3678,9 @@ const DATA = {
    "sns": 2.3,
    "hlas": 17.2,
    "rep": 7.3,
-   "oth": 5.6
+   "oth": 5.6,
+   "psdem": 11.4,
+   "psdem_merane": 0
   },
   {
    "agency": "AKO",
@@ -3478,7 +3702,9 @@ const DATA = {
    "dv": 1.2,
    "hlas": 19.2,
    "rep": 5.3,
-   "oth": 3.7
+   "oth": 3.7,
+   "psdem": 9.9,
+   "psdem_merane": 0
   },
   {
    "agency": "Polis",
@@ -3500,7 +3726,9 @@ const DATA = {
    "dv": 2.2,
    "hlas": 17.0,
    "rep": 7.1,
-   "oth": 2.3
+   "oth": 2.3,
+   "psdem": 7.1,
+   "psdem_merane": 0
   },
   {
    "agency": "AKO",
@@ -3522,7 +3750,9 @@ const DATA = {
    "dv": 1.0,
    "hlas": 19.3,
    "rep": 5.2,
-   "oth": 4.4
+   "oth": 4.4,
+   "psdem": 10.0,
+   "psdem_merane": 0
   },
   {
    "agency": "Ipsos",
@@ -3543,7 +3773,9 @@ const DATA = {
    "sns": 2.8,
    "hlas": 18.3,
    "rep": 7.0,
-   "oth": 7.2
+   "oth": 7.2,
+   "psdem": 11.6,
+   "psdem_merane": 0
   },
   {
    "agency": "Focus",
@@ -3566,7 +3798,9 @@ const DATA = {
    "sns": 3.9,
    "dv": 1.5,
    "hlas": 20.3,
-   "rep": 7.8
+   "rep": 7.8,
+   "psdem": 9.6,
+   "psdem_merane": 0
   },
   {
    "agency": "Ipsos",
@@ -3590,7 +3824,9 @@ const DATA = {
    "dv": 1.1,
    "hlas": 20.2,
    "rep": 6.8,
-   "oth": 2.5
+   "oth": 2.5,
+   "psdem": 10.9,
+   "psdem_merane": 0
   },
   {
    "agency": "Median",
@@ -3609,7 +3845,9 @@ const DATA = {
    "kdh": 5.8,
    "hlas": 18.6,
    "rep": 11.8,
-   "oth": 17.3
+   "oth": 17.3,
+   "psdem": 9.8,
+   "psdem_merane": 0
   },
   {
    "agency": "AKO",
@@ -3633,7 +3871,9 @@ const DATA = {
    "dv": 1.5,
    "hlas": 19.5,
    "rep": 6.3,
-   "oth": 1.1
+   "oth": 1.1,
+   "psdem": 11.5,
+   "psdem_merane": 0
   },
   {
    "agency": "Ipsos",
@@ -3654,7 +3894,9 @@ const DATA = {
    "sns": 2.6,
    "hlas": 19.7,
    "rep": 6.0,
-   "oth": 5.4
+   "oth": 5.4,
+   "psdem": 10.4,
+   "psdem_merane": 0
   },
   {
    "agency": "Polis",
@@ -3676,7 +3918,9 @@ const DATA = {
    "dv": 2.9,
    "hlas": 20.1,
    "rep": 7.2,
-   "oth": 3.8
+   "oth": 3.8,
+   "psdem": 8.8,
+   "psdem_merane": 0
   },
   {
    "agency": "Focus",
@@ -3700,7 +3944,9 @@ const DATA = {
    "dv": 1.1,
    "hlas": 19.9,
    "rep": 7.9,
-   "oth": 0.2
+   "oth": 0.2,
+   "psdem": 10.3,
+   "psdem_merane": 0
   },
   {
    "agency": "AKO",
@@ -3724,7 +3970,9 @@ const DATA = {
    "dv": 0.9,
    "hlas": 20.2,
    "rep": 6.6,
-   "oth": 1.4
+   "oth": 1.4,
+   "psdem": 11.8,
+   "psdem_merane": 0
   },
   {
    "agency": "Focus",
@@ -3748,7 +3996,9 @@ const DATA = {
    "dv": 1.1,
    "hlas": 19.0,
    "rep": 6.9,
-   "oth": 1.3
+   "oth": 1.3,
+   "psdem": 12.8,
+   "psdem_merane": 0
   },
   {
    "agency": "Median",
@@ -3767,7 +4017,9 @@ const DATA = {
    "kdh": 6.1,
    "ali": 2.7,
    "hlas": 19.1,
-   "rep": 9.6
+   "rep": 9.6,
+   "psdem": 14.1,
+   "psdem_merane": 0
   },
   {
    "agency": "AKO",
@@ -3791,7 +4043,9 @@ const DATA = {
    "dv": 0.6,
    "hlas": 17.6,
    "rep": 7.3,
-   "oth": 1.6
+   "oth": 1.6,
+   "psdem": 13.3,
+   "psdem_merane": 0
   },
   {
    "agency": "Ipsos",
@@ -3811,7 +4065,9 @@ const DATA = {
    "ali": 3.2,
    "sns": 2.9,
    "hlas": 18.2,
-   "rep": 8.1
+   "rep": 8.1,
+   "psdem": 12.6,
+   "psdem_merane": 0
   },
   {
    "agency": "Polis",
@@ -3834,7 +4090,9 @@ const DATA = {
    "sns": 3.8,
    "dv": 3.5,
    "hlas": 19.4,
-   "rep": 7.1
+   "rep": 7.1,
+   "psdem": 9.5,
+   "psdem_merane": 0
   },
   {
    "agency": "Median",
@@ -3856,7 +4114,9 @@ const DATA = {
    "sns": 2.0,
    "dv": 1.8,
    "hlas": 15.6,
-   "rep": 4.5
+   "rep": 4.5,
+   "psdem": 9.6,
+   "psdem_merane": 0
   },
   {
    "agency": "Focus",
@@ -3880,7 +4140,9 @@ const DATA = {
    "dv": 1.4,
    "hlas": 20.8,
    "rep": 8.5,
-   "oth": 1.2
+   "oth": 1.2,
+   "psdem": 11.0,
+   "psdem_merane": 0
   },
   {
    "agency": "AKO",
@@ -3903,7 +4165,9 @@ const DATA = {
    "sns": 4.0,
    "hlas": 18.9,
    "rep": 6.6,
-   "oth": 0.7
+   "oth": 0.7,
+   "psdem": 13.7,
+   "psdem_merane": 0
   },
   {
    "agency": "Median",
@@ -3923,7 +4187,9 @@ const DATA = {
    "ali": 2.6,
    "sns": 4.2,
    "hlas": 14.5,
-   "rep": 6.1
+   "rep": 6.1,
+   "psdem": 11.4,
+   "psdem_merane": 0
   },
   {
    "agency": "AKO",
@@ -3946,7 +4212,9 @@ const DATA = {
    "sns": 4.2,
    "dv": 1.0,
    "hlas": 16.1,
-   "rep": 6.8
+   "rep": 6.8,
+   "psdem": 20.0,
+   "psdem_merane": 0
   },
   {
    "agency": "Ipsos",
@@ -3967,7 +4235,9 @@ const DATA = {
    "dem": 4.8,
    "sns": 3.0,
    "hlas": 16.0,
-   "rep": 8.6
+   "rep": 8.6,
+   "psdem": 15.9,
+   "psdem_merane": 0
   },
   {
    "agency": "Focus",
@@ -3990,7 +4260,9 @@ const DATA = {
    "sns": 3.4,
    "dv": 1.4,
    "hlas": 17.1,
-   "rep": 9.6
+   "rep": 9.6,
+   "psdem": 17.1,
+   "psdem_merane": 0
   },
   {
    "agency": "NMS",
@@ -4013,7 +4285,9 @@ const DATA = {
    "dem": 3.0,
    "sns": 2.4,
    "hlas": 14.2,
-   "rep": 9.9
+   "rep": 9.9,
+   "psdem": 15.8,
+   "psdem_merane": 0
   },
   {
    "agency": "AKO",
@@ -4036,7 +4310,9 @@ const DATA = {
    "sns": 4.3,
    "hlas": 16.3,
    "rep": 6.6,
-   "oth": 1.7
+   "oth": 1.7,
+   "psdem": 18.2,
+   "psdem_merane": 0
   },
   {
    "agency": "Ipsos",
@@ -4057,7 +4333,9 @@ const DATA = {
    "dem": 3.6,
    "sns": 4.2,
    "hlas": 16.2,
-   "rep": 8.8
+   "rep": 8.8,
+   "psdem": 17.7,
+   "psdem_merane": 0
   },
   {
    "agency": "Focus",
@@ -4080,7 +4358,9 @@ const DATA = {
    "sns": 4.0,
    "dv": 1.1,
    "hlas": 17.0,
-   "rep": 9.8
+   "rep": 9.8,
+   "psdem": 16.7,
+   "psdem_merane": 0
   },
   {
    "agency": "Median",
@@ -4101,7 +4381,9 @@ const DATA = {
    "dem": 4.0,
    "sns": 3.5,
    "hlas": 13.9,
-   "rep": 7.0
+   "rep": 7.0,
+   "psdem": 15.6,
+   "psdem_merane": 0
   },
   {
    "agency": "Polis",
@@ -4123,7 +4405,9 @@ const DATA = {
    "dem": 2.1,
    "sns": 4.9,
    "hlas": 17.0,
-   "rep": 7.2
+   "rep": 7.2,
+   "psdem": 13.8,
+   "psdem_merane": 0
   },
   {
    "agency": "AKO",
@@ -4146,7 +4430,9 @@ const DATA = {
    "dem": 3.4,
    "sns": 4.4,
    "hlas": 16.5,
-   "rep": 6.9
+   "rep": 6.9,
+   "psdem": 17.7,
+   "psdem_merane": 0
   },
   {
    "agency": "NMS",
@@ -4170,7 +4456,9 @@ const DATA = {
    "sns": 3.1,
    "hlas": 14.0,
    "rep": 8.7,
-   "oth": 4.2
+   "oth": 4.2,
+   "psdem": 16.9,
+   "psdem_merane": 0
   },
   {
    "agency": "Ipsos",
@@ -4194,7 +4482,9 @@ const DATA = {
    "sns": 3.8,
    "hlas": 15.6,
    "rep": 9.0,
-   "oth": 2.1
+   "oth": 2.1,
+   "psdem": 16.7,
+   "psdem_merane": 0
   },
   {
    "agency": "Focus",
@@ -4219,7 +4509,9 @@ const DATA = {
    "sns": 4.7,
    "hlas": 17.4,
    "rep": 9.7,
-   "oth": 0.6
+   "oth": 0.6,
+   "psdem": 15.7,
+   "psdem_merane": 0
   },
   {
    "agency": "NMS",
@@ -4242,7 +4534,9 @@ const DATA = {
    "dem": 1.8,
    "sns": 3.9,
    "hlas": 14.1,
-   "rep": 9.4
+   "rep": 9.4,
+   "psdem": 17.0,
+   "psdem_merane": 0
   },
   {
    "agency": "AKO",
@@ -4265,7 +4559,9 @@ const DATA = {
    "dem": 2.8,
    "sns": 4.7,
    "hlas": 17.2,
-   "rep": 7.0
+   "rep": 7.0,
+   "psdem": 17.2,
+   "psdem_merane": 0
   },
   {
    "agency": "Ipsos",
@@ -4284,7 +4580,9 @@ const DATA = {
    "dem": 4.0,
    "sns": 4.3,
    "hlas": 14.8,
-   "rep": 8.3
+   "rep": 8.3,
+   "psdem": 19.5,
+   "psdem_merane": 0
   },
   {
    "agency": "Median",
@@ -4305,7 +4603,9 @@ const DATA = {
    "sns": 4.6,
    "hlas": 14.1,
    "rep": 8.2,
-   "oth": 7.1
+   "oth": 7.1,
+   "psdem": 16.3,
+   "psdem_merane": 0
   },
   {
    "agency": "SANEP",
@@ -4326,7 +4626,9 @@ const DATA = {
    "dem": 3.1,
    "lsns": 2.2,
    "ali": 2.1,
-   "neuplny": 1
+   "neuplny": 1,
+   "psdem": 16.5,
+   "psdem_merane": 0
   },
   {
    "agency": "Focus",
@@ -4349,7 +4651,9 @@ const DATA = {
    "dem": 3.6,
    "sns": 5.5,
    "hlas": 16.3,
-   "rep": 9.0
+   "rep": 9.0,
+   "psdem": 17.1,
+   "psdem_merane": 0
   },
   {
    "agency": "NMS",
@@ -4371,7 +4675,9 @@ const DATA = {
    "dem": 2.8,
    "sns": 4.6,
    "hlas": 11.4,
-   "rep": 10.4
+   "rep": 10.4,
+   "psdem": 18.4,
+   "psdem_merane": 0
   },
   {
    "agency": "SANEP",
@@ -4393,7 +4699,9 @@ const DATA = {
    "ali": 2.9,
    "lsns": 2.0,
    "mh": 1.3,
-   "oth": 1.5
+   "oth": 1.5,
+   "psdem": 17.2,
+   "psdem_merane": 0
   },
   {
    "agency": "AKO",
@@ -4415,7 +4723,9 @@ const DATA = {
    "dem": 2.2,
    "sns": 5.1,
    "hlas": 16.5,
-   "rep": 6.8
+   "rep": 6.8,
+   "psdem": 17.6,
+   "psdem_merane": 0
   },
   {
    "agency": "Ipsos",
@@ -4438,7 +4748,9 @@ const DATA = {
    "sns": 5.0,
    "hlas": 14.9,
    "rep": 8.6,
-   "oth": 1.1
+   "oth": 1.1,
+   "psdem": 18.0,
+   "psdem_merane": 0
   },
   {
    "agency": "Median",
@@ -4459,7 +4771,9 @@ const DATA = {
    "sns": 4.1,
    "hlas": 11.1,
    "rep": 10.0,
-   "oth": 2.4
+   "oth": 2.4,
+   "psdem": 23.3,
+   "psdem_merane": 0
   },
   {
    "agency": "Focus",
@@ -4481,7 +4795,9 @@ const DATA = {
    "dem": 3.8,
    "sns": 5.1,
    "hlas": 16.0,
-   "rep": 8.7
+   "rep": 8.7,
+   "psdem": 18.1,
+   "psdem_merane": 0
   },
   {
    "agency": "Median",
@@ -4501,7 +4817,9 @@ const DATA = {
    "sns": 4.2,
    "hlas": 12.1,
    "rep": 9.7,
-   "oth": 4.2
+   "oth": 4.2,
+   "psdem": 20.5,
+   "psdem_merane": 0
   },
   {
    "agency": "Polis",
@@ -4523,7 +4841,9 @@ const DATA = {
    "dem": 3.0,
    "sns": 5.4,
    "hlas": 12.5,
-   "rep": 8.4
+   "rep": 8.4,
+   "psdem": 16.6,
+   "psdem_merane": 0
   },
   {
    "agency": "AKO",
@@ -4546,7 +4866,9 @@ const DATA = {
    "sns": 5.8,
    "hlas": 15.2,
    "rep": 6.7,
-   "oth": 2.6
+   "oth": 2.6,
+   "psdem": 18.6,
+   "psdem_merane": 0
   },
   {
    "agency": "SANEP",
@@ -4567,7 +4889,9 @@ const DATA = {
    "dem": 3.3,
    "sns": 5.2,
    "hlas": 14.1,
-   "rep": 8.8
+   "rep": 8.8,
+   "psdem": 18.8,
+   "psdem_merane": 0
   },
   {
    "agency": "Ipsos",
@@ -4589,7 +4913,9 @@ const DATA = {
    "dem": 2.6,
    "sns": 5.2,
    "hlas": 13.4,
-   "rep": 8.8
+   "rep": 8.8,
+   "psdem": 19.5,
+   "psdem_merane": 0
   },
   {
    "agency": "NMS",
@@ -4612,7 +4938,9 @@ const DATA = {
    "sns": 6.0,
    "hlas": 11.5,
    "rep": 7.5,
-   "oth": 2.6
+   "oth": 2.6,
+   "psdem": 19.6,
+   "psdem_merane": 0
   },
   {
    "agency": "SANEP",
@@ -4634,7 +4962,9 @@ const DATA = {
    "sns": 5.4,
    "hlas": 13.0,
    "rep": 8.1,
-   "oth": 1.9
+   "oth": 1.9,
+   "psdem": 18.9,
+   "psdem_merane": 0
   },
   {
    "agency": "AKO",
@@ -4657,7 +4987,9 @@ const DATA = {
    "sns": 5.9,
    "hlas": 15.0,
    "rep": 6.3,
-   "oth": 1.4
+   "oth": 1.4,
+   "psdem": 20.7,
+   "psdem_merane": 0
   },
   {
    "agency": "Ipsos",
@@ -4680,7 +5012,9 @@ const DATA = {
    "sns": 5.1,
    "hlas": 13.3,
    "rep": 7.9,
-   "oth": 0.5
+   "oth": 0.5,
+   "psdem": 19.8,
+   "psdem_merane": 0
   },
   {
    "agency": "Focus",
@@ -4703,7 +5037,9 @@ const DATA = {
    "sns": 5.3,
    "hlas": 14.2,
    "rep": 8.8,
-   "oth": 2.0
+   "oth": 2.0,
+   "psdem": 18.1,
+   "psdem_merane": 0
   },
   {
    "agency": "Polis",
@@ -4726,7 +5062,9 @@ const DATA = {
    "sns": 6.1,
    "hlas": 12.9,
    "rep": 6.6,
-   "oth": 1.5
+   "oth": 1.5,
+   "psdem": 16.5,
+   "psdem_merane": 0
   },
   {
    "agency": "Median",
@@ -4746,7 +5084,9 @@ const DATA = {
    "sns": 5.3,
    "hlas": 10.0,
    "rep": 10.0,
-   "oth": 4.4
+   "oth": 4.4,
+   "psdem": 21.7,
+   "psdem_merane": 0
   },
   {
    "agency": "Median",
@@ -4766,7 +5106,9 @@ const DATA = {
    "sns": 5.3,
    "hlas": 9.4,
    "rep": 10.2,
-   "oth": 4.4
+   "oth": 4.4,
+   "psdem": 21.4,
+   "psdem_merane": 0
   },
   {
    "agency": "SANEP",
@@ -4788,7 +5130,9 @@ const DATA = {
    "sns": 5.5,
    "hlas": 15.0,
    "rep": 8.4,
-   "oth": 0.7
+   "oth": 0.7,
+   "psdem": 18.6,
+   "psdem_merane": 0
   },
   {
    "agency": "Polis",
@@ -4807,7 +5151,9 @@ const DATA = {
    "sns": 6.0,
    "hlas": 12.8,
    "rep": 7.6,
-   "oth": 9.9
+   "oth": 9.9,
+   "psdem": 15.8,
+   "psdem_merane": 0
   },
   {
    "agency": "NMS",
@@ -4830,7 +5176,9 @@ const DATA = {
    "sns": 7.3,
    "hlas": 11.4,
    "rep": 8.3,
-   "oth": 2.8
+   "oth": 2.8,
+   "psdem": 21.9,
+   "psdem_merane": 0
   },
   {
    "agency": "AKO",
@@ -4853,7 +5201,9 @@ const DATA = {
    "sns": 6.0,
    "hlas": 15.1,
    "rep": 5.2,
-   "oth": 1.7
+   "oth": 1.7,
+   "psdem": 21.7,
+   "psdem_merane": 0
   },
   {
    "agency": "Focus",
@@ -4876,7 +5226,9 @@ const DATA = {
    "sns": 6.4,
    "hlas": 14.6,
    "rep": 8.0,
-   "oth": 1.7
+   "oth": 1.7,
+   "psdem": 20.2,
+   "psdem_merane": 0
   },
   {
    "agency": "SANEP",
@@ -4898,7 +5250,9 @@ const DATA = {
    "sns": 5.8,
    "hlas": 15.2,
    "rep": 7.5,
-   "oth": 2.5
+   "oth": 2.5,
+   "psdem": 18.8,
+   "psdem_merane": 0
   },
   {
    "agency": "Ipsos",
@@ -4921,7 +5275,9 @@ const DATA = {
    "sns": 5.6,
    "hlas": 13.1,
    "rep": 8.6,
-   "oth": 0.9
+   "oth": 0.9,
+   "psdem": 20.6,
+   "psdem_merane": 0
   },
   {
    "agency": "Polis",
@@ -4944,7 +5300,9 @@ const DATA = {
    "sns": 5.8,
    "hlas": 12.6,
    "rep": 6.8,
-   "oth": 1.1
+   "oth": 1.1,
+   "psdem": 17.1,
+   "psdem_merane": 0
   },
   {
    "agency": "NMS",
@@ -4967,7 +5325,9 @@ const DATA = {
    "sns": 5.4,
    "hlas": 10.5,
    "rep": 8.5,
-   "oth": 2.1
+   "oth": 2.1,
+   "psdem": 22.0,
+   "psdem_merane": 0
   },
   {
    "agency": "SANEP",
@@ -4989,7 +5349,9 @@ const DATA = {
    "sns": 6.0,
    "hlas": 15.3,
    "rep": 7.4,
-   "oth": 0.7
+   "oth": 0.7,
+   "psdem": 19.5,
+   "psdem_merane": 0
   },
   {
    "agency": "Ipsos",
@@ -5012,7 +5374,9 @@ const DATA = {
    "sns": 5.7,
    "hlas": 11.9,
    "rep": 7.6,
-   "oth": 0.4
+   "oth": 0.4,
+   "psdem": 23.1,
+   "psdem_merane": 0
   },
   {
    "agency": "AKO",
@@ -5035,7 +5399,9 @@ const DATA = {
    "sns": 6.0,
    "hlas": 15.0,
    "rep": 5.4,
-   "oth": 1.0
+   "oth": 1.0,
+   "psdem": 22.3,
+   "psdem_merane": 0
   },
   {
    "agency": "Focus",
@@ -5058,7 +5424,9 @@ const DATA = {
    "sns": 6.4,
    "hlas": 13.7,
    "rep": 7.7,
-   "oth": 2.5
+   "oth": 2.5,
+   "psdem": 20.6,
+   "psdem_merane": 0
   },
   {
    "agency": "Median",
@@ -5079,7 +5447,9 @@ const DATA = {
    "sns": 4.8,
    "hlas": 11.9,
    "rep": 8.0,
-   "oth": 2.4
+   "oth": 2.4,
+   "psdem": 23.1,
+   "psdem_merane": 0
   },
   {
    "agency": "Focus",
@@ -5098,7 +5468,9 @@ const DATA = {
    "sns": 4.4,
    "hlas": 12.2,
    "rep": 6.0,
-   "oth": 5.0
+   "oth": 5.0,
+   "psdem": 26.5,
+   "psdem_merane": 0
   },
   {
    "agency": "Median",
@@ -5118,7 +5490,9 @@ const DATA = {
    "sns": 5.4,
    "hlas": 11.2,
    "rep": 6.1,
-   "oth": 5.0
+   "oth": 5.0,
+   "psdem": 23.4,
+   "psdem_merane": 0
   },
   {
    "agency": "Voľby 2023",
@@ -5141,7 +5515,9 @@ const DATA = {
    "lsns": 0.84,
    "oth": 1.6,
    "ucast": 68.51,
-   "ucast_typ": "volby"
+   "ucast_typ": "volby",
+   "psdem": 20.89,
+   "psdem_merane": 0
   },
   {
    "agency": "Ipsos",
@@ -5162,7 +5538,9 @@ const DATA = {
    "dem": 3.1,
    "sr": 2.3,
    "lsns": 1.1,
-   "oth": 1.0
+   "oth": 1.0,
+   "psdem": 22.2,
+   "psdem_merane": 0
   },
   {
    "agency": "AKO",
@@ -5183,7 +5561,9 @@ const DATA = {
    "dem": 2.3,
    "sr": 2.7,
    "lsns": 0.3,
-   "oth": 0.1
+   "oth": 0.1,
+   "psdem": 22.4,
+   "psdem_merane": 0
   },
   {
    "agency": "Focus",
@@ -5204,7 +5584,9 @@ const DATA = {
    "dem": 2.9,
    "sr": 2.8,
    "lsns": 1.2,
-   "oth": 0.4
+   "oth": 0.4,
+   "psdem": 20.8,
+   "psdem_merane": 0
   },
   {
    "agency": "AKO",
@@ -5224,7 +5606,9 @@ const DATA = {
    "ali": 3.6,
    "dem": 2.0,
    "sr": 2.3,
-   "lsns": 0.2
+   "lsns": 0.2,
+   "psdem": 23.4,
+   "psdem_merane": 0
   },
   {
    "agency": "Ipsos",
@@ -5245,7 +5629,9 @@ const DATA = {
    "dem": 3.6,
    "sr": 2.7,
    "lsns": 0.8,
-   "oth": 0.5
+   "oth": 0.5,
+   "psdem": 23.0,
+   "psdem_merane": 0
   },
   {
    "agency": "NMS",
@@ -5266,7 +5652,9 @@ const DATA = {
    "dem": 3.1,
    "sr": 3.3,
    "lsns": 0.5,
-   "oth": 0.7
+   "oth": 0.7,
+   "psdem": 24.2,
+   "psdem_merane": 0
   },
   {
    "agency": "AKO",
@@ -5287,7 +5675,9 @@ const DATA = {
    "dem": 3.2,
    "sr": 2.4,
    "lsns": 1.0,
-   "oth": 0.4
+   "oth": 0.4,
+   "psdem": 23.1,
+   "psdem_merane": 0
   },
   {
    "agency": "Focus",
@@ -5308,7 +5698,9 @@ const DATA = {
    "dem": 3.5,
    "sr": 2.4,
    "lsns": 1.7,
-   "oth": 0.2
+   "oth": 0.2,
+   "psdem": 22.9,
+   "psdem_merane": 0
   },
   {
    "agency": "Ipsos",
@@ -5329,7 +5721,9 @@ const DATA = {
    "dem": 3.0,
    "sr": 2.4,
    "lsns": 1.6,
-   "oth": 0.5
+   "oth": 0.5,
+   "psdem": 23.6,
+   "psdem_merane": 0
   },
   {
    "agency": "AKO",
@@ -5350,7 +5744,9 @@ const DATA = {
    "dem": 1.5,
    "sr": 2.8,
    "lsns": 0.2,
-   "oth": 0.4
+   "oth": 0.4,
+   "psdem": 24.1,
+   "psdem_merane": 0
   },
   {
    "agency": "NMS",
@@ -5371,7 +5767,9 @@ const DATA = {
    "dem": 2.5,
    "sr": 3.6,
    "lsns": 1.6,
-   "oth": 0.2
+   "oth": 0.2,
+   "psdem": 24.5,
+   "psdem_merane": 0
   },
   {
    "agency": "Focus",
@@ -5392,7 +5790,9 @@ const DATA = {
    "dem": 3.5,
    "sr": 2.6,
    "lsns": 2.7,
-   "oth": 0.4
+   "oth": 0.4,
+   "psdem": 22.4,
+   "psdem_merane": 0
   },
   {
    "agency": "Ipsos",
@@ -5413,7 +5813,9 @@ const DATA = {
    "dem": 2.4,
    "sr": 3.2,
    "lsns": 1.6,
-   "oth": 0.5
+   "oth": 0.5,
+   "psdem": 23.7,
+   "psdem_merane": 0
   },
   {
    "agency": "Ipsos",
@@ -5432,7 +5834,9 @@ const DATA = {
    "rep": 4.2,
    "ali": 3.6,
    "dem": 2.6,
-   "sr": 3.1
+   "sr": 3.1,
+   "psdem": 23.4,
+   "psdem_merane": 0
   },
   {
    "agency": "AKO",
@@ -5453,7 +5857,9 @@ const DATA = {
    "dem": 3.2,
    "sr": 2.0,
    "lsns": 1.3,
-   "oth": 0.5
+   "oth": 0.5,
+   "psdem": 24.2,
+   "psdem_merane": 0
   },
   {
    "agency": "Ipsos",
@@ -5472,7 +5878,9 @@ const DATA = {
    "rep": 5.0,
    "ali": 4.6,
    "dem": 3.8,
-   "sr": 3.0
+   "sr": 3.0,
+   "psdem": 24.0,
+   "psdem_merane": 0
   },
   {
    "agency": "Focus",
@@ -5492,7 +5900,9 @@ const DATA = {
    "ali": 5.0,
    "dem": 3.7,
    "sr": 1.8,
-   "lsns": 1.9
+   "lsns": 1.9,
+   "psdem": 23.8,
+   "psdem_merane": 0
   },
   {
    "agency": "AKO",
@@ -5513,7 +5923,9 @@ const DATA = {
    "dem": 3.3,
    "sr": 2.3,
    "lsns": 0.8,
-   "oth": 1.3
+   "oth": 1.3,
+   "psdem": 23.4,
+   "psdem_merane": 0
   },
   {
    "agency": "Focus",
@@ -5534,7 +5946,9 @@ const DATA = {
    "dem": 3.5,
    "sr": 2.3,
    "lsns": 0.9,
-   "oth": 0.1
+   "oth": 0.1,
+   "psdem": 23.2,
+   "psdem_merane": 0
   },
   {
    "agency": "NMS",
@@ -5557,7 +5971,9 @@ const DATA = {
    "sr": 3.2,
    "lsns": 0.6,
    "ucast": 61.3,
-   "ucast_typ": "deklarovana"
+   "ucast_typ": "deklarovana",
+   "psdem": 26.5,
+   "psdem_merane": 0
   },
   {
    "agency": "AKO",
@@ -5577,7 +5993,9 @@ const DATA = {
    "ali": 3.9,
    "dem": 3.6,
    "sr": 3.1,
-   "oth": 0.6
+   "oth": 0.6,
+   "psdem": 24.4,
+   "psdem_merane": 0
   },
   {
    "agency": "Ipsos",
@@ -5596,7 +6014,9 @@ const DATA = {
    "rep": 5.1,
    "ali": 4.1,
    "dem": 3.4,
-   "sr": 2.9
+   "sr": 2.9,
+   "psdem": 24.4,
+   "psdem_merane": 0
   },
   {
    "agency": "NMS",
@@ -5619,7 +6039,9 @@ const DATA = {
    "sr": 3.0,
    "lsns": 0.8,
    "ucast": 54.8,
-   "ucast_typ": "deklarovana"
+   "ucast_typ": "deklarovana",
+   "psdem": 26.6,
+   "psdem_merane": 0
   },
   {
    "agency": "Eurovoľby 2024",
@@ -5640,7 +6062,9 @@ const DATA = {
    "ali": 3.8,
    "dem": 4.69,
    "lsns": 0.48,
-   "oth": 2.06
+   "oth": 2.06,
+   "psdem": 32.51,
+   "psdem_merane": 0
   },
   {
    "agency": "Focus",
@@ -5659,7 +6083,9 @@ const DATA = {
    "rep": 7.3,
    "ali": 5.2,
    "dem": 3.6,
-   "sr": 1.8
+   "sr": 1.8,
+   "psdem": 25.2,
+   "psdem_merane": 0
   },
   {
    "agency": "AKO",
@@ -5679,7 +6105,9 @@ const DATA = {
    "ali": 3.4,
    "dem": 4.1,
    "sr": 2.1,
-   "oth": 0.8
+   "oth": 0.8,
+   "psdem": 26.9,
+   "psdem_merane": 0
   },
   {
    "agency": "Ipsos",
@@ -5700,7 +6128,9 @@ const DATA = {
    "dem": 4.7,
    "sr": 1.8,
    "lsns": 0.9,
-   "oth": 0.8
+   "oth": 0.8,
+   "psdem": 27.0,
+   "psdem_merane": 0
   },
   {
    "agency": "NMS",
@@ -5724,7 +6154,9 @@ const DATA = {
    "lsns": 1.5,
    "oth": 1.2,
    "ucast": 58.4,
-   "ucast_typ": "deklarovana"
+   "ucast_typ": "deklarovana",
+   "psdem": 27.2,
+   "psdem_merane": 0
   },
   {
    "agency": "Focus",
@@ -5744,7 +6176,9 @@ const DATA = {
    "ali": 4.5,
    "dem": 4.7,
    "sr": 2.7,
-   "oth": 1.0
+   "oth": 1.0,
+   "psdem": 26.0,
+   "psdem_merane": 0
   },
   {
    "agency": "AKO",
@@ -5765,7 +6199,9 @@ const DATA = {
    "dem": 4.4,
    "sr": 2.3,
    "lsns": 0.5,
-   "oth": 0.7
+   "oth": 0.7,
+   "psdem": 26.1,
+   "psdem_merane": 0
   },
   {
    "agency": "AKO",
@@ -5786,7 +6222,9 @@ const DATA = {
    "dem": 4.5,
    "sr": 2.7,
    "lsns": 0.2,
-   "oth": 0.9
+   "oth": 0.9,
+   "psdem": 26.5,
+   "psdem_merane": 0
   },
   {
    "agency": "NMS",
@@ -5809,7 +6247,9 @@ const DATA = {
    "sr": 3.2,
    "lsns": 1.1,
    "ucast": 59.6,
-   "ucast_typ": "deklarovana"
+   "ucast_typ": "deklarovana",
+   "psdem": 27.6,
+   "psdem_merane": 0
   },
   {
    "agency": "NMS",
@@ -5832,7 +6272,9 @@ const DATA = {
    "sr": 3.9,
    "lsns": 1.2,
    "ucast": 58.9,
-   "ucast_typ": "deklarovana"
+   "ucast_typ": "deklarovana",
+   "psdem": 27.8,
+   "psdem_merane": 0
   },
   {
    "agency": "Ipsos",
@@ -5851,7 +6293,9 @@ const DATA = {
    "rep": 6.3,
    "ali": 4.9,
    "dem": 5.1,
-   "sr": 2.0
+   "sr": 2.0,
+   "psdem": 26.7,
+   "psdem_merane": 0
   },
   {
    "agency": "AKO",
@@ -5871,7 +6315,9 @@ const DATA = {
    "ali": 3.7,
    "dem": 4.9,
    "sr": 2.6,
-   "oth": 0.9
+   "oth": 0.9,
+   "psdem": 27.3,
+   "psdem_merane": 0
   },
   {
    "agency": "Focus",
@@ -5891,7 +6337,9 @@ const DATA = {
    "ali": 5.2,
    "dem": 5.0,
    "sr": 3.2,
-   "oth": 0.1
+   "oth": 0.1,
+   "psdem": 27.1,
+   "psdem_merane": 0
   },
   {
    "agency": "NMS",
@@ -5915,7 +6363,9 @@ const DATA = {
    "lsns": 1.3,
    "oth": 0.7,
    "ucast": 58.9,
-   "ucast_typ": "deklarovana"
+   "ucast_typ": "deklarovana",
+   "psdem": 29.5,
+   "psdem_merane": 0
   },
   {
    "agency": "AKO",
@@ -5936,7 +6386,9 @@ const DATA = {
    "dem": 4.7,
    "sr": 2.6,
    "lsns": 0.6,
-   "oth": 0.9
+   "oth": 0.9,
+   "psdem": 26.0,
+   "psdem_merane": 0
   },
   {
    "agency": "Ipsos",
@@ -5959,7 +6411,9 @@ const DATA = {
    "dem": 4.4,
    "sr": 3.0,
    "lsns": 1.2,
-   "oth": 0.6
+   "oth": 0.6,
+   "psdem": 27.0,
+   "psdem_merane": 0
   },
   {
    "agency": "NMS",
@@ -5984,7 +6438,9 @@ const DATA = {
    "lsns": 1.0,
    "oth": 0.5,
    "ucast": 59.2,
-   "ucast_typ": "deklarovana"
+   "ucast_typ": "deklarovana",
+   "psdem": 29.5,
+   "psdem_merane": 0
   },
   {
    "agency": "Focus",
@@ -6004,7 +6460,9 @@ const DATA = {
    "ali": 4.8,
    "dem": 4.6,
    "sr": 3.3,
-   "oth": 0.8
+   "oth": 0.8,
+   "psdem": 27.2,
+   "psdem_merane": 0
   },
   {
    "agency": "AKO",
@@ -6026,7 +6484,9 @@ const DATA = {
    "dem": 4.1,
    "sr": 3.6,
    "lsns": 0.4,
-   "oth": 0.7
+   "oth": 0.7,
+   "psdem": 25.3,
+   "psdem_merane": 0
   },
   {
    "agency": "Focus",
@@ -6045,7 +6505,9 @@ const DATA = {
    "rep": 8.1,
    "ali": 5.6,
    "dem": 4.0,
-   "sr": 2.2
+   "sr": 2.2,
+   "psdem": 25.5,
+   "psdem_merane": 0
   },
   {
    "agency": "NMS",
@@ -6070,7 +6532,9 @@ const DATA = {
    "lsns": 1.4,
    "oth": 0.4,
    "ucast": 59.2,
-   "ucast_typ": "deklarovana"
+   "ucast_typ": "deklarovana",
+   "psdem": 28.7,
+   "psdem_merane": 0
   },
   {
    "agency": "SCIO",
@@ -6089,7 +6553,9 @@ const DATA = {
    "sas": 4.8,
    "sr": 4.8,
    "sns": 3.2,
-   "ali": 2.1
+   "ali": 2.1,
+   "psdem": 26.8,
+   "psdem_merane": 0
   },
   {
    "agency": "AKO",
@@ -6111,7 +6577,9 @@ const DATA = {
    "dem": 4.3,
    "sr": 3.8,
    "lsns": 0.3,
-   "oth": 1.1
+   "oth": 1.1,
+   "psdem": 27.1,
+   "psdem_merane": 0
   },
   {
    "agency": "SCIO",
@@ -6130,7 +6598,9 @@ const DATA = {
    "dem": 5.3,
    "sr": 4.8,
    "sns": 2.9,
-   "ali": 2.4
+   "ali": 2.4,
+   "psdem": 28.3,
+   "psdem_merane": 0
   },
   {
    "agency": "NMS",
@@ -6155,7 +6625,9 @@ const DATA = {
    "lsns": 1.4,
    "oth": 0.2,
    "ucast": 60.1,
-   "ucast_typ": "deklarovana"
+   "ucast_typ": "deklarovana",
+   "psdem": 27.9,
+   "psdem_merane": 0
   },
   {
    "agency": "Ipsos",
@@ -6177,7 +6649,9 @@ const DATA = {
    "dem": 4.0,
    "sr": 2.8,
    "lsns": 1.1,
-   "oth": 1.2
+   "oth": 1.2,
+   "psdem": 27.0,
+   "psdem_merane": 0
   },
   {
    "agency": "AKO",
@@ -6199,7 +6673,9 @@ const DATA = {
    "dem": 4.6,
    "sr": 2.2,
    "lsns": 0.8,
-   "oth": 0.1
+   "oth": 0.1,
+   "psdem": 29.2,
+   "psdem_merane": 0
   },
   {
    "agency": "Infostat",
@@ -6218,7 +6694,9 @@ const DATA = {
    "dem": 3.8,
    "sas": 3.2,
    "sns": 3.1,
-   "sr": 1.7
+   "sr": 1.7,
+   "psdem": 28.4,
+   "psdem_merane": 0
   },
   {
    "agency": "NMS",
@@ -6243,7 +6721,9 @@ const DATA = {
    "lsns": 0.8,
    "oth": 0.1,
    "ucast": 62.0,
-   "ucast_typ": "deklarovana"
+   "ucast_typ": "deklarovana",
+   "psdem": 27.6,
+   "psdem_merane": 0
   },
   {
    "agency": "AKO",
@@ -6264,7 +6744,9 @@ const DATA = {
    "dem": 4.6,
    "sr": 2.9,
    "lsns": 0.3,
-   "oth": 1.3
+   "oth": 1.3,
+   "psdem": 28.7,
+   "psdem_merane": 0
   },
   {
    "agency": "Focus",
@@ -6286,7 +6768,9 @@ const DATA = {
    "ali": 4.6,
    "dem": 4.6,
    "sr": 2.6,
-   "oth": 0.4
+   "oth": 0.4,
+   "psdem": 26.7,
+   "psdem_merane": 0
   },
   {
    "agency": "Infostat",
@@ -6305,7 +6789,9 @@ const DATA = {
    "ali": 4.2,
    "olano": 3.4,
    "sr": 2.8,
-   "sns": 1.5
+   "sns": 1.5,
+   "psdem": 29.8,
+   "psdem_merane": 0
   },
   {
    "agency": "NMS",
@@ -6330,7 +6816,9 @@ const DATA = {
    "lsns": 0.8,
    "oth": 1.1,
    "ucast": 59.8,
-   "ucast_typ": "deklarovana"
+   "ucast_typ": "deklarovana",
+   "psdem": 27.9,
+   "psdem_merane": 0
   },
   {
    "agency": "Ipsos",
@@ -6350,7 +6838,9 @@ const DATA = {
    "ali": 3.9,
    "dem": 5.0,
    "sr": 2.5,
-   "oth": 3.2
+   "oth": 3.2,
+   "psdem": 26.4,
+   "psdem_merane": 0
   },
   {
    "agency": "AKO",
@@ -6371,7 +6861,9 @@ const DATA = {
    "dem": 4.0,
    "sr": 2.4,
    "lsns": 0.2,
-   "oth": 1.1
+   "oth": 1.1,
+   "psdem": 25.7,
+   "psdem_merane": 0
   },
   {
    "agency": "NMS",
@@ -6396,7 +6888,9 @@ const DATA = {
    "lsns": 1.2,
    "oth": 0.2,
    "ucast": 59.8,
-   "ucast_typ": "deklarovana"
+   "ucast_typ": "deklarovana",
+   "psdem": 28.2,
+   "psdem_merane": 0
   },
   {
    "agency": "Focus",
@@ -6414,7 +6908,9 @@ const DATA = {
    "sns": 3.9,
    "rep": 8.2,
    "ali": 4.7,
-   "dem": 4.3
+   "dem": 4.3,
+   "psdem": 25.3,
+   "psdem_merane": 0
   },
   {
    "agency": "AKO",
@@ -6436,7 +6932,9 @@ const DATA = {
    "ali": 4.0,
    "dem": 4.2,
    "sr": 1.5,
-   "oth": 0.8
+   "oth": 0.8,
+   "psdem": 26.7,
+   "psdem_merane": 0
   },
   {
    "agency": "SCIO",
@@ -6455,7 +6953,9 @@ const DATA = {
    "sns": 4.95,
    "dem": 4.69,
    "sr": 4.42,
-   "ali": 3.62
+   "ali": 3.62,
+   "psdem": 25.84,
+   "psdem_merane": 0
   },
   {
    "agency": "NMS",
@@ -6480,7 +6980,9 @@ const DATA = {
    "lsns": 1.3,
    "oth": 0.2,
    "ucast": 59.9,
-   "ucast_typ": "deklarovana"
+   "ucast_typ": "deklarovana",
+   "psdem": 27.6,
+   "psdem_merane": 0
   },
   {
    "agency": "Ipsos",
@@ -6502,7 +7004,9 @@ const DATA = {
    "dem": 4.7,
    "sr": 3.6,
    "lsns": 1.1,
-   "oth": 0.9
+   "oth": 0.9,
+   "psdem": 26.6,
+   "psdem_merane": 0
   },
   {
    "agency": "Infostat",
@@ -6539,7 +7043,9 @@ const DATA = {
    "rep": 7.9,
    "ali": 4.6,
    "dem": 4.6,
-   "sr": 3.2
+   "sr": 3.2,
+   "psdem": 25.5,
+   "psdem_merane": 0
   },
   {
    "agency": "AKO",
@@ -6564,7 +7070,9 @@ const DATA = {
    "nesli_by": 13.4,
    "odmietli": 3.2,
    "ucast": 71.3,
-   "ucast_typ": "rozhodnuti"
+   "ucast_typ": "rozhodnuti",
+   "psdem": 26.0,
+   "psdem_merane": 0
   },
   {
    "agency": "NMS",
@@ -6587,7 +7095,9 @@ const DATA = {
    "dem": 4.9,
    "sr": 3.1,
    "lsns": 1.5,
-   "oth": 0.1
+   "oth": 0.1,
+   "psdem": 27.9,
+   "psdem_merane": 0
   },
   {
    "agency": "Focus",
@@ -6606,7 +7116,9 @@ const DATA = {
    "rep": 9.7,
    "ali": 4.8,
    "dem": 4.8,
-   "sr": 3.4
+   "sr": 3.4,
+   "psdem": 25.0,
+   "psdem_merane": 0
   },
   {
    "agency": "AKO",
@@ -6626,7 +7138,9 @@ const DATA = {
    "ali": 3.4,
    "dem": 4.8,
    "sr": 2.7,
-   "oth": 0.8
+   "oth": 0.8,
+   "psdem": 27.3,
+   "psdem_merane": 0
   },
   {
    "agency": "Ipsos",
@@ -6645,7 +7159,9 @@ const DATA = {
    "rep": 9.9,
    "ali": 4.3,
    "dem": 4.5,
-   "sr": 3.1
+   "sr": 3.1,
+   "psdem": 26.2,
+   "psdem_merane": 0
   },
   {
    "agency": "SCIO",
@@ -6666,7 +7182,9 @@ const DATA = {
    "sns": 3.6,
    "ali": 1.74,
    "zl": 1.6,
-   "oth": 0.41
+   "oth": 0.41,
+   "psdem": 25.64,
+   "psdem_merane": 0
   },
   {
    "agency": "NMS",
@@ -6689,7 +7207,9 @@ const DATA = {
    "dem": 5.2,
    "sr": 3.8,
    "lsns": 1.5,
-   "oth": 0.2
+   "oth": 0.2,
+   "psdem": 26.1,
+   "psdem_merane": 0
   },
   {
    "agency": "Focus",
@@ -6708,7 +7228,9 @@ const DATA = {
    "rep": 9.8,
    "ali": 4.0,
    "dem": 4.6,
-   "sr": 2.5
+   "sr": 2.5,
+   "psdem": 25.3,
+   "psdem_merane": 0
   },
   {
    "agency": "AKO",
@@ -6729,7 +7251,9 @@ const DATA = {
    "dem": 4.1,
    "sr": 2.6,
    "lsns": 0.4,
-   "oth": 0.9
+   "oth": 0.9,
+   "psdem": 26.2,
+   "psdem_merane": 0
   },
   {
    "agency": "NMS",
@@ -6754,7 +7278,9 @@ const DATA = {
    "lsns": 1.3,
    "oth": 0.2,
    "ucast": 62.5,
-   "ucast_typ": "deklarovana"
+   "ucast_typ": "deklarovana",
+   "psdem": 28.4,
+   "psdem_merane": 0
   },
   {
    "agency": "AKO",
@@ -6775,7 +7301,9 @@ const DATA = {
    "ali": 4.0,
    "dem": 4.8,
    "sr": 3.6,
-   "oth": 1.0
+   "oth": 1.0,
+   "psdem": 26.9,
+   "psdem_merane": 0
   },
   {
    "agency": "Focus",
@@ -6793,7 +7321,9 @@ const DATA = {
    "sns": 4.4,
    "rep": 9.9,
    "ali": 4.6,
-   "dem": 4.8
+   "dem": 4.8,
+   "psdem": 26.0,
+   "psdem_merane": 0
   },
   {
    "agency": "Ipsos",
@@ -6815,7 +7345,9 @@ const DATA = {
    "dem": 5.2,
    "sr": 2.0,
    "lsns": 1.0,
-   "oth": 0.7
+   "oth": 0.7,
+   "psdem": 27.7,
+   "psdem_merane": 0
   },
   {
    "agency": "NMS",
@@ -6840,7 +7372,9 @@ const DATA = {
    "lsns": 0.8,
    "oth": 0.2,
    "ucast": 61.1,
-   "ucast_typ": "deklarovana"
+   "ucast_typ": "deklarovana",
+   "psdem": 27.6,
+   "psdem_merane": 0
   },
   {
    "agency": "Focus",
@@ -6859,7 +7393,9 @@ const DATA = {
    "rep": 9.7,
    "ali": 4.3,
    "dem": 5.1,
-   "sr": 3.0
+   "sr": 3.0,
+   "psdem": 27.1,
+   "psdem_merane": 0
   },
   {
    "agency": "Ipsos",
@@ -6878,7 +7414,9 @@ const DATA = {
    "rep": 10.9,
    "ali": 3.5,
    "dem": 4.4,
-   "sr": 3.6
+   "sr": 3.6,
+   "psdem": 27.2,
+   "psdem_merane": 0
   },
   {
    "agency": "AKO",
@@ -6899,7 +7437,9 @@ const DATA = {
    "ali": 2.9,
    "dem": 4.9,
    "sr": 3.5,
-   "oth": 0.9
+   "oth": 0.9,
+   "psdem": 28.0,
+   "psdem_merane": 0
   },
   {
    "agency": "SCIO",
@@ -6922,7 +7462,9 @@ const DATA = {
    "zl": 1.83,
    "ku": 1.22,
    "oth": 0.73,
-   "pravda": 3.17
+   "pravda": 3.17,
+   "psdem": 25.49,
+   "psdem_merane": 0
   },
   {
    "agency": "NMS",
@@ -6947,7 +7489,9 @@ const DATA = {
    "lsns": 1.2,
    "oth": 0.3,
    "ucast": 62.6,
-   "ucast_typ": "deklarovana"
+   "ucast_typ": "deklarovana",
+   "psdem": 30.0,
+   "psdem_merane": 0
   },
   {
    "agency": "SCIO",
@@ -6970,7 +7514,9 @@ const DATA = {
    "zl": 1.65,
    "ku": 0.89,
    "oth": 0.88,
-   "pravda": 2.8
+   "pravda": 2.8,
+   "psdem": 26.21,
+   "psdem_merane": 0
   },
   {
    "agency": "AKO",
@@ -6990,7 +7536,9 @@ const DATA = {
    "ali": 3.8,
    "dem": 5.1,
    "sr": 3.5,
-   "oth": 1.6
+   "oth": 1.6,
+   "psdem": 27.9,
+   "psdem_merane": 0
   },
   {
    "agency": "Ipsos",
@@ -7009,7 +7557,9 @@ const DATA = {
    "rep": 10.0,
    "ali": 3.4,
    "dem": 5.4,
-   "sr": 3.4
+   "sr": 3.4,
+   "psdem": 27.0,
+   "psdem_merane": 0
   },
   {
    "agency": "Focus",
@@ -7028,7 +7578,9 @@ const DATA = {
    "rep": 9.8,
    "ali": 4.0,
    "dem": 5.2,
-   "sr": 3.8
+   "sr": 3.8,
+   "psdem": 28.3,
+   "psdem_merane": 0
   },
   {
    "agency": "Infostat",
@@ -7050,7 +7602,9 @@ const DATA = {
    "sr": 2.3,
    "oth": 1.1,
    "ucast": 68.6,
-   "ucast_typ": "deklarovana_sirsia"
+   "ucast_typ": "deklarovana_sirsia",
+   "psdem": 27.1,
+   "psdem_merane": 0
   },
   {
    "agency": "NMS",
@@ -7075,7 +7629,9 @@ const DATA = {
    "lsns": 1.6,
    "oth": 1.9,
    "ucast": 61.9,
-   "ucast_typ": "deklarovana"
+   "ucast_typ": "deklarovana",
+   "psdem": 28.4,
+   "psdem_merane": 0
   },
   {
    "agency": "SCIO",
@@ -7097,7 +7653,9 @@ const DATA = {
    "ali": 2.98,
    "zl": 1.49,
    "oth": 1.49,
-   "pravda": 1.36
+   "pravda": 1.36,
+   "psdem": 27.42,
+   "psdem_merane": 0
   },
   {
    "agency": "Focus",
@@ -7121,7 +7679,9 @@ const DATA = {
    "nesli_by": 14.5,
    "nerozhodnuti": 15.2,
    "ucast": 70.3,
-   "ucast_typ": "rozhodnuti"
+   "ucast_typ": "rozhodnuti",
+   "psdem": 27.3,
+   "psdem_merane": 0
   },
   {
    "agency": "AKO",
@@ -7141,7 +7701,9 @@ const DATA = {
    "ali": 3.4,
    "dem": 5.3,
    "sr": 3.0,
-   "oth": 2.5
+   "oth": 2.5,
+   "psdem": 28.6,
+   "psdem_merane": 0
   },
   {
    "agency": "Ipsos",
@@ -7162,7 +7724,9 @@ const DATA = {
    "ali": 3.7,
    "dem": 5.1,
    "sr": 2.8,
-   "oth": 3.7
+   "oth": 3.7,
+   "psdem": 28.7,
+   "psdem_merane": 0
   },
   {
    "agency": "NMS",
@@ -7187,7 +7751,9 @@ const DATA = {
    "lsns": 1.1,
    "oth": 1.9,
    "ucast": 60.2,
-   "ucast_typ": "deklarovana"
+   "ucast_typ": "deklarovana",
+   "psdem": 28.5,
+   "psdem_merane": 0
   },
   {
    "agency": "Focus",
@@ -7211,7 +7777,9 @@ const DATA = {
    "nesli_by": 16.7,
    "nerozhodnuti": 12.2,
    "ucast": 71.1,
-   "ucast_typ": "rozhodnuti"
+   "ucast_typ": "rozhodnuti",
+   "psdem": 27.2,
+   "psdem_merane": 0
   },
   {
    "agency": "AKO",
@@ -7232,7 +7800,9 @@ const DATA = {
    "dem": 5.4,
    "sr": 2.2,
    "lsns": 0.2,
-   "oth": 3.5
+   "oth": 3.5,
+   "psdem": 29.0,
+   "psdem_merane": 0
   },
   {
    "agency": "SCIO",
@@ -7253,7 +7823,9 @@ const DATA = {
    "sns": 3.86,
    "ali": 3.11,
    "oth": 1.15,
-   "pravda": 1.74
+   "pravda": 1.74,
+   "psdem": 28.02,
+   "psdem_merane": 0
   },
   {
    "agency": "NMS",
@@ -7277,7 +7849,9 @@ const DATA = {
    "sr": 3.2,
    "lsns": 1.6,
    "oth": 0.6,
-   "pravda": 1.5
+   "pravda": 1.5,
+   "psdem": 26.3,
+   "psdem_merane": 0
   },
   {
    "agency": "Infostat",
@@ -7299,7 +7873,9 @@ const DATA = {
    "sr": 2.1,
    "oth": 6.2,
    "ucast": 66.4,
-   "ucast_typ": "deklarovana_sirsia"
+   "ucast_typ": "deklarovana_sirsia",
+   "psdem": 26.3,
+   "psdem_merane": 0
   },
   {
    "agency": "AKO",
@@ -7321,7 +7897,9 @@ const DATA = {
    "sr": 2.3,
    "lsns": 0.2,
    "oth": 0.6,
-   "pravda": 2.6
+   "pravda": 2.6,
+   "psdem": 29.5,
+   "psdem_merane": 0
   },
   {
    "agency": "Ipsos",
@@ -7342,7 +7920,9 @@ const DATA = {
    "dem": 5.2,
    "sr": 2.4,
    "oth": 3.6,
-   "pravda": 1.7
+   "pravda": 1.7,
+   "psdem": 25.7,
+   "psdem_merane": 0
   },
   {
    "agency": "SCIO",
@@ -7365,7 +7945,9 @@ const DATA = {
    "zl": 2.16,
    "ku": 0.86,
    "oth": 0.01,
-   "pravda": 2.85
+   "pravda": 2.85,
+   "psdem": 27.9,
+   "psdem_merane": 0
   },
   {
    "agency": "NMS",
@@ -7391,7 +7973,9 @@ const DATA = {
    "oth": 0.9,
    "pravda": 2.0,
    "ucast": 60.8,
-   "ucast_typ": "deklarovana"
+   "ucast_typ": "deklarovana",
+   "psdem": 24.8,
+   "psdem_merane": 0
   },
   {
    "agency": "Focus",
@@ -7416,7 +8000,9 @@ const DATA = {
    "nesli_by": 16.8,
    "nerozhodnuti": 14.0,
    "ucast": 69.2,
-   "ucast_typ": "rozhodnuti"
+   "ucast_typ": "rozhodnuti",
+   "psdem": 24.9,
+   "psdem_merane": 0
   },
   {
    "agency": "AKO",
@@ -7437,7 +8023,9 @@ const DATA = {
    "dem": 6.2,
    "sr": 2.9,
    "oth": 0.2,
-   "pravda": 2.2
+   "pravda": 2.2,
+   "psdem": 26.8,
+   "psdem_merane": 0
   },
   {
    "agency": "Ipsos",
@@ -7458,7 +8046,9 @@ const DATA = {
    "dem": 6.2,
    "sr": 2.5,
    "oth": 3.0,
-   "pravda": 1.3
+   "pravda": 1.3,
+   "psdem": 25.0,
+   "psdem_merane": 0
   },
   {
    "agency": "SCIO",
@@ -7481,7 +8071,9 @@ const DATA = {
    "zl": 2.18,
    "ku": 1.09,
    "oth": 1.91,
-   "pravda": 2.32
+   "pravda": 2.32,
+   "psdem": 24.11,
+   "psdem_merane": 0
   },
   {
    "agency": "NMS",
@@ -7507,7 +8099,9 @@ const DATA = {
    "oth": 0.9,
    "pravda": 1.6,
    "ucast": 59.7,
-   "ucast_typ": "deklarovana"
+   "ucast_typ": "deklarovana",
+   "psdem": 26.5,
+   "psdem_merane": 0
   },
   {
    "agency": "Infostat",
@@ -7530,7 +8124,9 @@ const DATA = {
    "oth": 5.3,
    "pravda": 1.0,
    "ucast": 68.0,
-   "ucast_typ": "deklarovana_sirsia"
+   "ucast_typ": "deklarovana_sirsia",
+   "psdem": 26.6,
+   "psdem_merane": 0
   },
   {
    "agency": "AKO",
@@ -7558,7 +8154,9 @@ const DATA = {
    "nesli_by": 12.1,
    "odmietli": 4.9,
    "ucast": 63.7,
-   "ucast_typ": "rozhodnuti"
+   "ucast_typ": "rozhodnuti",
+   "psdem": 25.9,
+   "psdem_merane": 0
   },
   {
    "agency": "Ipsos",
@@ -7578,7 +8176,9 @@ const DATA = {
    "ali": 4.3,
    "dem": 6.0,
    "sr": 2.2,
-   "oth": 3.6
+   "oth": 3.6,
+   "psdem": 26.6,
+   "psdem_merane": 0
   },
   {
    "agency": "Focus",
@@ -7602,7 +8202,9 @@ const DATA = {
    "nesli_by": 16.0,
    "nerozhodnuti": 10.4,
    "ucast": 73.6,
-   "ucast_typ": "rozhodnuti"
+   "ucast_typ": "rozhodnuti",
+   "psdem": 24.5,
+   "psdem_merane": 0
   },
   {
    "agency": "SCIO",
@@ -7625,7 +8227,9 @@ const DATA = {
    "zl": 1.78,
    "ku": 0.59,
    "oth": 1.68,
-   "pravda": 1.66
+   "pravda": 1.66,
+   "psdem": 24.07,
+   "psdem_merane": 0
   },
   {
    "agency": "NMS",
@@ -7651,7 +8255,9 @@ const DATA = {
    "oth": 0.4,
    "pravda": 1.6,
    "ucast": 61.9,
-   "ucast_typ": "deklarovana"
+   "ucast_typ": "deklarovana",
+   "psdem": 26.0,
+   "psdem_merane": 0
   },
   {
    "agency": "AKO",
@@ -7672,7 +8278,9 @@ const DATA = {
    "dem": 6.0,
    "sr": 2.8,
    "lsns": 0.4,
-   "oth": 2.2
+   "oth": 2.2,
+   "psdem": 26.8,
+   "psdem_merane": 0
   },
   {
    "agency": "Ipsos",
@@ -7694,7 +8302,9 @@ const DATA = {
    "dem": 6.0,
    "sr": 2.8,
    "oth": 2.0,
-   "pravda": 1.4
+   "pravda": 1.4,
+   "psdem": 25.2,
+   "psdem_merane": 0
   },
   {
    "agency": "NMS",
@@ -7720,7 +8330,9 @@ const DATA = {
    "oth": 0.6,
    "pravda": 2.7,
    "ucast": 60.9,
-   "ucast_typ": "deklarovana"
+   "ucast_typ": "deklarovana",
+   "psdem": 25.7,
+   "psdem_merane": 0
   },
   {
    "agency": "Focus",
@@ -7747,7 +8359,9 @@ const DATA = {
    "nesli_by": 13.8,
    "nerozhodnuti": 15.3,
    "ucast": 70.9,
-   "ucast_typ": "rozhodnuti"
+   "ucast_typ": "rozhodnuti",
+   "psdem": 23.5,
+   "psdem_merane": 0
   },
   {
    "agency": "SCIO",
@@ -7770,7 +8384,9 @@ const DATA = {
    "zl": 1.51,
    "ku": 0.7,
    "oth": 2.19,
-   "pravda": 2.67
+   "pravda": 2.67,
+   "psdem": 24.91,
+   "psdem_merane": 0
   },
   {
    "agency": "Infostat",
@@ -7789,7 +8405,9 @@ const DATA = {
    "dem": 4.3,
    "ali": 3.5,
    "sns": 2.5,
-   "oth": 6.5
+   "oth": 6.5,
+   "psdem": 26.5,
+   "psdem_merane": 0
   },
   {
    "agency": "Ipsos",
@@ -7810,7 +8428,9 @@ const DATA = {
    "ali": 3.2,
    "dem": 4.7,
    "sr": 3.1,
-   "oth": 3.6
+   "oth": 3.6,
+   "psdem": 24.4,
+   "psdem_merane": 0
   },
   {
    "agency": "AKO",
@@ -7836,7 +8456,9 @@ const DATA = {
    "nesli_by": 10.3,
    "odmietli": 4.0,
    "ucast": 64.5,
-   "ucast_typ": "rozhodnuti"
+   "ucast_typ": "rozhodnuti",
+   "psdem": 24.8,
+   "psdem_merane": 0
   },
   {
    "agency": "SCIO",
@@ -7860,7 +8482,9 @@ const DATA = {
    "ku": 0.52,
    "lsns": 0.52,
    "oth": 0.78,
-   "pravda": 1.81
+   "pravda": 1.81,
+   "psdem": 24.64,
+   "psdem_merane": 0
   },
   {
    "agency": "Infostat",
@@ -7880,7 +8504,9 @@ const DATA = {
    "ali": 4.1,
    "sr": 3.5,
    "lsns": 2.0,
-   "oth": 4.5
+   "oth": 4.5,
+   "psdem": 23.1,
+   "psdem_merane": 0
   },
   {
    "agency": "NMS",
@@ -7904,7 +8530,9 @@ const DATA = {
    "oth": 2.2,
    "pravda": 2.7,
    "ucast": 59.0,
-   "ucast_typ": "deklarovana"
+   "ucast_typ": "deklarovana",
+   "psdem": 25.2,
+   "psdem_merane": 0
   },
   {
    "agency": "AKO",
@@ -7930,7 +8558,9 @@ const DATA = {
    "nesli_by": 10.5,
    "odmietli": 3.2,
    "ucast": 62.8,
-   "ucast_typ": "rozhodnuti"
+   "ucast_typ": "rozhodnuti",
+   "psdem": 26.2,
+   "psdem_merane": 0
   },
   {
    "agency": "Ipsos",
@@ -7950,7 +8580,9 @@ const DATA = {
    "ali": 4.7,
    "sns": 3.4,
    "sr": 2.8,
-   "oth": 5.4
+   "oth": 5.4,
+   "psdem": 25.3,
+   "psdem_merane": 0
   },
   {
    "agency": "Focus",
@@ -7975,7 +8607,9 @@ const DATA = {
    "nesli_by": 13.3,
    "nerozhodnuti": 13.4,
    "ucast": 73.3,
-   "ucast_typ": "rozhodnuti"
+   "ucast_typ": "rozhodnuti",
+   "psdem": 22.9,
+   "psdem_merane": 0
   },
   {
    "agency": "NMS",
@@ -7998,7 +8632,9 @@ const DATA = {
    "oth": 4.6,
    "pravda": 2.3,
    "ucast": 60.8,
-   "ucast_typ": "deklarovana"
+   "ucast_typ": "deklarovana",
+   "psdem": 23.9,
+   "psdem_merane": 0
   },
   {
    "agency": "SCIO",
@@ -8022,7 +8658,9 @@ const DATA = {
    "ku": 0.78,
    "lsns": 0.52,
    "oth": 1.42,
-   "pravda": 2.97
+   "pravda": 2.97,
+   "psdem": 22.86,
+   "psdem_merane": 0
   },
   {
    "agency": "AKO",
@@ -8049,7 +8687,9 @@ const DATA = {
    "nesli_by": 9.9,
    "odmietli": 1.8,
    "ucast": 65.3,
-   "ucast_typ": "rozhodnuti"
+   "ucast_typ": "rozhodnuti",
+   "psdem": 26.6,
+   "psdem_merane": 0
   },
   {
    "agency": "Infostat",
@@ -8072,7 +8712,9 @@ const DATA = {
    "oth": 1.3,
    "pravda": 1.5,
    "ucast": 64.0,
-   "ucast_typ": "deklarovana_sirsia"
+   "ucast_typ": "deklarovana_sirsia",
+   "psdem": 26.2,
+   "psdem_merane": 0
   },
   {
    "agency": "SANEP",
@@ -8091,7 +8733,9 @@ const DATA = {
    "dem": 5.6,
    "ali": 4.6,
    "sns": 4.5,
-   "oth": 6.2
+   "oth": 6.2,
+   "psdem": 23.7,
+   "psdem_merane": 0
   },
   {
    "agency": "Infostat",
@@ -8114,7 +8758,9 @@ const DATA = {
    "oth": 0.9,
    "pravda": 1.9,
    "ucast": 65.2,
-   "ucast_typ": "deklarovana_sirsia"
+   "ucast_typ": "deklarovana_sirsia",
+   "psdem": 24.6,
+   "psdem_merane": 0
   },
   {
    "agency": "NMS",
@@ -8138,7 +8784,9 @@ const DATA = {
    "oth": 1.9,
    "pravda": 3.6,
    "ucast": 59.7,
-   "ucast_typ": "deklarovana"
+   "ucast_typ": "deklarovana",
+   "psdem": 23.8,
+   "psdem_merane": 0
   },
   {
    "agency": "AKO",
@@ -8166,7 +8814,9 @@ const DATA = {
    "nesli_by": 5.8,
    "odmietli": 3.4,
    "ucast": 68.6,
-   "ucast_typ": "rozhodnuti"
+   "ucast_typ": "rozhodnuti",
+   "psdem": 25.3,
+   "psdem_merane": 0
   },
   {
    "agency": "SANEP",
@@ -8186,7 +8836,9 @@ const DATA = {
    "sns": 4.6,
    "ali": 4.4,
    "sr": 3.5,
-   "oth": 2.7
+   "oth": 2.7,
+   "psdem": 23.8,
+   "psdem_merane": 0
   },
   {
    "agency": "Ipsos",
@@ -8208,7 +8860,9 @@ const DATA = {
    "sr": 2.8,
    "zl": 1.8,
    "oth": 2.2,
-   "pravda": 3.1
+   "pravda": 3.1,
+   "psdem": 22.8,
+   "psdem_merane": 0
   },
   {
    "agency": "SCIO",
@@ -8231,7 +8885,9 @@ const DATA = {
    "zl": 1.27,
    "ku": 0.64,
    "oth": 1.02,
-   "pravda": 3.95
+   "pravda": 3.95,
+   "psdem": 22.16,
+   "psdem_merane": 0
   },
   {
    "agency": "Infostat",
@@ -8255,7 +8911,9 @@ const DATA = {
    "oth": 0.4,
    "pravda": 3.5,
    "ucast": 66.4,
-   "ucast_typ": "deklarovana_sirsia"
+   "ucast_typ": "deklarovana_sirsia",
+   "psdem": 24.1,
+   "psdem_merane": 0
   },
   {
    "agency": "Focus",
@@ -8278,7 +8936,9 @@ const DATA = {
    "zl": 1.6,
    "ku": 0.4,
    "oth": 1.0,
-   "pravda": 2.8
+   "pravda": 2.8,
+   "psdem": 22.3,
+   "psdem_merane": 0
   },
   {
    "agency": "NMS",
@@ -8302,7 +8962,9 @@ const DATA = {
    "oth": 2.1,
    "pravda": 2.1,
    "ucast": 61.0,
-   "ucast_typ": "deklarovana"
+   "ucast_typ": "deklarovana",
+   "psdem": 26.4,
+   "psdem_merane": 0
   },
   {
    "agency": "AKO",
@@ -8328,7 +8990,9 @@ const DATA = {
    "nesli_by": 11.1,
    "odmietli": 1.3,
    "ucast": 73.0,
-   "ucast_typ": "rozhodnuti"
+   "ucast_typ": "rozhodnuti",
+   "psdem": 23.3,
+   "psdem_merane": 0
   },
   {
    "agency": "SANEP",
@@ -8348,7 +9012,9 @@ const DATA = {
    "sns": 4.1,
    "ali": 4.1,
    "sr": 3.4,
-   "oth": 2.8
+   "oth": 2.8,
+   "psdem": 23.2,
+   "psdem_merane": 0
   },
   {
    "agency": "Ipsos",
@@ -8369,7 +9035,9 @@ const DATA = {
    "sns": 2.2,
    "sr": 2.0,
    "oth": 2.8,
-   "pravda": 2.2
+   "pravda": 2.2,
+   "psdem": 24.5,
+   "psdem_merane": 0
   },
   {
    "agency": "SCIO",
@@ -8393,7 +9061,9 @@ const DATA = {
    "lsns": 0.97,
    "ku": 0.48,
    "oth": 2.9,
-   "pravda": 2.9
+   "pravda": 2.9,
+   "psdem": 22.71,
+   "psdem_merane": 0
   },
   {
    "agency": "NMS",
@@ -8417,7 +9087,9 @@ const DATA = {
    "oth": 2.4,
    "pravda": 2.3,
    "ucast": 58.7,
-   "ucast_typ": "deklarovana"
+   "ucast_typ": "deklarovana",
+   "psdem": 24.4,
+   "psdem_merane": 0
   },
   {
    "agency": "Infostat",
@@ -8440,7 +9112,9 @@ const DATA = {
    "oth": 1.0,
    "pravda": 2.4,
    "ucast": 66.1,
-   "ucast_typ": "deklarovana_sirsia"
+   "ucast_typ": "deklarovana_sirsia",
+   "psdem": 23.3,
+   "psdem_merane": 0
   },
   {
    "agency": "Focus",
@@ -8462,7 +9136,9 @@ const DATA = {
    "sns": 3.5,
    "zl": 1.1,
    "oth": 1.6,
-   "pravda": 2.7
+   "pravda": 2.7,
+   "psdem": 23.2,
+   "psdem_merane": 0
   },
   {
    "agency": "Ipsos",
@@ -8484,7 +9160,9 @@ const DATA = {
    "sns": 2.0,
    "zl": 1.8,
    "oth": 2.0,
-   "pravda": 3.3
+   "pravda": 3.3,
+   "psdem": 23.9,
+   "psdem_merane": 0
   },
   {
    "agency": "SANEP",
@@ -8505,7 +9183,9 @@ const DATA = {
    "sr": 3.5,
    "sns": 2.9,
    "oth": 4.0,
-   "pravda": 1.6
+   "pravda": 1.6,
+   "psdem": 23.2,
+   "psdem_merane": 0
   },
   {
    "agency": "AKO",
@@ -8532,7 +9212,9 @@ const DATA = {
    "nesli_by": 9.1,
    "odmietli": 5.0,
    "ucast": 66.8,
-   "ucast_typ": "rozhodnuti"
+   "ucast_typ": "rozhodnuti",
+   "psdem": 24.2,
+   "psdem_merane": 0
   },
   {
    "agency": "Infostat",
@@ -8555,7 +9237,9 @@ const DATA = {
    "oth": 1.4,
    "pravda": 2.2,
    "ucast": 68.8,
-   "ucast_typ": "deklarovana_sirsia"
+   "ucast_typ": "deklarovana_sirsia",
+   "psdem": 24.7,
+   "psdem_merane": 0
   },
   {
    "agency": "NMS",
@@ -8579,7 +9263,31 @@ const DATA = {
    "oth": 2.7,
    "pravda": 3.0,
    "ucast": 59.8,
-   "ucast_typ": "deklarovana"
+   "ucast_typ": "deklarovana",
+   "psdem": 24.1,
+   "psdem_merane": 0
+  },
+  {
+   "agency": "Ipsos",
+   "start": "2026-11-16",
+   "end": "2026-11-20",
+   "mid": "2026-11-18",
+   "sample": "1,009",
+   "type": "poll",
+   "psdem": 24.1,
+   "smer": 17.2,
+   "rep": 12.3,
+   "olano": 10.8,
+   "sas": 8.5,
+   "kdh": 6.9,
+   "hlas": 6.8,
+   "ali": 4.3,
+   "sr": 2.0,
+   "zl": 1.4,
+   "sns": 1.0,
+   "oth": 2.3,
+   "pravda": 2.4,
+   "psdem_merane": 1
   }
  ]
 };
@@ -8587,7 +9295,14 @@ const P = DATA.meta, polls = DATA.polls;
 polls.forEach(p=>{p.t = new Date(p.mid).getTime();});
 const DAY=86400000;
 const tmin = Math.min(...polls.map(p=>p.t)), tmax = Math.max(...polls.map(p=>p.t));
-const MAIN=["smer","ps","hlas","olano","kdh","sas","sns","rep","ali","dem","sr","lsns"];
+// Hlavné strany = prednastavený výber. PS a Demokrati sú od 11/2026 v koalícii, preto je
+// v hlavnom výbere koaličná séria `psdem`; samostatné PS a Demokrati (s celou históriou)
+// zostávajú zapínateľné v rozbaľovacom zozname „ďalšie strany".
+const MAIN=["smer","psdem","hlas","olano","kdh","sas","sns","rep","ali","sr","pravda"];
+// Dátum prvého prieskumu, v ktorom agentúra merala koalíciu ako jeden subjekt.
+// Po tento dátum je koaličná krivka dopočet (súčet PS a Demokratov) a kreslí sa
+// čiarkovane, od neho je meraná a kreslí sa plne.
+const PSDEM_T=DATA.psdem_od?new Date(DATA.psdem_od).getTime():null;
 const ALLP=Object.keys(P).filter(k=>k!=="oth");
 const AGS=[...new Set(polls.filter(p=>p.type==="poll").map(p=>p.agency))];
 // Voľby sa v grafe vyznačujú ako body a zvislé čiary, ale do žiadnej krivky nevstupujú
@@ -8597,7 +9312,7 @@ const ELEC=polls.filter(p=>p.type==="election"||p.type==="ep_election");
 let sel=new Set(MAIN), selAg=new Set(AGS), from=tmin, sigma=45, mfrac=1, mode="strany";
 const BLOCKS={
   dem:{name:"Demokratický blok", color:"#6aa6ff",
-       members:["ps","sas","olano","kdh","dem","spolu","modri","zl","ku","siet"]},
+       members:["psdem","sas","olano","kdh","spolu","modri","zl","ku","siet"]},
   nat:{name:"Národno-sociálny blok", color:"#ff6b73",
        members:["smer","hlas","sns","rep","lsns","vlast","pravda"]},
   nez:{name:"Nezaradené", color:"#c3cbd4",
@@ -8625,7 +9340,9 @@ function chip(box,key,label,color,set,on,cb){
 const NEVOL={name:"Nerozhodnutí a nevoliči", color:"#9aa0ab", members:[]};
 function tOn(){const e=document.getElementById("turnout");return mode==="bloky"&&!!e&&e.checked;}
 function blocList(){return tOn()?Object.values(BLOCKS).concat([NEVOL]):Object.values(BLOCKS);}
-const DEMSTACK_ORDER=["ps","olano","sas","kdh","dem","spolu","modri","zl","ku","siet"];
+// `psdem` nahrádza samostatné ps a dem, aby sa pásy nezdvojili a aby séria nemala
+// medzeru od chvíle, keď agentúry merajú už len koalíciu.
+const DEMSTACK_ORDER=["psdem","olano","sas","kdh","spolu","modri","zl","ku","siet"];
 const mb=document.getElementById("modebtns");
 [["strany","Strany"],["bloky","Bloky"],["demstack","Demokratický blok"]].forEach(([m,lab],i)=>{
   const b=document.createElement("button");b.className="pbtn"+(i===0?" on":"");b.textContent=lab;
@@ -8822,6 +9539,13 @@ function draw(){
       if(last)endLab.push({x:X(last.t)+4,y:Y(last.v)+4,col:bl.color,txt:last.v.toFixed(1)});
     }
   } else {
+    // Odkiaľ je koaličná hodnota meraná, nie dopočítaná. Kým je takých prieskumov málo,
+    // plný úsek krivky je kratučký, takže prechod označuje aj zvislá značka.
+    if(sel.has("psdem")&&PSDEM_T&&PSDEM_T>=from&&PSDEM_T<=tmax){
+      const xx=X(PSDEM_T).toFixed(1);
+      s+=`<line x1="${xx}" y1="${mt}" x2="${xx}" y2="${H-mb}" stroke="${P.psdem.color}" stroke-width="1" stroke-dasharray="2 3" stroke-opacity=".55"/>`;
+      s+=`<text x="${xx}" y="${mt+10}" font-size="10.5" fill="${P.psdem.color}" fill-opacity=".9" text-anchor="end" transform="rotate(-90 ${xx} ${mt+10})">meraná koalícia</text>`;
+    }
     { const showDots=document.getElementById("dots").checked;
       for(const p of shown){for(const k of sel){const v=p[k];if(v==null)continue;
         dotEls.push({x:X(p.t),y:Y(v),p,k,v});
@@ -8830,13 +9554,27 @@ function draw(){
     ELEC.forEach(e=>{if(e.t<from)return;for(const k of sel){const v=e[k];if(v==null)continue;
       s+=`<path d="M ${X(e.t)} ${Y(v)-5} L ${X(e.t)+4.4} ${Y(v)+3} L ${X(e.t)-4.4} ${Y(v)+3} Z" fill="${P[k].color}" stroke="${C.stroke}" stroke-width="1.2"/>`;}});
     for(const k of sel){
-      let d="",pen=false,last=null;
-      for(let t=from;t<=tmax;t+=step){
+      const pts=[];let last=null;
+      const grid=[];for(let t=from;t<=tmax;t+=step)grid.push(t);
+      if(grid[grid.length-1]!==tmax)grid.push(tmax); // koniec série sa musí vzorkovať vždy
+      for(const t of grid){
         const v=kernelAvg(k,t,pset,sigma);
-        if(v==null){pen=false;continue;}
-        d+=(pen?"L":"M")+X(t).toFixed(1)+" "+Y(v).toFixed(1)+" ";pen=true;last={t,v};
+        pts.push(v==null?null:{t,v});
+        if(v!=null)last={t,v};
       }
-      s+=`<path d="${d}" fill="none" stroke="${P[k].color}" stroke-width="2.4" stroke-linejoin="round"/>`;
+      // koaličná séria: dopočítaný úsek čiarkovane, meraný plne. Deliaci bod patrí
+      // do oboch úsekov, aby na seba čiary nadviazali bez medzery.
+      const seg=keep=>{let d="",pen=false;
+        for(const q of pts){if(!q||!keep(q)){pen=false;continue;}
+          d+=(pen?"L":"M")+X(q.t).toFixed(1)+" "+Y(q.v).toFixed(1)+" ";pen=true;}
+        return d;};
+      if(k==="psdem"&&PSDEM_T){
+        const dd=seg(q=>q.t<=PSDEM_T), ds=seg(q=>q.t>=PSDEM_T);
+        if(dd)s+=`<path d="${dd}" fill="none" stroke="${P[k].color}" stroke-width="2.4" stroke-dasharray="7 4" stroke-linejoin="round"/>`;
+        if(ds)s+=`<path d="${ds}" fill="none" stroke="${P[k].color}" stroke-width="2.4" stroke-linejoin="round"/>`;
+      } else {
+        s+=`<path d="${seg(()=>true)}" fill="none" stroke="${P[k].color}" stroke-width="2.4" stroke-linejoin="round"/>`;
+      }
       if(last)endLab.push({x:X(last.t)+4,y:Y(last.v)+4,col:P[k].color,txt:last.v.toFixed(1)});
     }
   }
@@ -8863,7 +9601,14 @@ function tipShow(e,touch){
     tip.style.opacity=1;
     tip.style.left=Math.min(x+14,r.width-260)+"px";tip.style.top=(y+8)+"px";
     const nm=best.bloc?(BLOCKS[best.k]?BLOCKS[best.k].name:best.k):P[best.k].name;
-    tip.innerHTML=`<b>${nm}: ${best.v} %</b><br>${best.p.agency} · ${fmtDF(new Date(best.p.start).getTime())} – ${fmtDF(new Date(best.p.end).getTime())}<br>vzorka: ${best.p.sample||"?"}`;
+    let pozn="";
+    if(best.k==="psdem")
+      pozn = best.p.psdem_merane
+        ? `<br><i>koalíciu merala agentúra ako jeden subjekt</i>`
+        : (best.p.dem!=null
+            ? `<br><i>dopočet: PS ${best.p.ps} + Demokrati ${best.p.dem}</i>`
+            : `<br><i>dopočet: samotné PS (Demokrati vtedy nemeraní)</i>`);
+    tip.innerHTML=`<b>${nm}: ${best.v} %</b><br>${best.p.agency} · ${fmtDF(new Date(best.p.start).getTime())} – ${fmtDF(new Date(best.p.end).getTime())}<br>vzorka: ${best.p.sample||"?"}${pozn}`;
   } else tip.style.opacity=0;
 }
 svg.addEventListener("mousemove",e=>tipShow(e,false));
@@ -8872,8 +9617,12 @@ document.addEventListener("pointerdown",e=>{if(e.pointerType!=="mouse"&&!svg.con
 svg.addEventListener("mouseleave",()=>tip.style.opacity=0);
 
 /* ---------- seats ---------- */
+const QUORUM={psdem:7};
+const SEAT_SKIP=new Set(["ps","dem"]);
 function seatCalc(avg){
-  const q=Object.entries(avg).filter(([k,v])=>v>=5);
+  // Zákon o voľbách: samostatná strana 5 %, koalícia dvoch alebo troch strán 7 %,
+  // koalícia štyroch a viac 10 %. PS + Demokrati je dvojkoalícia.
+  const q=Object.entries(avg).filter(([k,v])=>v>=(QUORUM[k]||5));
   const tot=q.reduce((a,[,v])=>a+v,0);
   if(!q.length)return{};
   const quota=tot/151;
@@ -8889,7 +9638,9 @@ function drawSeats(){
   document.getElementById("mdate").textContent=fmtDF(t);
   const pset=activePolls();
   const avg={};
-  ALLP.forEach(k=>{const v=kernelAvg(k,t,pset,60);if(v!=null)avg[k]=v;});
+  // PS a Demokratov zastupuje koaličná séria `psdem` — do mandátov aj do koaličnej
+  // kalkulačky preto vstupuje len ona, inak by sa tí istí voliči počítali dvakrát.
+  ALLP.filter(k=>!SEAT_SKIP.has(k)).forEach(k=>{const v=kernelAvg(k,t,pset,60);if(v!=null)avg[k]=v;});
   curSeats=seatCalc(avg);
   const box=document.getElementById("seats");
   const ord=Object.keys(avg).sort((a,b)=>avg[b]-avg[a]).filter(k=>avg[k]>=2);
