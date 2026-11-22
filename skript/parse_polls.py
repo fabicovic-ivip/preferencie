@@ -537,6 +537,23 @@ EXTRA = [
  dict(agency="NMS", d1=D("2026-11-05"), d2=D("2026-11-08"), sample="1,004", typ="poll",
       vals=dict(ps=19.2, smer=17.9, rep=13.0, olano=9.8, sas=7.9, hlas=7.4, kdh=5.0,
                 dem=4.9, ali=3.1, sr=2.3, sns=1.9, zl=1.9)),
+ # Infostat / CSV november 2026 — primarny zdroj PDF
+ # infostat.sk/csv/suhrnna-sprava/pdf/Volebne_preferencie_november_2026.pdf
+ # Zber 2.-6. 11. 2026, technika CAPI, n = 1 001, kvoty pohlavie/vek/vzdelanie/
+ # narodnost/region/velkost sidla. Tabulka uvadza len strany nad 1 %.
+ # Nezavisle potvrdene dvoma dalsimi zdrojmi, ktore uvadzaju vsetkych 12 hodnot
+ # do desatiny zhodne: info.sk/TASR (clanok 283842, 16. 11. 2026) a spravy.stvr.sk
+ # (16. 11. 2026, "Aj statny prieskum potvrdil vyrovnany suboj na cele").
+ # Kontrola 1: 12 menovanych stran scita 98,6 % — v norme. Bez Prava na pravdu
+ # (ide cez PRAVDA) scitaju vals 96,4 %, `oth` sa dopocita na 1,4.
+ # Kontrola 2: vsetky styri medzimesacne porovnania z clanku STVR sedia s riadkom
+ # Infostat 2026-10-09 v datasete — Republika 12,0 -> 9,7 (clanok: "v oktobrovom
+ # prieskume skoncila s dvanastimi percentami"), Hlas 7,4 -> 9,5, Demokrati
+ # 4,8 -> 7,1, SNS 1,7 -> 2,0. Zhoda bod po bode.
+ # Deklarovana ucast 68,8 % (33,3 urcite + 35,5 pravdepodobne) -> TURNOUT_INFOSTAT.
+ dict(agency="Infostat", d1=D("2026-11-02"), d2=D("2026-11-06"), sample="1,001", typ="poll",
+      vals=dict(ps=17.6, smer=17.4, rep=9.7, hlas=9.5, olano=8.9, sas=8.6, kdh=8.1,
+                dem=7.1, ali=4.6, sr=2.9, sns=2.0)),
 ]
 
 
@@ -702,7 +719,8 @@ TURNOUT_INFOSTAT = {"2025-11":68.6, "2026-01":66.4, "2026-03":68.0,
                     "2026-07":64.0,  # PDF 7/2026: 64 % (32,4 určite + 31,6 pravdepodobne)
                     "2026-08":65.2,  # PDF 8/2026: 65,2 % (31,1 určite + 34,1 pravdepodobne)
                     "2026-09":66.4,  # PDF 9/2026: 66,4 % (31,8 určite + 34,6 pravdepodobne)
-                    "2026-10":66.1}  # PDF 10/2026: 66,1 % (31,6 určite + 34,5 pravdepodobne)
+                    "2026-10":66.1,  # PDF 10/2026: 66,1 % (31,6 určite + 34,5 pravdepodobne)
+                    "2026-11":68.8}  # PDF 11/2026: 68,8 % (33,3 určite + 35,5 pravdepodobne)
 
 # Skutočná účasť vo voľbách (ŠÚ SR)
 TURNOUT_ELECTION = {"2016-03-05":59.82, "2020-02-29":65.80, "2023-09-30":68.51}
@@ -728,7 +746,7 @@ PRAVDA = {
  ("NMS","2026-10-05"):2.3, ("Infostat","2026-10-09"):2.4,
  ("AKO","2026-10-28"):2.9, ("SANEP","2026-10-26"):1.6,
  ("Focus","2026-10-19"):2.7, ("Ipsos","2026-10-19"):3.3,
- ("NMS","2026-11-08"):3.0,
+ ("NMS","2026-11-08"):3.0, ("Infostat","2026-11-06"):2.2,
  # NMS 6/2026 chybalo — doplnene z primarneho grafu NMS (Flourish 30851791), kde ma
  # Pravo na pravdu 2,7; zvysok riadku sedi s grafom presne.
  ("NMS","2026-06-08"):2.7,
@@ -800,7 +818,7 @@ PARTY_META = {
  "oth":  ("Iné", "#c8c8c8"),
 }
 
-VERZIA = "2026-11-11.1"   # meniť pri každej zmene dát; zapisuje sa do JSON aj do index.html
+VERZIA = "2026-11-22.1"   # meniť pri každej zmene dát; zapisuje sa do JSON aj do index.html
 
 def main():
     f1,p1=parse_file1()

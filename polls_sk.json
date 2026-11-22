@@ -1,5 +1,5 @@
 {
- "verzia": "2026-11-11.1",
+ "verzia": "2026-11-22.1",
  "meta": {
   "smer": {
    "name": "Smer-SD",
@@ -8178,6 +8178,29 @@
    "odmietli": 5.0,
    "ucast": 66.8,
    "ucast_typ": "rozhodnuti"
+  },
+  {
+   "agency": "Infostat",
+   "start": "2026-11-02",
+   "end": "2026-11-06",
+   "mid": "2026-11-04",
+   "sample": "1,001",
+   "type": "poll",
+   "ps": 17.6,
+   "smer": 17.4,
+   "rep": 9.7,
+   "hlas": 9.5,
+   "olano": 8.9,
+   "sas": 8.6,
+   "kdh": 8.1,
+   "dem": 7.1,
+   "ali": 4.6,
+   "sr": 2.9,
+   "sns": 2.0,
+   "oth": 1.4,
+   "pravda": 2.2,
+   "ucast": 68.8,
+   "ucast_typ": "deklarovana_sirsia"
   },
   {
    "agency": "NMS",
