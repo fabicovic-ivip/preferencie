@@ -571,6 +571,62 @@ EXTRA = [
  dict(agency="Ipsos", d1=D("2026-11-16"), d2=D("2026-11-20"), sample="1,009", typ="poll",
       vals=dict(psdem=24.1, smer=17.2, rep=12.3, olano=10.8, sas=8.5, kdh=6.9,
                 hlas=6.8, ali=4.3, sr=2.0, zl=1.4, sns=1.0)),
+ # ---------------------------------------------------------------------------
+ # IXACTLY pre TV Markizu — NOVA AGENTURA v datasete (zaradena 23. 11. 2026).
+ # Ixactly, s.r.o., Bratislava, clen ESOMAR, vlastne call centrum; analytik
+ # Jakub Minarik. Narodny volebny model robi nepravidelne (nie mesacne).
+ # Publikuje ho TV Markiza na tnlive.sk; agentura sama ho nezverejnuje.
+ # Metodika: online + telefonicky (CAWI + CATI), N = 1000, hodnoty na jednu
+ # desatinu vratane malych stran a polozky "Ina strana".
+ # Cisla aj datumy zberu su LEN V GRAFOCH, nie v texte clanku — citat ich treba
+ # z obrazkov (cdn.cra.cz .webp) alebo z Flourish grafov, ako pri SCIO.
+ #
+ # Vlna 4/2026 — zber 15.–22. 4. 2026, N = 1000, online + telefonicky.
+ # Zdroj: tnlive.sk clanok 1027319 (publ. 27. 4. 2026), grafy
+ # cdn.cra.cz d89839f3-...-7ced1cd55071.webp a 31ca3e85-...-d34b000d8464.webp;
+ # patricka grafu: "Ixactly pre TV Markiza, 1000 respondentov, online +
+ # telefonicky, zber dat 15. - 22. Aprila 2026".
+ # Kontrola 1: 13 polozok z grafu scita 99,9 %. Bez Prava na pravdu (1,3, ide
+ # cez PRAVDA) a bez "Ina strana" (1,3) scitaju vals 97,3 %.
+ # Kontrola 2 (clanok): "Smer vedie, PS druhe, obe atakuju 20 %" (19,5 / 18,0),
+ # "Republika vyse 11 %" (11,6), "okolo siestich percent tri strany: SaS, KDH,
+ # Demokrati" (6,7 / 6,4 / 6,3), SNS pod hranicou (4,0) — sedi bod po bode.
+ # Krizova kontrola mandatov: strany nad 5 % scitaju 86,2; Smer 34 + Republika 20
+ # + Hlas 15 = 69, do vacsiny 76 chyba 7 — clanok uvadza presne "potreboval by
+ # este sedem poslancov".
+ dict(agency="Ixactly", d1=D("2026-04-15"), d2=D("2026-04-22"), sample="1,000", typ="poll",
+      vals=dict(smer=19.5, ps=18.0, rep=11.6, olano=9.1, hlas=8.6, sas=6.7,
+                kdh=6.4, dem=6.3, sns=4.0, ali=3.6, sr=3.5)),
+ # Vlna 7/2026 — zber 27. 7. – 1. 8. 2026, N = 1000.
+ # Zdroj: tnlive.sk clanok 1044915 (publ. 7. 8. 2026), Flourish 29910688;
+ # patricka grafu: "Zdroj: ixactly pre TV Markiza, N=1000, Zber dat: 27.7. –
+ # 01.8. 2026".
+ # Kontrola 1: 13 poloziek z grafu scita 99,9 %; vals bez Prava na pravdu (2,1)
+ # a "Ina strana" (0,4) scitaju 97,4 %.
+ # Kontrola 2: clanok uvadza, ze do parlamentu by sa dostalo osem stran — nad
+ # 5 % je presne osem stran (PS, Smer, Republika, Slovensko, Hlas, SaS,
+ # Demokrati, KDH). Sedi.
+ dict(agency="Ixactly", d1=D("2026-07-27"), d2=D("2026-08-01"), sample="1,000", typ="poll",
+      vals=dict(ps=18.6, smer=18.4, rep=12.0, olano=9.5, hlas=9.2, sas=7.8,
+                dem=5.9, kdh=5.9, sr=4.0, sns=3.8, ali=2.3)),
+ # Vlna 8/2026 — zber 27. 8. – 2. 9. 2026, N = 1000.
+ # Zdroj: tnlive.sk clanok 1050061 (publ. 8. 9. 2026), Flourish 30187898
+ # (preferencie) a 30187985 (mandaty); patricka grafu: "Zdroj: Ixactly pre TV
+ # Markiza, N=1000, Zber dat: 27.8. – 2.9. 2026".
+ # Kontrola 1: 13 poloziek z grafu scita presne 100,0 %; vals bez Prava na pravdu
+ # (2,3) a "Ina strana" (0,4) scitaju 97,3 %.
+ # Kontrola 2: clanok "dve najsilnejsie strany deli len desatina percenta"
+ # (18,2 vs 18,1), "Republika viac ako 12 percent" (12,2), "Hnutie Slovensko
+ # a Hlas necelych 10 percent" (9,7 a 9,1) — sedi.
+ # Krizova kontrola mandatov: strany nad 5 % scitaju 87,3; PS 31 + SaS 15 +
+ # Demokrati 10 + KDH 10 + Slovensko 17 = 83, co je presne cislo z clanku,
+ # a PS aj Smer maju zhodne 31 kresiel ("rovnake mnozstvo kresiel").
+ # Spatna kontrola oproti oktobrovej vlne (zatial nezapisanej, viz QA): analytik
+ # k nej povedal "od augusta sa ziadna strana nepohla o viac ako 1,1 percenta" —
+ # najvacsi posun medzi touto vlnou a oktobrovymi cislami je PS -1,1. Sedi.
+ dict(agency="Ixactly", d1=D("2026-08-27"), d2=D("2026-09-02"), sample="1,000", typ="poll",
+      vals=dict(ps=18.2, smer=18.1, rep=12.2, olano=9.7, hlas=9.1, sas=8.8,
+                dem=5.6, kdh=5.6, sr=4.4, sns=3.5, ali=2.1)),
 ]
 
 
@@ -765,6 +821,8 @@ PRAVDA = {
  ("Focus","2026-10-19"):2.7, ("Ipsos","2026-10-19"):3.3,
  ("NMS","2026-11-08"):3.0, ("Infostat","2026-11-06"):2.2,
  ("Ipsos","2026-11-20"):2.4,
+ ("Ixactly","2026-04-22"):1.3, ("Ixactly","2026-08-01"):2.1,
+ ("Ixactly","2026-09-02"):2.3,
  # NMS 6/2026 chybalo — doplnene z primarneho grafu NMS (Flourish 30851791), kde ma
  # Pravo na pravdu 2,7; zvysok riadku sedi s grafom presne.
  ("NMS","2026-06-08"):2.7,
@@ -837,7 +895,7 @@ PARTY_META = {
  "oth":  ("Iné", "#c8c8c8"),
 }
 
-VERZIA = "2026-11-22.2"   # meniť pri každej zmene dát; zapisuje sa do JSON aj do index.html
+VERZIA = "2026-11-23.1"   # meniť pri každej zmene dát; zapisuje sa do JSON aj do index.html
 
 
 # ---------------- Koalícia PS + Demokrati ----------------

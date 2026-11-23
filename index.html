@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Preferencie politických strán SR — agregátor prieskumov | IVIP</title>
-<meta name="description" content="Interaktívny agregátor prieskumov volebných preferencií na Slovensku (2016–2026): dlhodobé trendy, filter agentúr vrátane Infostatu a SCIO, prepočet na mandáty NR SR, koaličná kalkulačka a blokové pohľady.">
+<meta name="description" content="Interaktívny agregátor prieskumov volebných preferencií na Slovensku (2016–2026): dlhodobé trendy, filter agentúr vrátane Infostatu, SCIO a Ixactly, prepočet na mandáty NR SR, koaličná kalkulačka a blokové pohľady.">
 <meta property="og:title" content="Preferencie politických strán SR — agregátor prieskumov">
 <meta property="og:description" content="Dlhodobé trendy preferencií, prepočet mandátov a koaličná kalkulačka. 330+ prieskumov od roku 2016.">
 <meta property="og:type" content="website">
@@ -20,7 +20,7 @@
 <meta name="twitter:title" content="Preferencie politických strán SR — agregátor prieskumov">
 <meta name="twitter:description" content="Dlhodobé trendy preferencií, prepočet mandátov a koaličná kalkulačka. 330+ prieskumov od roku 2016.">
 <meta name="twitter:image" content="https://ivip.sk/wp-content/uploads/2026/07/ivip-preferencie-og-2.png">
-<meta name="dashboard-version" content="2026-11-22.2">
+<meta name="dashboard-version" content="2026-11-23.1">
 <meta property="og:locale" content="sk_SK">
 <meta name="robots" content="index, follow">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%235a3787'/%3E%3Cpath d='M6 22l5-7 4 4 6-9 5 6' stroke='%23ffffff' stroke-width='2.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
@@ -246,7 +246,7 @@ footer .foot-main{margin-top:0}
     </div>
    </details>
    <div class="sidemeta">
-     <div>Verzia dát <b id="verdata">2026-11-22.2</b></div>
+     <div>Verzia dát <b id="verdata">2026-11-23.1</b></div>
      <div><button type="button" class="srclink" id="srcopen" aria-haspopup="dialog">Zdroje a metodika</button></div>
    </div>
   </div>
@@ -302,9 +302,9 @@ footer .foot-main{margin-top:0}
       <button type="button" class="modal-x" data-close aria-label="Zavrieť">&times;</button>
     </div>
     <div class="modal-body">
-      <p><b>Zdroj dát:</b> zverejnené prieskumy agentúr AKO, Focus, Ipsos, NMS, SCIO, Median, Polis, SANEP, MVK a štátneho Infostatu (ÚVVM/CSV pri ŠÚ SR),
+      <p><b>Zdroj dát:</b> zverejnené prieskumy agentúr AKO, Focus, Ipsos, NMS, SCIO, Ixactly, Median, Polis, SANEP, MVK a štátneho Infostatu (ÚVVM/CSV pri ŠÚ SR),
       agregované cez Wikipédiu (<i>Opinion polling for the 2020 / 2023 / next Slovak parliamentary election</i>) a tlačové správy
-      (SITA, TASR/teraz.sk, ta3, STVR, SME) a priamo od agentúr (NMS, SCIO). Volebné výsledky: Štatistický úrad SR. Stav k 22.&nbsp;11.&nbsp;2026.</p>
+      (SITA, TASR/teraz.sk, ta3, STVR, SME) a priamo od agentúr (NMS, SCIO, Ixactly cez TV Markízu). Volebné výsledky: Štatistický úrad SR. Stav k 23.&nbsp;11.&nbsp;2026.</p>
 
       <p><b>Ako čítať graf:</b> body = jednotlivé prieskumy, čiary = vážený kĺzavý priemer (gaussovské jadro).
       Trojuholníky a zvislé čiary = skutočné volebné výsledky (parlamentné aj eurovoľby 2024). Do trendových kriviek nevstupujú — krivky sa počítajú výhradne z prieskumov. Eurovoľby majú navyše inú účasť aj volebný systém, preto s parlamentnými nie sú porovnateľné. Prepočet mandátov je ilustračný — vychádza z celoštátnych preferencií.</p>
@@ -314,7 +314,7 @@ footer .foot-main{margin-top:0}
       V rokoch 2016–2020 sú PS a SPOLU vykazované spolu (koalícia PS–SPOLU v stĺpci PS). SMK a Maďarská aliancia sú vedené ako jedna súvislá séria.
       Priradenie hodnôt k stranám bolo pri prieskumoch z rokov 2016–2023 overené proti hlavičkám zdrojových tabuliek. Modrí, Európske Slovensko majú od roku 2023 vlastnú sériu; tam, kde ich zdroj uvádza v jednej bunke s Most-Hídom (jún 2023), zostávajú v sérii Most-Híd.
       Prieskumy zverejnené v deň volieb (exit polly) do trendu nevstupujú.
-      SCIO (doplnené od decembra 2024) zverejňuje model rozhodnutých voličov s hodnotami na dve desatiny vrátane malých strán; hodnoty sú odčítané z grafov v jeho tlačových správach.</p>
+      SCIO (doplnené od decembra 2024) zverejňuje model rozhodnutých voličov s hodnotami na dve desatiny vrátane malých strán; hodnoty sú odčítané z grafov v jeho tlačových správach. Ixactly (doplnená od novembra 2026) robí národný volebný model nepravidelne pre TV Markízu, metódou online + telefonicky na vzorke 1000 respondentov; hodnoty aj dátumy zberu sú rovnako len v grafoch.</p>
 
       <p><b>PS + Demokrati:</b> obe strany idú do volieb ako koalícia, preto ich prehľad uvádza ako jeden subjekt.
       Agentúry ju začali takto merať v novembri 2026 (prvý Ipsos, zber 16.–20. 11. 2026) — od toho prieskumu je krivka
@@ -363,7 +363,7 @@ footer .foot-main{margin-top:0}
 const C={grid:"rgba(255,255,255,.10)", gridY:"rgba(255,255,255,.13)", axis:"#cbbde0",
          thr:"#ff6b7a", elec:"rgba(255,255,255,.38)", stroke:"#3b2359"};
 const DATA = {
- "verzia": "2026-11-22.2",
+ "verzia": "2026-11-23.1",
  "meta": {
   "smer": {
    "name": "Smer-SD",
@@ -8283,6 +8283,29 @@ const DATA = {
    "psdem_merane": 0
   },
   {
+   "agency": "Ixactly",
+   "start": "2026-04-15",
+   "end": "2026-04-22",
+   "mid": "2026-04-18",
+   "sample": "1,000",
+   "type": "poll",
+   "smer": 19.5,
+   "ps": 18.0,
+   "rep": 11.6,
+   "olano": 9.1,
+   "hlas": 8.6,
+   "sas": 6.7,
+   "kdh": 6.4,
+   "dem": 6.3,
+   "sns": 4.0,
+   "ali": 3.6,
+   "sr": 3.5,
+   "oth": 1.4,
+   "pravda": 1.3,
+   "psdem": 24.3,
+   "psdem_merane": 0
+  },
+  {
    "agency": "Ipsos",
    "start": "2026-04-17",
    "end": "2026-04-22",
@@ -8738,6 +8761,29 @@ const DATA = {
    "psdem_merane": 0
   },
   {
+   "agency": "Ixactly",
+   "start": "2026-07-27",
+   "end": "2026-08-01",
+   "mid": "2026-07-29",
+   "sample": "1,000",
+   "type": "poll",
+   "ps": 18.6,
+   "smer": 18.4,
+   "rep": 12.0,
+   "olano": 9.5,
+   "hlas": 9.2,
+   "sas": 7.8,
+   "dem": 5.9,
+   "kdh": 5.9,
+   "sr": 4.0,
+   "sns": 3.8,
+   "ali": 2.3,
+   "oth": 0.5,
+   "pravda": 2.1,
+   "psdem": 24.5,
+   "psdem_merane": 0
+  },
+  {
    "agency": "Infostat",
    "start": "2026-08-03",
    "end": "2026-08-07",
@@ -8862,6 +8908,29 @@ const DATA = {
    "oth": 2.2,
    "pravda": 3.1,
    "psdem": 22.8,
+   "psdem_merane": 0
+  },
+  {
+   "agency": "Ixactly",
+   "start": "2026-08-27",
+   "end": "2026-09-02",
+   "mid": "2026-08-30",
+   "sample": "1,000",
+   "type": "poll",
+   "ps": 18.2,
+   "smer": 18.1,
+   "rep": 12.2,
+   "olano": 9.7,
+   "hlas": 9.1,
+   "sas": 8.8,
+   "dem": 5.6,
+   "kdh": 5.6,
+   "sr": 4.4,
+   "sns": 3.5,
+   "ali": 2.1,
+   "oth": 0.4,
+   "pravda": 2.3,
+   "psdem": 23.8,
    "psdem_merane": 0
   },
   {

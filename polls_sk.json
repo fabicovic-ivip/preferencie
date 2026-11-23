@@ -1,5 +1,5 @@
 {
- "verzia": "2026-11-22.2",
+ "verzia": "2026-11-23.1",
  "meta": {
   "smer": {
    "name": "Smer-SD",
@@ -7919,6 +7919,29 @@
    "psdem_merane": 0
   },
   {
+   "agency": "Ixactly",
+   "start": "2026-04-15",
+   "end": "2026-04-22",
+   "mid": "2026-04-18",
+   "sample": "1,000",
+   "type": "poll",
+   "smer": 19.5,
+   "ps": 18.0,
+   "rep": 11.6,
+   "olano": 9.1,
+   "hlas": 8.6,
+   "sas": 6.7,
+   "kdh": 6.4,
+   "dem": 6.3,
+   "sns": 4.0,
+   "ali": 3.6,
+   "sr": 3.5,
+   "oth": 1.4,
+   "pravda": 1.3,
+   "psdem": 24.3,
+   "psdem_merane": 0
+  },
+  {
    "agency": "Ipsos",
    "start": "2026-04-17",
    "end": "2026-04-22",
@@ -8374,6 +8397,29 @@
    "psdem_merane": 0
   },
   {
+   "agency": "Ixactly",
+   "start": "2026-07-27",
+   "end": "2026-08-01",
+   "mid": "2026-07-29",
+   "sample": "1,000",
+   "type": "poll",
+   "ps": 18.6,
+   "smer": 18.4,
+   "rep": 12.0,
+   "olano": 9.5,
+   "hlas": 9.2,
+   "sas": 7.8,
+   "dem": 5.9,
+   "kdh": 5.9,
+   "sr": 4.0,
+   "sns": 3.8,
+   "ali": 2.3,
+   "oth": 0.5,
+   "pravda": 2.1,
+   "psdem": 24.5,
+   "psdem_merane": 0
+  },
+  {
    "agency": "Infostat",
    "start": "2026-08-03",
    "end": "2026-08-07",
@@ -8498,6 +8544,29 @@
    "oth": 2.2,
    "pravda": 3.1,
    "psdem": 22.8,
+   "psdem_merane": 0
+  },
+  {
+   "agency": "Ixactly",
+   "start": "2026-08-27",
+   "end": "2026-09-02",
+   "mid": "2026-08-30",
+   "sample": "1,000",
+   "type": "poll",
+   "ps": 18.2,
+   "smer": 18.1,
+   "rep": 12.2,
+   "olano": 9.7,
+   "hlas": 9.1,
+   "sas": 8.8,
+   "dem": 5.6,
+   "kdh": 5.6,
+   "sr": 4.4,
+   "sns": 3.5,
+   "ali": 2.1,
+   "oth": 0.4,
+   "pravda": 2.3,
+   "psdem": 23.8,
    "psdem_merane": 0
   },
   {
