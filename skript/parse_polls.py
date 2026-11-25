@@ -571,6 +571,44 @@ EXTRA = [
  dict(agency="Ipsos", d1=D("2026-11-16"), d2=D("2026-11-20"), sample="1,009", typ="poll",
       vals=dict(psdem=24.1, smer=17.2, rep=12.3, olano=10.8, sas=8.5, kdh=6.9,
                 hlas=6.8, ali=4.3, sr=2.0, zl=1.4, sns=1.0)),
+ # SANEP 11/2026 — exkluzivne pre ta3, clanok pravda.sk 2084411 (24. 11. 2026).
+ # Zber 16.-20. 11. 2026, CAWI, n = 2 100, 18+, chyba +-1,5 b. Model z 70,8 %
+ # rozhodnutych (nerozhodnutych 11,7 %, nesli by 17,5 %) — rozpad sa NEZAPISUJE,
+ # tabulka TURNOUT_SANEP neexistuje (otvorena vec pre Jana, viz QA_report.md).
+ # SANEP meral PS a Demokratov ESTE SAMOSTATNE — clanok vyslovne uvadza, ze prieskum
+ # "nezohladnuje dohodu o vytvoreni koalicie PS a Demokratov". Preto ps=18,1 a dem=4,9
+ # a `psdem` sa dopocita (psdem_merane = 0).
+ # Kontrola 1: menovane strany + Pravo na pravdu 1,9 (cez PRAVDA) scitaju 95,9 %,
+ # `oth` sa dopocita na 4,1 — presne polozka "ostatne politicke subjekty 4,1 %".
+ # Kontrola 2: vsetky tri zmeny uvedene v clanku sedia s riadkom SANEP 2026-10-26 —
+ # Smer 18,9 -> 18,3 (-0,6), PS 18,4 -> 18,1 (-0,3), Republika 12,1 -> 11,9 (-0,2).
+ # Krizova kontrola mandatov: strany nad 5 % scitaju 78,4; najvacsie zvysky davaju
+ # Smer 35 · PS 35 · Republika 23 · Slovensko 17 · SaS 14 · Hlas 14 · KDH 12 = 150,
+ # co je presne rozdelenie uvedene v clanku.
+ dict(agency="SANEP", d1=D("2026-11-16"), d2=D("2026-11-20"), sample="2,100", typ="poll",
+      vals=dict(smer=18.3, ps=18.1, rep=11.9, olano=9.1, sas=7.6, hlas=7.3, kdh=6.1,
+                dem=4.9, ali=3.7, sr=3.2, sns=2.8, ku=1.0)),
+ # Focus pre 360tka.sk, november 2026 — DRUHA VLNA S MERANOU KOALICIOU PS + DEMOKRATI
+ # (po Ipsose 11/2026). Zber 16.-24. 11. 2026, osobne + online rozhovory, n = 1 013.
+ # Zdroj cisel: plnotextovy clanok topky.sk 9563843 (25. 11. 2026, 18:37), ktory uvadza
+ # kompletny zoznam stran, datumy zberu, vzorku aj prepocet mandatov od agentury.
+ # Primarny zadavatel 360tka.sk vysiela k vlne video "Volby by jasne vyhrala koalicia
+ # PS+Demokrati" (25. 11. 2026) s udajom "s Matovicovcami ma opozicia 82 kresiel".
+ # Focus zaradil koaliciu ako JEDEN subjekt (22,2 %) -> hodnota ide do `psdem`,
+ # `ps`/`dem` zostavaju prazdne (psdem_merane = 1).
+ # Kontrola 1: menovane subjekty + Pravo na pravdu 3,1 (cez PRAVDA) scitaju 97,7 %,
+ # `oth` sa dopocita na 2,3.
+ # Kontrola 2: clanok uvadza oktobrove porovnanie PS 17,4 + Demokrati 5,8 = 23,2 —
+ # sedi na desatinu s riadkom Focus 2026-10-19 v datasete (vratane dopocitaneho psdem).
+ # Krizova kontrola mandatov: strany nad kvorom scitaju 82,6 (koalicia ma kvorum 7 %);
+ # najvacsie zvysky davaju koalicia 40 · Smer 32 · Republika 20 · Slovensko 19 ·
+ # Hlas 16 · SaS 12 · KDH 11 = 150 — presne cisla z clanku. Sucet opozicnych kresiel
+ # 40 + 12 + 11 + 19 = 82 nezavisle potvrdzuje video 360tky.
+ # Rozpad rozhodnutosti (nesli by 10,9 %, nevedeli 14,5 %) ide cez TURNOUT_FOCUS;
+ # agentura upozornuje, ze 74,6 % rozhodnutych nie je odhad volebnej ucasti.
+ dict(agency="Focus", d1=D("2026-11-16"), d2=D("2026-11-24"), sample="1,013", typ="poll",
+      vals=dict(psdem=22.2, smer=17.3, rep=11.2, olano=10.4, hlas=8.8, sas=6.6,
+                kdh=6.1, ali=4.4, sns=3.3, sr=2.9, zl=1.4)),
  # ---------------------------------------------------------------------------
  # IXACTLY pre TV Markizu — NOVA AGENTURA v datasete (zaradena 23. 11. 2026).
  # Ixactly, s.r.o., Bratislava, clen ESOMAR, vlastne call centrum; analytik
@@ -784,6 +822,7 @@ TURNOUT_FOCUS = {
  "2026-03-27": dict(nesli_by=16.0, nerozhodnuti=10.4),
  "2026-05-11": dict(nesli_by=13.8, nerozhodnuti=15.3),
  "2026-06-29": dict(nesli_by=13.3, nerozhodnuti=13.4),
+ "2026-11-24": dict(nesli_by=10.9, nerozhodnuti=14.5),  # rozhodnutych 74,6 % (clanok: nie je to odhad ucasti)
 }
 
 # Infostat / CSV — deklarovaná účasť vrátane odpovede „pravdepodobne by som išiel“,
@@ -821,6 +860,7 @@ PRAVDA = {
  ("Focus","2026-10-19"):2.7, ("Ipsos","2026-10-19"):3.3,
  ("NMS","2026-11-08"):3.0, ("Infostat","2026-11-06"):2.2,
  ("Ipsos","2026-11-20"):2.4,
+ ("SANEP","2026-11-20"):1.9, ("Focus","2026-11-24"):3.1,
  ("Ixactly","2026-04-22"):1.3, ("Ixactly","2026-08-01"):2.1,
  ("Ixactly","2026-09-02"):2.3,
  # NMS 6/2026 chybalo — doplnene z primarneho grafu NMS (Flourish 30851791), kde ma
@@ -895,7 +935,7 @@ PARTY_META = {
  "oth":  ("Iné", "#c8c8c8"),
 }
 
-VERZIA = "2026-11-23.1"   # meniť pri každej zmene dát; zapisuje sa do JSON aj do index.html
+VERZIA = "2026-11-25.1"   # meniť pri každej zmene dát; zapisuje sa do JSON aj do index.html
 
 
 # ---------------- Koalícia PS + Demokrati ----------------

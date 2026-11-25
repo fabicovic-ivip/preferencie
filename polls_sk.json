@@ -1,5 +1,5 @@
 {
- "verzia": "2026-11-23.1",
+ "verzia": "2026-11-25.1",
  "meta": {
   "smer": {
    "name": "Smer-SD",
@@ -8992,6 +8992,56 @@
    "sns": 1.0,
    "oth": 2.3,
    "pravda": 2.4,
+   "psdem_merane": 1
+  },
+  {
+   "agency": "SANEP",
+   "start": "2026-11-16",
+   "end": "2026-11-20",
+   "mid": "2026-11-18",
+   "sample": "2,100",
+   "type": "poll",
+   "smer": 18.3,
+   "ps": 18.1,
+   "rep": 11.9,
+   "olano": 9.1,
+   "sas": 7.6,
+   "hlas": 7.3,
+   "kdh": 6.1,
+   "dem": 4.9,
+   "ali": 3.7,
+   "sr": 3.2,
+   "sns": 2.8,
+   "ku": 1.0,
+   "oth": 4.1,
+   "pravda": 1.9,
+   "psdem": 23.0,
+   "psdem_merane": 0
+  },
+  {
+   "agency": "Focus",
+   "start": "2026-11-16",
+   "end": "2026-11-24",
+   "mid": "2026-11-20",
+   "sample": "1,013",
+   "type": "poll",
+   "psdem": 22.2,
+   "smer": 17.3,
+   "rep": 11.2,
+   "olano": 10.4,
+   "hlas": 8.8,
+   "sas": 6.6,
+   "kdh": 6.1,
+   "ali": 4.4,
+   "sns": 3.3,
+   "sr": 2.9,
+   "zl": 1.4,
+   "oth": 2.3,
+   "pravda": 3.1,
+   "nesli_by": 10.9,
+   "nerozhodnuti": 14.5,
+   "ucast": 74.6,
+   "ucast_typ": "rozhodnuti",
    "psdem_merane": 1
   }
  ]
