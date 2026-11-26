@@ -705,6 +705,15 @@ CORRECTIONS = {
  # Po doplnení: 9/2026 sčíta 97,9 % (`oth` 2,1), 10/2026 sčíta 98,1 % (`oth` 1,9).
  ("NMS",        "2026-09-07"): {"sns": 1.9, "zl": 1.6},
  ("NMS",        "2026-10-05"): {"sns": 1.5, "zl": 1.9},
+
+ # Focus 10/2026 a 11/2026 — Konzervatívci/Kresťanská únia mali vlastný riadok v oficiálnej
+ # tlačovej tabuľke Focusu (FB Focus, „Volebné preferencie – november 2026" pre 360.sk;
+ # tabuľka uvádza aj októbrový stĺpec), ale dataset ich mal schované v `oth`. Septembrový
+ # Focus ich vypísaný má (ku 0,4), takže krivka KÚ mala dieru. Hodnoty: X/26 0,3 · XI/26 0,6.
+ # Kontrola: obidva stĺpce tabuľky sčítajú presne 100,0 % a všetkých 13 (resp. 14) ostatných
+ # hodnôt sedí s datasetom na desatinu. `oth` sa dopočíta sám (2,3 -> 1,7, resp. 1,6 -> 1,3).
+ ("Focus",      "2026-10-19"): {"ku": 0.3},
+ ("Focus",      "2026-11-24"): {"ku": 0.6},
 }
 
 # Riadky, kde zdroj preukázateľne neuvádza všetky strany, takže súčet nedosahuje 100 %.
@@ -935,7 +944,7 @@ PARTY_META = {
  "oth":  ("Iné", "#c8c8c8"),
 }
 
-VERZIA = "2026-11-25.1"   # meniť pri každej zmene dát; zapisuje sa do JSON aj do index.html
+VERZIA = "2026-11-26.1"   # meniť pri každej zmene dát; zapisuje sa do JSON aj do index.html
 
 
 # ---------------- Koalícia PS + Demokrati ----------------
